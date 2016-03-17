@@ -10,6 +10,8 @@ excerpt_separator: <!--more-->
 
 ![typewriter](/images/posts/2014/typewriter-800.jpg)
 
+> The true challenge in writing good software.
+
 Code takes on a life of its own. As developers we pour our time and intellect into solving problems, and the manifestation of those solutions are found in the lines of code we write. Too often though, the code is controlling us as much as it is controlling the hardware it runs on. We often fail to think about how we write our code, how we structure it, or how others may view or use it. We let one line run to the next, and the code leads us.
 <!--more-->
 
