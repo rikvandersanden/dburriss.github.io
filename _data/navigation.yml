@@ -1,7 +1,6 @@
 # Menu navigation links
+- title: Recommended Reading
+  url: /recommended-reading/
 
-- title: Theme Setup
-  url: /theme-setup/
-
-- title: External Link
-  url: http://mademistakes.com
+- title: Chimp Lab
+  url: http://www.chimplab.co/

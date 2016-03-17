@@ -21,7 +21,8 @@ owner:
   linkedin:       
   instagram:      
   flickr:         
-  tumblr:         
+  tumblr:    
+  nuget:         https://www.nuget.org/profiles/deebo
   # google plus id, include the '+', eg +mmistakes
   google_plus:
 
