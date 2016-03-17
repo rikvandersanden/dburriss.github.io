@@ -26,7 +26,7 @@ As mentioned. Breaking down the tasks into easier to estimate chunks will go a l
 
 Often a problem seems simple and as a developer you would like to think you could implement a solution in minimal time. This often happens when problems emerge similar to ones we have solved before. Resist the urge to commit. Find out all the information. Break it down. Plan. Estimate. Do not let your ego get you into a position where you are sacrificing your health, family, and friends for a deadline you cannot realistically meet. And DO NOT sacrifice quality. There are no true shortcuts. What you gain in the short term you will lose over the length of the project with interest. 
 
-###Solution: Planning Poker 
+### Solution: Planning Poker 
 
 Planning Poker (http://en.wikipedia.org/wiki/Planning_poker) is an estimation technique. The basics are such: 
 Get some developers into a room. 
@@ -36,7 +36,8 @@ If there are huge discrepancies the task is discussed more. Discussions and esti
 
 See: http://www.mountaingoatsoftware.com/agile/planning-poker (http://www.mountaingoatsoftware.com/agile/planning-poker)
 
-##Handed down deadlines 
+## Handed down deadlines 
+
 Sometimes deadlines are given to you from above. As an employee you will feel pressured to accept these deadlines. It is your choice whether you accept them. In The Clean Coder, “Uncle Bob” talks about the responsibilities of developers and managers. CEOs are trying to strategically grow a business, marketing is trying to win customers, project managers are trying to meet deadlines, and as a developer you are tasked with developing a quality product for the customer. By agreeing to unrealistic deadlines, you endanger the project. The earlier problems are identified, the more chance that catastrophe can be avoided. 
 
 ### Solution: Team discussion of workable solution 
@@ -78,7 +79,7 @@ This was for the most likely time. For the best case you get 1 day and worst cas
 
 So let's schedule this for a 4.5 days. 
 
-### onclusion 
+### Conclusion 
 
 So knowing our failings, and bearing in mind the goals of management, we can mitigate potential disaster by using the techniques outlined here. Estimation is never going to be an exact science but we can go a long way in making our estimates more accurate. Hope this helps. Good luck with your next project.
 
