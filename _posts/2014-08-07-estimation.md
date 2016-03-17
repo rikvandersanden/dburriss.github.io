@@ -4,7 +4,7 @@ title: "Estimation"
 description: "Tackling the uncertainty of software estimation."
 category: Programming
 comments: true
-permalink: the-way-we-write-code
+permalink: estimation
 excerpt_separator: <!--more-->
 ---
 ![retro clock](/images/posts/2014/old-clock-800.jpg)
@@ -40,7 +40,9 @@ See: http://www.mountaingoatsoftware.com/agile/planning-poker (http://www.mounta
 Sometimes deadlines are given to you from above. As an employee you will feel pressured to accept these deadlines. It is your choice whether you accept them. In The Clean Coder, “Uncle Bob” talks about the responsibilities of developers and managers. CEOs are trying to strategically grow a business, marketing is trying to win customers, project managers are trying to meet deadlines, and as a developer you are tasked with developing a quality product for the customer. By agreeing to unrealistic deadlines, you endanger the project. The earlier problems are identified, the more chance that catastrophe can be avoided. 
 
 ###Solution: Team discussion of workable solution 
+
 If a deadline is immovable, the team (including the customer) need to work together toward a realistic goal. Features can be cut, overtime can be worked (within reason), and additional resources can be allocated (to a point) but the end result should always be a quality solution. Cutting corners just slows down development in the long run. A project becomes a mess. Productivity grinds to a halt. It is a chore to work on and eventually developers leave the company rather than work on the project.
+
 ##PERT
 
 Pert (http://en.wikipedia.org/wiki/Program_evaluation_and_review_technique_(PERT)) is an estimation technique developed by the U.S Navy for estimating projects. Combining it with planning poker should give a reasonable idea of when you can expect a task to be done. It works as follows. 
@@ -63,6 +65,7 @@ Banking on this value would be dangerous though. Some buffer time is usually add
 **Estimate = T + V** 
 
 ###Example 
+
 Ok. So lets say that your team is asked to add a Quick Contact widget to an existing website. You get 3 developers in the room and ask for times. 
 
 You get the following answers. 1, 3, and 4. In days. 
@@ -76,5 +79,6 @@ This was for the most likely time. For the best case you get 1 day and worst cas
 So let's schedule this for a 4.5 days. 
 
 ###Conclusion 
+
 So knowing our failings, and bearing in mind the goals of management, we can mitigate potential disaster by using the techniques outlined here. Estimation is never going to be an exact science but we can go a long way in making our estimates more accurate. Hope this helps. Good luck with your next project.
 
