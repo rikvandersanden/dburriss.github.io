@@ -5,14 +5,14 @@ reading_time:     true
 words_per_minute: 200
 # Your site's domain goes here (eg: //mmistakes.github.io, http://mademistakes.com, etc)
 # When testing locally leave blank or use http://localhost:4000
-url: 
+url: http://devonburriss.me
 
 # Owner/author information
 owner:
   name:           Devon Burriss
   avatar:         avatar.jpg
   bio:            "Software developer & entrepreneur living in South Africa. Interests include software design & the practices around that. Tai Chi, Kung Fu, nutrition and exercise."
-  email:          devon@chimplab.co
+  email:          
   # Social networking links used in footer. Update and remove as you like.
   twitter:      DevonBurriss  
   facebook:       
