@@ -48,7 +48,7 @@ System.Console.WriteLine("So you want to be a C# developer?");
 System.Console.ReadKey();
 {% endhighlight %}
 Also remove all the *using* statements at the top from line 1 - 5.
-![added console writeline charp code](/images/posts/2014/code-change1.JPG)
+![added console writeline charp code](/images/posts/2014/code-change1.jpg)
 Now hit **F5** again to build and run the application. The console application should ask you if this is the path for you. If it is, look out for the following tutorial in this series. 
 ## Whats Next?
 Next we will be looking at how you can capture input from the console application so you can interact with it.

@@ -19,7 +19,7 @@ Then we have a **class** called **Program**. **class** is the keyword used to de
 
 <!--more-->
 
-![structure of application](/images/posts/2014/so-far-1.JPG)
+![structure of application](/images/posts/2014/so-far-1.jpg)
 
 ## Variables
 
@@ -64,7 +64,7 @@ Finally a **struct**. Structs are complex values. These can be used to store gro
 * Click **Class...**
 * Name the class **Hero**
 * Click **Ok**
-![new class image](/images/posts/2014/code-change2.JPG)
+![new class image](/images/posts/2014/code-change2.jpg)
 
 This will create a new **class** (will discuss later). 
 

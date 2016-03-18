@@ -21,14 +21,14 @@ See: [http://www.hurryupandwait.io/blog/running-an-ubuntu-guest-on-hyper-v-assig
 
 ## Create the Virtual Machine
 Go ahead now and click **New > Virtual Machine** and follow the wizard. Remeber to pick **Generation 2**. Choose the virtual switch you setup previously. In **Installation Options** choose the Ubuntu image you downloaded from their website. Remember that for a generation 2 it must be the 64-bit version.
-![Pick Generation 2](/images/posts/2015/Generation2.PNG)
+![Pick Generation 2](/images/posts/2015/Generation2.png)
 Here is a full walkthrough of the process if you need it: [Step by step install of Ubuntu on Hyper-V](http://www.servethehome.com/run-ubuntu-windows-8-hyper-v-quickly/)
 
 ##Before starting it up
 The final thing to remember to do before starting up the newly created virtual machine is go into its settings.
-![Navigating to settings](/images/posts/2015/Settings1.PNG)
+![Navigating to settings](/images/posts/2015/Settings1.png)
 Make sure you uncheck Safe Boot
-![Uncheck Secure Boot](/images/posts/2015/Settings2.PNG)
+![Uncheck Secure Boot](/images/posts/2015/Settings2.png)
 
 
 ## Thats it
