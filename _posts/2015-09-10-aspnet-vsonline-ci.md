@@ -54,15 +54,18 @@ This is a script found here [davideicardi/kuduSiteUpload.ps1 ](https://gist.gith
 <script src="https://gist.github.com/dburriss/af2e1593543b36b1ee23.js"></script>
 
 #### VSOnline Build Setup
+
 ##### Step 1: Publish
-![Build step 1 - Publish](/images/posts/2015/Build1.PNG)
+
+![Build step 1 - Publish](/images/posts/2015/Build1.png)
 Firstly we add a PowerShell script and point the script at our publish script:
 
 * Script fielname: site/Publish.ps1
 * Arguments: -sourceDir $(Build.SourcesDirectory)\pub
 
-#####Step 2: Upload
-![Build step 1 - Upload](/images/posts/2015/Build2.PNG)
+##### Step 2: Upload
+
+![Build step 1 - Upload](/images/posts/2015/Build2.png)
 Next we setup the upload script by creating an **Azure PowerShell** script:
 
 * Azure Subscription: If you do not have one setup click Manage to do so
@@ -74,6 +77,7 @@ Where *MyWebSite* is the name of the website in Azure.
 Hit **Save** to save the build configuration.
 
 #### Step 3: Setup CI (optional)
+
 If you want CI you can go to the **Triggers** tab and set a build to trigger on commit to a branch.
 
 * Select **CI**.
@@ -83,8 +87,10 @@ If you want CI you can go to the **Triggers** tab and set a build to trigger on 
 Hit the **Save** button.
 
 #### Step 4: Test your Build
+
 Now you can either hit **Queue build...** or if you setup CI do a push to the trigger enabled branch. Note that the triggered build can sometimes take a few minutes to be queued and takes almost 5 minutes to build and deploy even for a small test site.
 
 ### Conclusion
+
 Thats it for deploying to Azure with a solution developed on OSX (or Linux). Just 2 scripts really.
 I hope this helps someone and please leave a comment below if you have any questions or suggestions. Or just want to say it helped :)
