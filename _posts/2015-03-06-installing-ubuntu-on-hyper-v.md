@@ -13,7 +13,7 @@ excerpt_separator: <!--more-->
 The reason for this post is just to remind me of a few little things you need to do if you want to create a Generation 2 Ubuntu Virtual Machine on Hyper-V. When setting up the virtual machine in Hyper-V and you select Generation 2.
 <!--more-->
 ## Create a Virtual Switch 1st
-![Navigating to Virtual Switch Manager](/images/posts/2015/Switch1.PNG)
+![Navigating to Virtual Switch Manager](/images/posts/2015/Switch1.png)
 I have had good mileage with creating an "External Network" and settiong it to use my Wireless adapter.
 ![Virtual Switches](/images/posts/2015/Switch2-1.png)
 For one wireless network at a coffee shop it didn't work and I had to switch to a private one which is a bit more work to create. This blog post describes that setup. One caveat was I had to disable my LAN adapter to get the private setup described to work but your mileage might vary.
