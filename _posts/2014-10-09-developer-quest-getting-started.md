@@ -8,7 +8,7 @@ comments: true
 permalink: developer-quest-getting-started
 excerpt_separator: <!--more-->
 ---
-![hero running from monster](images/posts/2014/quest-for-glory-i-so-you-want-to-be-a-hero-dos-title-73699.jpg)
+![hero running from monster](/images/posts/2014/quest-for-glory-i-so-you-want-to-be-a-hero-dos-title-73699.jpg)
 
 > So you want to be a C# developer?
 
