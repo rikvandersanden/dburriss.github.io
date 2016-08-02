@@ -248,7 +248,7 @@ public class OrderServiceAfter : IDisposable
 ### Analysis
 
 Lets take a quick look at what running code metrics on this in Visual Studio 2013 looks like (Analyze > Calculate Code Metrics for Selected Projects).
-![](/images/posts/2014/Code-Metrics-SRP.PNG)
+![](/images/posts/2014/Code-Metrics-SRP.png)
 
 **Maintainability Index** – Here we see a nice gain just separating out into functions, with a 1 point drop when separating out into classes. I guess Microsoft see it as less maintainable with the logic in different classes. Marginally. The gains on the other criteria more than make up for the 1 point drop though. See: [http://blogs.msdn.com/b/zainnab/archive/2011/05/26/code-metrics-maintainability-index.aspx](http://blogs.msdn.com/b/zainnab/archive/2011/05/26/code-metrics-maintainability-index.aspx) 
 
