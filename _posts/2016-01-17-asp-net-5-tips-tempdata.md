@@ -11,7 +11,7 @@ excerpt_separator: <!--more-->
 
 > NOTE: Handling TempData and Session is made easy with extension methods in the [BetterSession](https://www.nuget.org/packages/BetterSession.AspNet.Mvc/) Nuget package.
 
-![bridge cables](/images/posts/2016/footprint-resized.jpg)
+![bridge cables](/img/posts/2016/footprint-resized.jpg)
 
 > Just hold this
 

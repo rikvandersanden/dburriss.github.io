@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Write your site description here. It will be used as your sites meta description as well!">
+
+    <title>Installing Docker on Hyper-V - Code Foo</title>
+
+    <link rel="canonical" href="http://localhost:5001//installing-docker-on-hyper-v/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="//">Code Foo</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="//">Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="//about.html">About</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="//atom.xml">this is a post</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="//index.html">this is a post</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="//rss.xml">this is a post</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="//sitemap.xml">this is a post</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('//img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Installing Docker on Hyper-V</h1>
+                    
+                    <span class="meta">Posted by Code Foo on March %-d, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<p><img src="/images/posts/2015/large_h.png" alt="Docker logo" /></p>
+<blockquote>
+<p>Docker on Windows</p>
+</blockquote>
+<p>To be clear, currently Docker containers do not run on Windows. Microsoft is working with Docker to release something with feature parity but we will be lucky if we see that in 2015 (<a href="http://weblogs.asp.net/scottgu/docker-and-microsoft-integrating-docker-with-windows-server-and-microsoft-azure">Blogged by Scott Gu</a>). So although there is a client for Windows for managing Docker containers, we will need an Ubuntu install. <a href="http://devonburriss.me/installing-ubuntu-on-hyper-v/">Installing Ubuntu on Hyper-V</a></p>
+<!--more-->
+<h1>Installing Docker</h1>
+<p>Most of this is straight from the <a href="https://docs.docker.com/installation/ubuntulinux/">Docker documentation</a> but I ran into a few problems that I think may be due to this running on Hyper-V. Also I wanted a quick reference in the future.</p>
+<p>First lets update our package repositories:
+<code>sudo apt-get update</code></p>
+<p>Currently the Docker docs mention pulling from their private repos to get the latest version but that was for Ubuntu 14.04. I noticed Ubuntu 14.10 repos contain Docker 1.2 which is at time of writing good enough for me.</p>
+<p>So lets install Docker:
+<code>sudo apt-get install docker.io</code></p>
+<p>Then so we get bash completion we can type:
+<code>source /etc/bash_completion.d/docker.io</code>
+No <strong>sudo</strong> needed. Alternatively just reboot with:
+<code>sudo reboot</code></p>
+<p>Lets test our Docker install:
+<code>sudo docker version</code>
+<code>sudo docker info</code></p>
+<p>This displays version number of the components and some basic info on the install respectively.</p>
+<p>The info will contain a line <strong>WARNING: No swap limit support</strong> so lets fix that.
+<code>sudo nano /etc/default/grub</code></p>
+<p>Find the line <strong>GRUB___CMDLINE___LINUX</strong> and edit it:
+<code>GRUB_CMDLINE_LINUX=&quot;cgroup_enable=memory swapaccount=1&quot;</code> then save and exit nano.</p>
+<p>We need to update Grub and reboot.
+<code>sudo update-grub</code></p>
+<p><code>sudo reboot</code></p>
+<p>Now running <code>sudo docker info</code> you will see the warning is gone.</p>
+<p>If we try download and run a docker image we are still not there yet but lets try:
+<code>sudo docker run -i -t ubuntu /bin/bash</code></p>
+<h3>Troubleshooting</h3>
+<h4>Unexpected EOF</h4>
+<p>This actually happens every now and again with Docker (I think if latency is bad) so just try run the command again and it will likely work.</p>
+<h4>dial tcp: lookup registery-1.docker.io: no such host</h4>
+<p>The documentation explains how to add a dns to the docker options in <strong>/etc/default/docker</strong> but this actually didn't work for me on the Hyper-V. I had to edit <strong>/etc/resolv.conf</strong> and add the google nameserver there (doesn't have to be google).
+<code>sudo nano /etc/resolv.conf</code>
+Then add <strong>nameserver 8.8.8.8</strong> on a new line. Save and exit.
+You might need to <code>sudo reboot</code>.</p>
+<h3>Finally lets run something</h3>
+<p>So now we should be ready to go. Run
+<code>sudo docker run -i -t ubuntu /bin/bash</code> again.
+This should now pull down the ubuntu image and start up a container running ubuntu (yes we are running Ubuntu in a kernal process on another Ubuntu - inception right?).
+The <code>-t</code> is to assign a terminal and <code>-i</code> is so the connection is interactive.
+Once it is running a terminal prompt will be available. Type <code>echo 'Hi'</code>. The Ubuntu container willl say hi back :)</p>
+<p>So thats it. You have Docker running on a Hyper-V guest.</p>
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/installing-ubuntu-on-hyper-v/" data-toggle="tooltip" data-placement="top" title="Installing Ubuntu on Hyper-V">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/aspnet-vsonline-ci/" data-toggle="tooltip" data-placement="top" title="ASP.NET 5 CI from Git to Azure without Visual Studio">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="//feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://twitter.com/DevonBurriss">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/dburriss">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Devon Burriss 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+
+    
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-45750611-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+
+</html>

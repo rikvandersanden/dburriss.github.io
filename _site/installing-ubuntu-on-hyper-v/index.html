@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Write your site description here. It will be used as your sites meta description as well!">
+
+    <title>Installing Ubuntu on Hyper-V - Code Foo</title>
+
+    <link rel="canonical" href="http://localhost:5001//installing-ubuntu-on-hyper-v/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="//">Code Foo</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="//">Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="//about.html">About</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="//atom.xml">this is a post</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="//index.html">this is a post</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="//rss.xml">this is a post</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="//sitemap.xml">this is a post</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('//img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Installing Ubuntu on Hyper-V</h1>
+                    
+                    <span class="meta">Posted by Code Foo on March %-d, 2015</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<blockquote>
+<p>Creating a Generation 2 Virtual Machine</p>
+</blockquote>
+<p>The reason for this post is just to remind me of a few little things you need to do if you want to create a Generation 2 Ubuntu Virtual Machine on Hyper-V. When setting up the virtual machine in Hyper-V and you select Generation 2.</p>
+<!--more-->
+<h2>Create a Virtual Switch 1st</h2>
+<p><img src="/images/posts/2015/Switch1.png" alt="Navigating to Virtual Switch Manager" />
+I have had good mileage with creating an &quot;External Network&quot; and settiong it to use my Wireless adapter.
+<img src="/images/posts/2015/Switch2-1.png" alt="Virtual Switches" />
+For one wireless network at a coffee shop it didn't work and I had to switch to a private one which is a bit more work to create. This blog post describes that setup. One caveat was I had to disable my LAN adapter to get the private setup described to work but your mileage might vary.
+See: <a href="http://www.hurryupandwait.io/blog/running-an-ubuntu-guest-on-hyper-v-assigned-an-ip-via-dhcp-over-a-wifi-connection">http://www.hurryupandwait.io/blog/running-an-ubuntu-guest-on-hyper-v-assigned-an-ip-via-dhcp-over-a-wifi-connection</a></p>
+<h2>Create the Virtual Machine</h2>
+<p>Go ahead now and click <strong>New &gt; Virtual Machine</strong> and follow the wizard. Remeber to pick <strong>Generation 2</strong>. Choose the virtual switch you setup previously. In <strong>Installation Options</strong> choose the Ubuntu image you downloaded from their website. Remember that for a generation 2 it must be the 64-bit version.
+<img src="/images/posts/2015/Generation2.png" alt="Pick Generation 2" />
+Here is a full walkthrough of the process if you need it: <a href="http://www.servethehome.com/run-ubuntu-windows-8-hyper-v-quickly/">Step by step install of Ubuntu on Hyper-V</a></p>
+<p>##Before starting it up
+The final thing to remember to do before starting up the newly created virtual machine is go into its settings.
+<img src="/images/posts/2015/Settings1.png" alt="Navigating to settings" />
+Make sure you uncheck Safe Boot
+<img src="/images/posts/2015/Settings2.png" alt="Uncheck Secure Boot" /></p>
+<h2>Thats it</h2>
+<p>You can now bootup you new virtual machine and Ubuntu will take you through the setup process. Hope this helped you and I am sure it will help future me when I bump up against some of these issues next time I create a new Linux Hyper-V.</p>
+<h3>Setting the resolution</h3>
+<p>One thing you may want to do is change the resolution that Ubuntu runs at. If you go into display settings you will find that you cannot change the resolution there.
+It is fairly straight forward but does require some editing of config files.</p>
+<ul>
+<li>Open up Terminal</li>
+<li>Type <code>sudo nano /etc/default/grub</code> and enter (or you can use vi if you prefer)</li>
+<li>Find the setting <strong>GRUB_CMDLINE_LINUX_DEFAULT</strong> and add to it so it includes the resolution you want.
+<code>GRUB_CMDLINE_LINUX_DEFAULT=&quot;quiet splash video=hyperv_fb:1280x720&quot;</code></li>
+<li>Save and exit nano</li>
+<li>Type <code>sudo update-grub</code> and enter (I ran into a problem here)</li>
+<li>Restart the VM</li>
+</ul>
+<p>I believe that 1920 x 1080 is the max that Hyper-V supports.</p>
+<blockquote>
+<p><strong>sudo update-grub</strong> was frezzing/hanging whenever I tried to run it. I suspect that this was because I had an external drive in when I created the VM and grub was searching for it.
+I managed to get past this by adding the following line at the bottom of /etc/default/grub
+<code>GRUB_DISABLE_OS_PROBER=true</code></p>
+</blockquote>
+<h4>Setup:</h4>
+<blockquote>
+<p>This setup is valid as of Windows 8.1 running Hyper-V and installing Ubuntu 14.10 as the guest OS.</p>
+</blockquote>
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/testing-the-untestable/" data-toggle="tooltip" data-placement="top" title="Testing the Untestable">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/installing-docker-on-hyper-v/" data-toggle="tooltip" data-placement="top" title="Installing Docker on Hyper-V">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="//feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://twitter.com/DevonBurriss">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/dburriss">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Devon Burriss 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+
+    
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-45750611-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+
+</html>

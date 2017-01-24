@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Write your site description here. It will be used as your sites meta description as well!">
+
+    <title>Developer Quest I - Variables - Code Foo</title>
+
+    <link rel="canonical" href="http://localhost:5001//developer-quest-variables/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+
+<body>
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="//">Code Foo</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="//">Home</a>
+                </li>
+                
+				
+                <li>
+                    <a href="//about.html">About</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="//atom.xml">this is a post</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="//index.html">this is a post</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="//rss.xml">this is a post</a>
+                </li>
+				
+                
+				
+                <li>
+                    <a href="//sitemap.xml">this is a post</a>
+                </li>
+				
+                
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<header class="intro-header" style="background-image: url('//img/home-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <h1>Developer Quest I - Variables</h1>
+                    
+                    <span class="meta">Posted by Code Foo on October %-d, 2014</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+				<p><img src="/images/posts/2014/gfs_36744_2_2.jpg" alt="hero enters town" /></p>
+<blockquote>
+<p>Hold this for me.</p>
+</blockquote>
+<h2>The story so far</h2>
+<p>Lets go over what we have so far from <a href="http://devonburriss.me/developer-quest-getting-started/">Part 1</a> and touch on some terminology. We have a <strong>namespace</strong> called DeveloperQuest1. Namespaces are a way of grouping an application or parts of it. Specifically its used in the grouping of the Types that make up an application.
+Then we have a <strong>class</strong> called <strong>Program</strong>. <strong>class</strong> is the keyword used to define a Reference Type in C#. We will explore it in more detail later in this tutorial. Then we have the first <em>member</em> of Program. <em>Main</em> is the <strong>method</strong> that is run when a console application starts. Methods are ways of grouping behaviour in a program that can be executed.</p>
+<!--more-->
+<p><img src="/images/posts/2014/so-far-1.jpg" alt="structure of application" /></p>
+<h2>Variables</h2>
+<p>Writing things to the screen is great but to make programming useful we need to be able to take input from somewhere, store it, manipulate it and possible then show it or save it.
+You can think of variables as the buckets that we store values in while we are using them in the program.
+We get 2 main categories of variables. <strong>Value Types</strong> and <strong>Reference Types</strong>. So every variable has a unique <strong>Type</strong> that falls into one of these 2 categories but is always a <strong>Type</strong>.</p>
+<h3>Value Types</h3>
+<p>Value types fall into 2 main sub-categories :</p>
+<ul>
+<li>struct</li>
+<li>enumeration</li>
+</ul>
+<p>Structs in turn fall into further categories of</p>
+<ul>
+<li>Numeric</li>
+<li>boolean</li>
+<li>user-defined</li>
+</ul>
+<p>I just mention this so you are aware of it when we go through examples. If it doesn't make much sense right now, don't worry about it.
+So let's see an example of using a numeric value type</p>
+<pre><code class="language-csharp">
+int myNumber = 1;
+</code></pre>
+<p>This assigns the number <em>1</em> to the 'bucket' named <em>myNumber</em>. The default for an <em>int</em> is zero.
+There are numerous types of numeric value types that vary in terms of the size of the number they can hold as well as the precision.
+Next are boolean values. The valid options here are either true or false. The default being <em>false</em>.</p>
+<pre><code class="language-csharp">
+bool isHero = true;
+</code></pre>
+<p>For the full list see here: http://msdn.microsoft.com/en-us/library/bfft1t3c.aspx</p>
+<p>Finally a <strong>struct</strong>. Structs are complex values. These can be used to store groups of values together logically. You will see that these seem a lot like reference types but differ in how they are handled in the program.</p>
+<ul>
+<li>In the Solution Explorer <strong>Right-click</strong> on the C# Console Project DeveloperQuest1</li>
+<li>Expand <strong>Add</strong></li>
+<li>Click <strong>Class...</strong></li>
+<li>Name the class <strong>Hero</strong></li>
+<li>Click <strong>Ok</strong>
+<img src="/images/posts/2014/code-change2.jpg" alt="new class image" /></li>
+</ul>
+<p>This will create a new <strong>class</strong> (will discuss later).</p>
+<ul>
+<li>Change the <strong>class</strong> keyword to a <strong>struct</strong> and add the folowing 2 <em>fields</em>.</li>
+<li>Save the changes</li>
+</ul>
+<p>It should look like this now:</p>
+<pre><code class="language-csharp">
+public struct Hero
+{
+    public int Health;
+    public string Name;
+}
+</code></pre>
+<blockquote>
+<p><strong>string</strong> is used to store text. It is a reference type but is handled in a special way.</p>
+</blockquote>
+<p>You will see shortly when we explore reference types how similar they look to a <strong>struct</strong>.
+The key characteristic to understand about value types is that they always point to their own 'bucket'.
+This can be demonstrated with the following example.
+Change your Main <em>method</em> to match the code below.
+Notice the <strong>using</strong> statement at the top now. This is the <em>System</em> namespace and allows us to remove <em>System</em> from in front of <strong>Console</strong>. This is because <strong>Console</strong> is a <strong>class</strong> in the <em>System</em> namepspace. This makes your code simpler to work with.</p>
+<pre><code class="language-csharp">
+using System;
+namespace DeveloperQuest1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            System.Console.WriteLine("So you want to be a C# developer?");
+
+            Hero hero1 = new Hero(){
+                Health = 10,
+                Name = "Bob"
+            };
+
+            Hero hero2 = hero1;
+            hero2.Name = "Ted";
+			Type heroType = hero1.GetType();
+
+            Console.WriteLine("Hero 1 is " + hero1.Name);
+            Console.WriteLine("Hero 2 is " + hero2.Name);
+            Console.WriteLine("Type is " + heroType.Name);
+            Console.WriteLine("Is value type: " + heroType.IsValueType);
+
+            Console.ReadKey();
+        }
+    }
+}
+</code></pre>
+<p>Run the application by hitting <strong>F5</strong>.</p>
+<h4>Output should be:</h4>
+<pre><code>		Hero 1 is Bob
+		Hero 2 is Ted
+		Type is Hero
+		Is value type: True
+</code></pre>
+<p>So <em>hero1</em> and <em>hero2</em> represent 2 unique values. Changing one does not effect the other.</p>
+<h3>Reference Types</h3>
+<p>Reference types, as the name alludes to, can reference the same 'bucket'.
+Rather than the <em>struct</em> keyword, a reference Type uses <em>class</em>. Usually you will create a <strong>class</strong> and the <em>members</em> of the <strong>class</strong> are comprised of value and reference types. <strong>Members</strong> can be <em>fields</em>, <em>properties</em>, or <em>methods</em> on a Type. <em>Name</em> and <em>Health</em> on <strong>Hero</strong> above are examples of <em>fields</em>.</p>
+<p>Let's change the Hero Type from a <em>value</em> type to a <em>reference</em> type.</p>
+<ul>
+<li>Open the <em>Hero.cs</em> by double-clicking it in the Solution Explorer, or click on the tab if it is still open from when you created it.</li>
+<li>Change <strong>struct</strong> back to <strong>class</strong></li>
+<li>Save</li>
+<li>Hit <strong>F5</strong> to run the application</li>
+</ul>
+<h4>Output should be:</h4>
+<pre><code>		Hero 1 is Ted
+		Hero 2 is Ted
+		Type is Hero
+		Is value type: False
+</code></pre>
+<p>So <em>hero1</em> and <em>hero2</em> both point to the same 'bucket' now. Changing one will change the other. Because <em>hero2</em> points at <em>hero1</em>, when we changed 2, 1 was also changed because they are the same thing actually. This is the essential difference between a reference type and a value type. Hopefully the names make sense now?</p>
+<h3>Using our new found knowledge</h3>
+<p>We have a reference type that represents our hero. Let's add functionality to the program so we can give our hero a name.
+Change the program to match the following.</p>
+<pre><code class="language-csharp">
+using System;
+namespace DeveloperQuest1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Hero hero = new Hero();
+            hero.Health = 10;
+            Console.WriteLine("So you want to be a C# developer?");
+            Console.WriteLine("What is your hero's name?");
+            hero.Name = Console.ReadLine();
+
+            Console.WriteLine("Your adventure begins " + hero.Name);
+			//to pause program
+            Console.ReadKey();
+        }
+    }
+}
+</code></pre>
+<p>So on line 1 we have the <em>using</em> statement that imports the <em>System</em> namespace to we can use it throughout our code without explicitly referencing it all the time.
+Our program is in the <em>DeveloperQuest1</em> namespace.
+It contains a <strong>Type</strong> called <strong>Program</strong> (which uses the <strong>class</strong> keyword and is such a reference type).
+It contains a <em>method</em> called <strong>Main</strong> which is run by default by a console application. We will explore the arguments passed in as <strong>args</strong> in a later tutorial.
+The 1st statement in the Main method declares a new <strong>Hero</strong> using the <strong>new</strong> keyword.
+We then assign a value of 10 to the hero's <strong>Health</strong> <em>field</em>.
+We then write to the Console asking for the hero's name and read it into the <strong>Name</strong> <em>field</em> on the hero. This is done using a <em>method</em> on <strong>Console</strong> called <em>ReadLine</em> which reads everything you type in until you hit <em>Enter</em>.
+We then write out to the console the name we stored on the hero.
+Lastly we still have the <em>ReadKey</em> call which pauses the application. Above it I show the use of comments. These are ignored by the program but can be used by you to leave instructional text. Use only when something is unclear.
+Hit <strong>F5</strong> to run it.</p>
+<h2>Summary</h2>
+<p>In this tutorial we explored the Type categories you get in C# and how to create and use them. In the following tutorial we will dive into <em>classes</em> and the various <em>members</em> you can have on them.</p>
+<h3>Further Reading and References</h3>
+<ul>
+<li>http://msdn.microsoft.com/en-us/library/s1ax56ch.aspx</li>
+<li>http://www.albahari.com/valuevsreftypes.aspx</li>
+</ul>
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/developer-quest-getting-started/" data-toggle="tooltip" data-placement="top" title="Developer Quest I - Getting started with C#">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/testing-the-untestable/" data-toggle="tooltip" data-placement="top" title="Testing the Untestable">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<hr>
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <li>
+                        <a href="//feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    <li>
+                        <a href="https://twitter.com/DevonBurriss">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="https://github.com/dburriss">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">Copyright &copy; Devon Burriss 2017</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+
+    
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-45750611-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+
+
+</body>
+
+</html>

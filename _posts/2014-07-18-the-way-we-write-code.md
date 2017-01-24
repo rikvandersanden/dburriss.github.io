@@ -1,4 +1,5 @@
 ---
+author: Devon Burriss
 layout: post
 title: "The way we write code…and how we talk about it"
 description: "The true challenge in writing good software."
