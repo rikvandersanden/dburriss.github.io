@@ -1,19 +1,27 @@
 # Site settings
 title: Code Foo
-header-img: img/home-bg.jpg
+header-img: "img/backgrounds/explore-bg.jpg"
 copyright_name: Devon Burriss
-description: "Write your site description here. It will be used as your sites meta description as well!"
-twitter_username: DevonBurriss
-github_username:  dburriss
+description: "Mostly explorations in code"
+
 baseurl: "/"
 url: "http://localhost:5001/"
+
+twitter_username: DevonBurriss
+github_username:  dburriss
+disqus_username: devonburriss
+
 # Google Analytics
 # To enable google analytics, uncomment below line with a valid Google Tracking ID
 google_tracking_id: UA-45750611-2
 
 pretzel: 
     engine: liquid
+category_pages_layout: categories
+tag_pages_layout: tags
 
 exclude:
   - .gitignore
   - .git
+  - .vscode
+  - _plugins

@@ -1,0 +1,31 @@
+---
+layout: page
+---
+
+<div>
+  <h1>{{page.tag}}</h1>
+  {% for t in site.tags %}
+    {% if t.Name == page.tag %}
+      {% for post in t.posts reverse %}
+      <div class="post-preview ">
+          <a href="{{ post.url | prepend: site.baseurl }}">
+              <h2 class="post-title">            {{ post.title }}
+              </h2>
+              {% if post.subtitle %}
+              <h3 class="post-subtitle">
+                  {{ post.subtitle }}
+              </h3>
+              {% endif %}
+          </a>
+          <p class="post-meta">Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %d, %Y" }}</p>
+          {% if post.TAGS %}
+              {% for tag in post.TAGS %}
+                  <a href="/tag/{{ tag | slugify}}" class="label label-default">{{ tag }}</a>
+              {% endfor %}
+          {% endif %}
+      </div>
+      <hr>
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+</div>

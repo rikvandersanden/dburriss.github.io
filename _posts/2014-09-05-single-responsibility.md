@@ -1,14 +1,14 @@
 ---
 layout: post
 title: "Single Responsibility Principle"
-description: "The S in SOLID."
+subtitle: "The S in SOLID."
+author: "Devon Burriss"
 category: Programming
 tags: [Programming, SOLID, OOP]
 comments: true
 permalink: single-respon
 excerpt_separator: <!--more-->
 ---
-![trainline into the distance](/images/posts/2014/train-track-800-slim.jpg)
 
 > The **S** in **SOLID**.
 
@@ -31,6 +31,8 @@ Since it is a principle, rather than a rule; it doesn’t have one clear definit
 >THERE SHOULD NEVER BE MORE THAN ONE REASON FOR A CLASS TO CHANGE.
 
 This is a very simple statement but one that is quite hard to get right in practice. It takes discipline to think carefully about where each piece of code is placed to make sure it belongs there.
+
+![trainline into the distance](/img/posts/2014/train-track-800-slim.jpg)
 
 ## Class Cohesion 
 
@@ -248,7 +250,7 @@ public class OrderServiceAfter : IDisposable
 ### Analysis
 
 Lets take a quick look at what running code metrics on this in Visual Studio 2013 looks like (Analyze > Calculate Code Metrics for Selected Projects).
-![](/images/posts/2014/Code-Metrics-SRP.png)
+![](/img/posts/2014/Code-Metrics-SRP.png)
 
 **Maintainability Index** – Here we see a nice gain just separating out into functions, with a 1 point drop when separating out into classes. I guess Microsoft see it as less maintainable with the logic in different classes. Marginally. The gains on the other criteria more than make up for the 1 point drop though. See: [http://blogs.msdn.com/b/zainnab/archive/2011/05/26/code-metrics-maintainability-index.aspx](http://blogs.msdn.com/b/zainnab/archive/2011/05/26/code-metrics-maintainability-index.aspx) 
 
@@ -258,5 +260,5 @@ Lets take a quick look at what running code metrics on this in Visual Studio 201
 
 [**Class Coupling**](http://en.wikipedia.org/wiki/Coupling_(computer_programming)) – We dropped the coupling to other classes quite substantially. This is a very good thing. The less dependencies you class has, the less likely that it breaks due to a change elsewhere in the codebase. See: [http://blogs.msdn.com/b/zainnab/archive/2014/02/22/10168042.aspx](http://blogs.msdn.com/b/zainnab/archive/2014/02/22/10168042.aspx) 
 
-###Resources
+### Resources
 [http://www.objectmentor.com/resources/articles/srp.pdf](http://www.objectmentor.com/resources/articles/srp.pdf)

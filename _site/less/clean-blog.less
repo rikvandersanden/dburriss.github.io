@@ -171,6 +171,13 @@ hr.small {
 		@media only screen and (min-width: 768px) {
 			padding: 150px 0;
 		}
+		.frame {
+			//background-color:rgba(70,20,20,0.2);
+			background: linear-gradient(90deg, rgba(70,20,20,0.3), rgba(10,5,5,0));
+			width: 100%;
+			padding: 10px;
+			margin-left: -10px;
+		}
 	}
 	.site-heading,
 	.page-heading {
@@ -178,6 +185,8 @@ hr.small {
 		h1 {
 			margin-top: 0;
 			font-size: 50px;
+			// opacity: 1;
+    		// filter: alpha(opacity=100); /* For IE8 and earlier */
 		}
 		.subheading {
 			font-size: 24px;
@@ -460,4 +469,25 @@ img::-moz-selection {
 
 body {
 	webkit-tap-highlight-color: @brand-primary;
+}
+
+.site-tag {
+	padding: 5px;
+	margin-top: 5px;
+	line-height: 2;
+	display: inline-block;
+}
+
+.widget-column {
+	//background: linear-gradient(90deg, rgba(20,5,5,0.2), rgba(5,1,1,0));
+	border-left: solid 1px lightgray;
+}
+
+a .label-default, a.badge {
+	color: white;
+}
+
+ a:hover .label-default, a:hover.badge {
+	color: lightgreen;
+	text-decoration: underline;
 }

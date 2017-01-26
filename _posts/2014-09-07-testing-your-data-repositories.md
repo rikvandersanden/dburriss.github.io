@@ -1,17 +1,21 @@
 ---
 layout: post
 title: "Testing your data repositories"
-description: "Avoiding dependency on a data layer."
+subtitle: "Avoiding dependency on a data layer."
+author: "Devon Burriss"
 category: Programming
 tags: [Programming, SOLID, OOP]
 comments: true
 permalink: testing-your-data-repositories
 ---
-![library](/images/posts/2014/books-800-medium.jpg)
+
 
 > Avoiding dependency on a data layer.
 
 My solution was to use an in-memory H2 database (http://www.h2database.com/html/main.html) which can be created and dropped on a per test basis. To do this I used the Command Pattern (http://en.wikipedia.org/wiki/Command_pattern) to create and then drop the table for each test. In case you are not familiar with the command pattern: 
+
+![library](/img/posts/2014/books-800-medium.jpg)
+
 ## Command Pattern 
 
 The command pattern is pretty simple. You define an interface with the method that will be called to execute some functionality.

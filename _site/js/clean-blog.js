@@ -998,9 +998,9 @@ $('#name').focus(function() {
 })(jQuery);
 
 // make all images responsive
-$(function() {
-	$("img").addClass("img-responsive");
-});
+// $(function() {
+// 	$("img").addClass("img-responsive");
+// });
 
 // responsive tables
 $(document).ready(function() {

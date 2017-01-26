@@ -1,14 +1,15 @@
 ---
 layout: post
 title: "Estimation"
-description: "Tackling the uncertainty of software estimation."
+subtitle: "Tackling the uncertainty of software estimation."
+author: "Devon Burriss"
 category: Project Management
 tags: [Project Management]
 comments: true
 permalink: estimation
 excerpt_separator: <!--more-->
 ---
-![retro clock](/images/posts/2014/old-clock-800.jpg)
+![retro clock](/img/posts/2014/old-clock-800.jpg)
 
 > Tackling the uncertainty of software estimation.
 

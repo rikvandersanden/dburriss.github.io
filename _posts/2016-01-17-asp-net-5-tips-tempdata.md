@@ -1,7 +1,8 @@
 ---
 layout: post
 title: "ASP.NET 5 Tips: TempData"
-description: "Just hold this."
+subtitle: "Just hold this."
+author: "Devon Burriss"
 category: Programming
 tags: [ASP.NET 5, MVC 6, DNX]
 comments: true
@@ -11,11 +12,9 @@ excerpt_separator: <!--more-->
 
 > NOTE: Handling TempData and Session is made easy with extension methods in the [BetterSession](https://www.nuget.org/packages/BetterSession.AspNet.Mvc/) Nuget package.
 
-![bridge cables](/img/posts/2016/footprint-resized.jpg)
-
-> Just hold this
-
 ASPNET 5 is designed to be configurable. It starts out with almost nothing and you choose what you need. In previous versions of MVC we got TempData out the box. Not so with the new iteration.
+
+![bridge cables](/img/posts/2016/footprint-resized.jpg)
 
 <!--more-->
 

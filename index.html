@@ -2,50 +2,69 @@
 layout: page
 description: "Mostly just adventures in code."
 paginate: 5
+header-img: "img/backgrounds/explore-bg.jpg"
 ---
 
-{% for post in paginator.posts %}
-<div class="post-preview">
-    <a href="{{ post.url | prepend: site.baseurl }}">
-        <h2 class="post-title">            {{ post.title }}
+{% if paginator.page == 1 %}
+    {% for post in site.posts | limit:1 %}
+    <div class="post-preview jumbotron">
+        
+        <h2 class="post-title">            
+            <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
         </h2>
         {% if post.subtitle %}
-        <h3 class="post-subtitle">
+        <em class="post-subtitle">
             {{ post.subtitle }}
-        </h3>
+        </em>
         {% endif %}
-        <p>{{post.except}}</p>
-    </a>
-    <p class="post-meta">Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %d, %Y" }}</p>
-</div>
-<hr>
+        <p class="post-meta">Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %d, %Y" }}</p>
+        {% if post.TAGS %}
+            {% for tag in post.TAGS %}
+                <a href="/tag/{{ tag | slugify}}"><span class="label label-default">{{ tag }}</span></a>
+            {% endfor %}
+        {% endif %}
+        <p>{{post.excerpt}}</p>
+        <p class="text-right"><a class="btn btn-primary btn-lg" href="{{ post.url | prepend: site.baseurl }}" role="button">Read more</a></p>
+    </div>
+    <div class="clearfix"></div>
+    <hr>
+    {% endfor %}
+{% endif %}
+
+{% for post in paginator.posts %}
+    {% if not_first == true %}
+    <div class="post-preview ">
+        <a href="{{ post.url | prepend: site.baseurl }}">
+            <h2 class="post-title">            {{ post.title }}
+            </h2>
+            {% if post.subtitle %}
+            <h3 class="post-subtitle">
+                {{ post.subtitle }}
+            </h3>
+            {% endif %}
+        </a>
+        <p class="post-meta">Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %d, %Y" }}</p>
+        {% if post.TAGS %}
+            {% for tag in post.TAGS %}
+                <a href="/tag/{{ tag | slugify}}"><span class="label label-default">{{ tag }}</span></a>
+            {% endfor %}
+        {% endif %}
+    </div>
+    <hr>
+    {% endif %}
+{% assign not_first = true %}
 {% endfor %}
 
-<div class="pagination">
-  {% if paginator.next_page_url %}
-    <a class="pagination-item older" href="{{ paginator.next_page_url | prepend: site.baseurl | replace: 'index.html', '' | replace: '//', '/' }}">Older</a>
-  {% else %}
-    <span class="pagination-item older">Older</span>
-  {% endif %}
-  {% if paginator.previous_page_url %}
-    <a class="pagination-item newer" href="{{ paginator.previous_page_url | prepend: site.baseurl | replace: 'index.html', '' | replace: '//', '/' }}">Newer</a>
-  {% else %}
-    <span class="pagination-item newer">Newer</span>
-  {% endif %}
+<div class="pagination" style="width:100%">
+    
+    {% if paginator.next_page_url %}
+        <a class="pagination-item older" href="{{ paginator.next_page_url | prepend: site.baseurl | replace: 'index.html', '' | replace: '//', '/' }}"><i class="glyphicon glyphicon-chevron-left"> Older</i></a>
+    {% endif %}
+    {% if paginator.previous_page_url %}
+    <div class="pull-right">
+        <a class="pagination-item newer" href="{{ paginator.previous_page_url | prepend: site.baseurl | replace: 'index.html', '' | replace: '//', '/' }}">Newer <i class="glyphicon glyphicon-chevron-right"></i></a>
+    </div>
+        
+    {% endif %}
 </div>
 
-<!-- Pager -->
-{% if site.posts.count > 5 %}
-<ul class="pager">
-    {% if paginator.previous_page %}
-    <li class="previous">
-        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts</a>
-    </li>
-    {% endif %}
-    {% if paginator.next_page %}
-    <li class="next">
-        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts &rarr;</a>
-    </li>
-    {% endif %}
-</ul>
-{% endif %}

@@ -1,14 +1,14 @@
 ---
 layout: post
 title: "ASP.NET 5 CI from Git to Azure without Visual Studio"
-description: "Using Visual Studio Online Build Services"
+subtitle: "Using Visual Studio Online Build Services"
+author: "Devon Burriss"
 category: SysAdmin
 tags: [OSX, Powershell, Azure, ASP.NET 5, MVC 6, DNX, CI, Visual Studio Online, Git]
 comments: true
 permalink: aspnet-vsonline-ci
 excerpt_separator: <!--more-->
 ---
-![guy on mac](/images/posts/2015/guy-on-mac_800.jpg)
 
 > Using Visual Studio Online Build Services for a MSBuild/xproj free deployment.
 
@@ -23,6 +23,8 @@ The other option is publishing to Azure via source control as described [here](h
 I wanted something similar to the 1st option but for a solution created in VSCode and the aspnet [Yeoman](http://yeoman.io/) [generator](https://www.npmjs.com/package/generator-aspnet) though so what follows is what I have come up with so far.
 
 *NOTE: The project structure could use some work but the scripts work.*
+
+![guy on mac](/img/posts/2015/guy-on-mac_800.jpg)
 
 ### Step 1: Project Setup
 
@@ -57,7 +59,7 @@ This is a script found here [davideicardi/kuduSiteUpload.ps1 ](https://gist.gith
 
 ##### Step 1: Publish
 
-![Build step 1 - Publish](/images/posts/2015/Build1.png)
+![Build step 1 - Publish](/img/posts/2015/Build1.png)
 Firstly we add a PowerShell script and point the script at our publish script:
 
 * Script fielname: site/Publish.ps1
@@ -65,7 +67,7 @@ Firstly we add a PowerShell script and point the script at our publish script:
 
 ##### Step 2: Upload
 
-![Build step 1 - Upload](/images/posts/2015/Build2.png)
+![Build step 1 - Upload](/img/posts/2015/Build2.png)
 Next we setup the upload script by creating an **Azure PowerShell** script:
 
 * Azure Subscription: If you do not have one setup click Manage to do so

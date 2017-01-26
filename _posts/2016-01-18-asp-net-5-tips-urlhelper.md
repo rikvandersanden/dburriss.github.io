@@ -1,13 +1,16 @@
 ---
 layout: post
 title: "ASP.NET 5 Tips: UrlHelper"
-description: "ASPNET Core TagHelpers."
+subtitle: "ASPNET Core TagHelpers."
+author: "Devon Burriss"
 category: Programming
 tags: [ASP.NET 5, MVC 6, DNX]
 comments: true
 permalink: asp-net-5-tips-urlhelper
 excerpt_separator: <!--more-->
+header-img: "img/backgrounds/bulb-bg.jpg"
 ---
+
 > Note that this is specific to the upcoming RC 2 using the dotnet CLI. Currently in RC 1 this is not an issue.
 
 So I was messing around with [David Fowl's repository](https://github.com/davidfowl/dotnetcli-aspnet5) that makes use of the new RC 2 bits that run on the new [dotnet CLI](https://github.com/dotnet/cli).

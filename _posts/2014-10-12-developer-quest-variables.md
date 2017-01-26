@@ -1,14 +1,15 @@
 ---
 layout: post
-title: "Developer Quest I - Variables"
-description: "So you want to be a C# developer?"
+title: "Developer Quest II - Variables"
+subtitle: "Trial by reference"
+author: "Devon Burriss"
 category: Programming
 tags: [Programming, Learning c#, Tutorial]
 comments: true
 permalink: developer-quest-variables
 excerpt_separator: <!--more-->
 ---
-![hero enters town](/images/posts/2014/gfs_36744_2_2.jpg)
+
 
 > Hold this for me.
 
@@ -17,9 +18,9 @@ excerpt_separator: <!--more-->
 Lets go over what we have so far from [Part 1](http://devonburriss.me/developer-quest-getting-started/) and touch on some terminology. We have a **namespace** called DeveloperQuest1. Namespaces are a way of grouping an application or parts of it. Specifically its used in the grouping of the Types that make up an application.
 Then we have a **class** called **Program**. **class** is the keyword used to define a Reference Type in C#. We will explore it in more detail later in this tutorial. Then we have the first *member* of Program. *Main* is the **method** that is run when a console application starts. Methods are ways of grouping behaviour in a program that can be executed.
 
-<!--more-->
+![hero enters town](/img/posts/2014/gfs_36744_2_2.jpg)
 
-![structure of application](/images/posts/2014/so-far-1.jpg)
+<!--more-->
 
 ## Variables
 
@@ -81,6 +82,8 @@ public struct Hero
 {% endhighlight %}
 
 > **string** is used to store text. It is a reference type but is handled in a special way.
+
+![structure of application](/img/posts/2014/so-far-1.jpg)
 
 You will see shortly when we explore reference types how similar they look to a **struct**.
 The key characteristic to understand about value types is that they always point to their own 'bucket'. 

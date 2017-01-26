@@ -1,18 +1,19 @@
 ---
 layout: post
 title: "Testing the Untestable"
-description: "So you want to be a C# developer?"
+subtitle: "Testing after the fact testing hurts"
+author: "Devon Burriss"
 category: Programming
 tags: [Programming, Unit Testing , TDD]
 comments: true
 permalink: testing-the-untestable
 excerpt_separator: <!--more-->
 ---
-![bridge cables](/images/posts/2015/bridge-cables-resize.jpg)
-
-> Testing after the fact testing hurts
 
 If you have ever tried written unit tests for existing code you know it can be quite challenging. Not only is finding what to test difficult, the code usually just wont be testable. If it is code that you have written and you are at liberty to make some sweeping changes, then you can refactor toward testability. If not I still go through a technique at the end of this article for providing testable classes.
+
+![bridge cables](/img/posts/2015/bridge-cables-resize.jpg)
+
 <!--more-->
 Let's first try refactor toward testablility.
 Our checklist is as follows:

@@ -1,19 +1,19 @@
 ---
 layout: post
 title: "Installing Ubuntu on Hyper-V"
-description: "Creating a Generation 2 Virtual Machine"
+subtitle: "Creating a Generation 2 Virtual Machine"
+author: "Devon Burriss"
 category: SysAdmin
 tags: [Hyper-V, Ubuntu]
 comments: true
 permalink: installing-ubuntu-on-hyper-v
 excerpt_separator: <!--more-->
 ---
-> Creating a Generation 2 Virtual Machine
 
 The reason for this post is just to remind me of a few little things you need to do if you want to create a Generation 2 Ubuntu Virtual Machine on Hyper-V. When setting up the virtual machine in Hyper-V and you select Generation 2.
 <!--more-->
 ## Create a Virtual Switch 1st
-![Navigating to Virtual Switch Manager](/images/posts/2015/Switch1.png)
+![Navigating to Virtual Switch Manager](/img/posts/2015/Switch1.png)
 I have had good mileage with creating an "External Network" and settiong it to use my Wireless adapter.
 ![Virtual Switches](/images/posts/2015/Switch2-1.png)
 For one wireless network at a coffee shop it didn't work and I had to switch to a private one which is a bit more work to create. This blog post describes that setup. One caveat was I had to disable my LAN adapter to get the private setup described to work but your mileage might vary.
@@ -21,14 +21,14 @@ See: [http://www.hurryupandwait.io/blog/running-an-ubuntu-guest-on-hyper-v-assig
 
 ## Create the Virtual Machine
 Go ahead now and click **New > Virtual Machine** and follow the wizard. Remeber to pick **Generation 2**. Choose the virtual switch you setup previously. In **Installation Options** choose the Ubuntu image you downloaded from their website. Remember that for a generation 2 it must be the 64-bit version.
-![Pick Generation 2](/images/posts/2015/Generation2.png)
+![Pick Generation 2](/img/posts/2015/Generation2.png)
 Here is a full walkthrough of the process if you need it: [Step by step install of Ubuntu on Hyper-V](http://www.servethehome.com/run-ubuntu-windows-8-hyper-v-quickly/)
 
 ##Before starting it up
 The final thing to remember to do before starting up the newly created virtual machine is go into its settings.
-![Navigating to settings](/images/posts/2015/Settings1.png)
+![Navigating to settings](/img/posts/2015/Settings1.png)
 Make sure you uncheck Safe Boot
-![Uncheck Secure Boot](/images/posts/2015/Settings2.png)
+![Uncheck Secure Boot](/img/posts/2015/Settings2.png)
 
 
 ## Thats it
