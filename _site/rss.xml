@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
-    <title>Feed Name</title>
-    <link>http://domain/</link>
-    <atom:link href="http://domain/rss.xml" rel="self" type="application/rss+xml" />
-    <description></description>
-    <language>en-au</language>
-    <pubDate>Thu, 26 Jan 2017 09:04:00 +01:00</pubDate>
-    <lastBuildDate>Thu, 26 Jan 2017 09:04:00 +01:00</lastBuildDate>
+    <title>Code Foo</title>
+    <link>http://localhost:5001/</link>
+    <atom:link href="http://localhost:5001/rss.xml" rel="self" type="application/rss+xml" />
+    <description>Mostly explorations in code</description>
+    <language>en-gb</language>
+    <pubDate>Sat, 28 Jan 2017 15:31:38 +01:00</pubDate>
+    <lastBuildDate>Sat, 28 Jan 2017 15:31:38 +01:00</lastBuildDate>
     
     <item>
       <title>ASP.NET 5 Tips: UrlHelper</title>
-      <link>http://domainasp-net-5-tips-urlhelper/</link>
+      <link>http://localhost:5001/asp-net-5-tips-urlhelper/</link>
       <pubDate>Mon, 18 Jan 2016 00:00:00 +01:00</pubDate>
-      <author>Author</author>
-      <guid>http://domainasp-net-5-tips-urlhelper/</guid>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/asp-net-5-tips-urlhelper/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Note that this is specific to the upcoming RC 2 using the dotnet CLI. Currently in RC 1 this is not an issue.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -53,10 +53,10 @@ Please let me know below if you found this useful... or if things change :)&lt;/
     
     <item>
       <title>ASP.NET 5 Tips: TempData</title>
-      <link>http://domainasp-net-5-tips-tempdata/</link>
+      <link>http://localhost:5001/asp-net-5-tips-tempdata/</link>
       <pubDate>Sun, 17 Jan 2016 00:00:00 +01:00</pubDate>
-      <author>Author</author>
-      <guid>http://domainasp-net-5-tips-tempdata/</guid>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/asp-net-5-tips-tempdata/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;NOTE: Handling TempData and Session is made easy with extension methods in the &lt;a href=&quot;https://www.nuget.org/packages/BetterSession.AspNet.Mvc/&quot;&gt;BetterSession&lt;/a&gt; Nuget package.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -161,10 +161,10 @@ public static T GetFromJson&lt;T&gt;(this ITempDataDictionary tempData, string k
     
     <item>
       <title>ASP.NET 5 CI from Git to Azure without Visual Studio</title>
-      <link>http://domainaspnet-vsonline-ci/</link>
+      <link>http://localhost:5001/aspnet-vsonline-ci/</link>
       <pubDate>Thu, 10 Sep 2015 00:00:00 +02:00</pubDate>
-      <author>Author</author>
-      <guid>http://domainaspnet-vsonline-ci/</guid>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/aspnet-vsonline-ci/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Using Visual Studio Online Build Services for a MSBuild/xproj free deployment.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -231,10 +231,10 @@ I hope this helps someone and please leave a comment below if you have any quest
     
     <item>
       <title>Installing Docker on Hyper-V</title>
-      <link>http://domaininstalling-docker-on-hyper-v/</link>
+      <link>http://localhost:5001/installing-docker-on-hyper-v/</link>
       <pubDate>Sat, 07 Mar 2015 00:00:00 +01:00</pubDate>
-      <author>Author</author>
-      <guid>http://domaininstalling-docker-on-hyper-v/</guid>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/installing-docker-on-hyper-v/</guid>
       <description>&lt;p&gt;To be clear, currently Docker containers do not run on Windows. Microsoft is working with Docker to release something with feature parity but we will be lucky if we see that in 2015 (&lt;a href=&quot;http://weblogs.asp.net/scottgu/docker-and-microsoft-integrating-docker-with-windows-server-and-microsoft-azure&quot;&gt;Blogged by Scott Gu&lt;/a&gt;). So although there is a client for Windows for managing Docker containers, we will need an Ubuntu install. &lt;a href=&quot;http://devonburriss.me/installing-ubuntu-on-hyper-v/&quot;&gt;Installing Ubuntu on Hyper-V&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/img/posts/2015/large_h.png&quot; alt=&quot;Docker logo&quot; /&gt;&lt;/p&gt;
 &lt;!--more--&gt;
@@ -282,10 +282,10 @@ Once it is running a terminal prompt will be available. Type &lt;code&gt;echo &a
     
     <item>
       <title>Installing Ubuntu on Hyper-V</title>
-      <link>http://domaininstalling-ubuntu-on-hyper-v/</link>
+      <link>http://localhost:5001/installing-ubuntu-on-hyper-v/</link>
       <pubDate>Fri, 06 Mar 2015 00:00:00 +01:00</pubDate>
-      <author>Author</author>
-      <guid>http://domaininstalling-ubuntu-on-hyper-v/</guid>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/installing-ubuntu-on-hyper-v/</guid>
       <description>&lt;p&gt;The reason for this post is just to remind me of a few little things you need to do if you want to create a Generation 2 Ubuntu Virtual Machine on Hyper-V. When setting up the virtual machine in Hyper-V and you select Generation 2.&lt;/p&gt;
 &lt;!--more--&gt;
 &lt;h2&gt;Create a Virtual Switch 1st&lt;/h2&gt;
@@ -331,10 +331,10 @@ I managed to get past this by adding the following line at the bottom of /etc/de
     
     <item>
       <title>Testing the Untestable</title>
-      <link>http://domaintesting-the-untestable/</link>
+      <link>http://localhost:5001/testing-the-untestable/</link>
       <pubDate>Tue, 27 Jan 2015 00:00:00 +01:00</pubDate>
-      <author>Author</author>
-      <guid>http://domaintesting-the-untestable/</guid>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/testing-the-untestable/</guid>
       <description>&lt;p&gt;If you have ever tried written unit tests for existing code you know it can be quite challenging. Not only is finding what to test difficult, the code usually just wont be testable. If it is code that you have written and you are at liberty to make some sweeping changes, then you can refactor toward testability. If not I still go through a technique at the end of this article for providing testable classes.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/img/posts/2015/bridge-cables-resize.jpg&quot; alt=&quot;bridge cables&quot; /&gt;&lt;/p&gt;
 &lt;!--more--&gt;
@@ -512,10 +512,10 @@ public void Scare_With2OutOf3ChildrenAsleep_ScareCalledOn2Children()
     
     <item>
       <title>Developer Quest II - Variables</title>
-      <link>http://domaindeveloper-quest-variables/</link>
+      <link>http://localhost:5001/developer-quest-variables/</link>
       <pubDate>Sun, 12 Oct 2014 00:00:00 +02:00</pubDate>
-      <author>Author</author>
-      <guid>http://domaindeveloper-quest-variables/</guid>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/developer-quest-variables/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Hold this for me.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -682,10 +682,10 @@ Hit &lt;strong&gt;F5&lt;/strong&gt; to run it.&lt;/p&gt;
     
     <item>
       <title>Developer Quest I - Getting started with C#</title>
-      <link>http://domaindeveloper-quest-getting-started/</link>
+      <link>http://localhost:5001/developer-quest-getting-started/</link>
       <pubDate>Thu, 09 Oct 2014 00:00:00 +02:00</pubDate>
-      <author>Author</author>
-      <guid>http://domaindeveloper-quest-getting-started/</guid>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/developer-quest-getting-started/</guid>
       <description>&lt;h2&gt;Getting Started&lt;/h2&gt;
 &lt;p&gt;The first thing you are going to need as a developer is an Integrated Development Environment (IDE). Technically this is not necessary, you could use a text editor and the compiler in command line but trust me, you don&apos;t want to go that route.
 Head over to http://www.visualstudio.com/downloads/download-visual-studio-vs and download Microsoft Visual Studio Express for Windows Desktop.&lt;/p&gt;
@@ -731,10 +731,10 @@ If you have any questions or suggestions, please don&apos;t hesitate to leave a 
     
     <item>
       <title>Software development is like a piece of string</title>
-      <link>http://domainsoftware-development-is-like-a-piece-of-string/</link>
+      <link>http://localhost:5001/software-development-is-like-a-piece-of-string/</link>
       <pubDate>Fri, 03 Oct 2014 00:00:00 +02:00</pubDate>
-      <author>Author</author>
-      <guid>http://domainsoftware-development-is-like-a-piece-of-string/</guid>
+      <author></author>
+      <guid>http://localhost:5001/software-development-is-like-a-piece-of-string/</guid>
       <description>&lt;p&gt;Software like many things in life, is one of those things that the further down a path you go, the harder it is to back out. When I think of a software project I think of a piece of string. The longer the project, the longer the string.
 The string is the perfect length to reach the end. Each and every time we make a poor design decision or a bad implementation we effectively add a knot in the string. One or two of these and we might still be able to stretch it to reach the end but most likely if we want to reach the end, we are going to need to unravel the knot we created.
 I see it over and over again in projects, both my own knots and the knots of colleagues. We make these knots knowingly, thinking we can come back later, or thinking they can slip by but they always hold things up somewhere.
@@ -745,10 +745,10 @@ If they don&apos;t force you to come back and undo them later, they slow the vel
     
     <item>
       <title>Testing your data repositories</title>
-      <link>http://domaintesting-your-data-repositories/</link>
+      <link>http://localhost:5001/testing-your-data-repositories/</link>
       <pubDate>Sun, 07 Sep 2014 00:00:00 +02:00</pubDate>
-      <author>Author</author>
-      <guid>http://domaintesting-your-data-repositories/</guid>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/testing-your-data-repositories/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Avoiding dependency on a data layer.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1021,10 +1021,10 @@ public class CommandQueue implements Command {
     
     <item>
       <title>Single Responsibility Principle</title>
-      <link>http://domainsingle-respon/</link>
+      <link>http://localhost:5001/single-respon/</link>
       <pubDate>Fri, 05 Sep 2014 00:00:00 +02:00</pubDate>
-      <author>Author</author>
-      <guid>http://domainsingle-respon/</guid>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/single-respon/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;The &lt;strong&gt;S&lt;/strong&gt; in &lt;strong&gt;SOLID&lt;/strong&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1257,10 +1257,10 @@ public class OrderServiceAfter : IDisposable
     
     <item>
       <title>Estimation</title>
-      <link>http://domainestimation/</link>
+      <link>http://localhost:5001/estimation/</link>
       <pubDate>Thu, 07 Aug 2014 00:00:00 +02:00</pubDate>
-      <author>Author</author>
-      <guid>http://domainestimation/</guid>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/estimation/</guid>
       <description>&lt;p&gt;&lt;img src=&quot;/img/posts/2014/old-clock-800.jpg&quot; alt=&quot;retro clock&quot; /&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Tackling the uncertainty of software estimation.&lt;/p&gt;
@@ -1309,10 +1309,10 @@ This was for the most likely time. For the best case you get 1 day and worst cas
     
     <item>
       <title>The way we write code…and how we talk about it</title>
-      <link>http://domainthe-way-we-write-code/</link>
+      <link>http://localhost:5001/the-way-we-write-code/</link>
       <pubDate>Fri, 18 Jul 2014 00:00:00 +02:00</pubDate>
-      <author>Author</author>
-      <guid>http://domainthe-way-we-write-code/</guid>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/the-way-we-write-code/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;The true challenge in writing good software.&lt;/p&gt;
 &lt;/blockquote&gt;

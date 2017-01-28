@@ -1,8 +1,9 @@
 # Site settings
 title: Code Foo
 header-img: "img/backgrounds/explore-bg.jpg"
-copyright_name: Devon Burriss
+copyright_name: "Devon Burriss"
 description: "Mostly explorations in code"
+author: "Devon Burriss"
 
 baseurl: "/"
 url: "http://localhost:5001/"
@@ -25,3 +26,4 @@ exclude:
   - .git
   - .vscode
   - _plugins
+  - tools

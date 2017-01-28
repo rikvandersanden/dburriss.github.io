@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Feed Name</title>
-  <link href="http://domain/"/>
-  <link type="application/atom+xml" rel="self" href="http://domain/atom.xml"/>
-  <updated>2017-01-26T09:04:00.3622396+01:00</updated>
-  <id>http://domain/</id>
+  <title>Code Foo</title>
+  <link href="http://localhost:5001/"/>
+  <link type="application/atom+xml" rel="self" href="http://localhost:5001/atom.xml"/>
+  <updated>2017-01-28T15:31:38.6298252+01:00</updated>
+  <id>http://localhost:5001/</id>
   <author>
-    <name>Author</name>
-    <email>Email</email>
+    <name>Devon Burriss</name>
+    <email></email>
   </author>
 
   
   <entry>
-    <id>http://domain/asp-net-5-tips-urlhelper/</id>
-    <link type="text/html" rel="alternate" href="http://domain/asp-net-5-tips-urlhelper/"/>
+    <id>http://localhost:5001/asp-net-5-tips-urlhelper/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/asp-net-5-tips-urlhelper/"/>
     <title>ASP.NET 5 Tips: UrlHelper</title>
     <updated>2016-01-18T00:00:00+01:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name>Devon Burriss</name>
+      <uri>http://localhost:5001/asp-net-5-tips-urlhelper/</uri>
     </author>
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;Note that this is specific to the upcoming RC 2 using the dotnet CLI. Currently in RC 1 this is not an issue.&lt;/p&gt;
@@ -57,13 +57,13 @@ Please let me know below if you found this useful... or if things change :)&lt;/
   </entry>
   
   <entry>
-    <id>http://domain/asp-net-5-tips-tempdata/</id>
-    <link type="text/html" rel="alternate" href="http://domain/asp-net-5-tips-tempdata/"/>
+    <id>http://localhost:5001/asp-net-5-tips-tempdata/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/asp-net-5-tips-tempdata/"/>
     <title>ASP.NET 5 Tips: TempData</title>
     <updated>2016-01-17T00:00:00+01:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name>Devon Burriss</name>
+      <uri>http://localhost:5001/asp-net-5-tips-tempdata/</uri>
     </author>
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;NOTE: Handling TempData and Session is made easy with extension methods in the &lt;a href=&quot;https://www.nuget.org/packages/BetterSession.AspNet.Mvc/&quot;&gt;BetterSession&lt;/a&gt; Nuget package.&lt;/p&gt;
@@ -168,13 +168,13 @@ public static T GetFromJson&lt;T&gt;(this ITempDataDictionary tempData, string k
   </entry>
   
   <entry>
-    <id>http://domain/aspnet-vsonline-ci/</id>
-    <link type="text/html" rel="alternate" href="http://domain/aspnet-vsonline-ci/"/>
+    <id>http://localhost:5001/aspnet-vsonline-ci/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/aspnet-vsonline-ci/"/>
     <title>ASP.NET 5 CI from Git to Azure without Visual Studio</title>
     <updated>2015-09-10T00:00:00+02:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name>Devon Burriss</name>
+      <uri>http://localhost:5001/aspnet-vsonline-ci/</uri>
     </author>
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;Using Visual Studio Online Build Services for a MSBuild/xproj free deployment.&lt;/p&gt;
@@ -241,13 +241,13 @@ I hope this helps someone and please leave a comment below if you have any quest
   </entry>
   
   <entry>
-    <id>http://domain/installing-docker-on-hyper-v/</id>
-    <link type="text/html" rel="alternate" href="http://domain/installing-docker-on-hyper-v/"/>
+    <id>http://localhost:5001/installing-docker-on-hyper-v/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/installing-docker-on-hyper-v/"/>
     <title>Installing Docker on Hyper-V</title>
     <updated>2015-03-07T00:00:00+01:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name>Devon Burriss</name>
+      <uri>http://localhost:5001/installing-docker-on-hyper-v/</uri>
     </author>
     <content type="html">&lt;p&gt;To be clear, currently Docker containers do not run on Windows. Microsoft is working with Docker to release something with feature parity but we will be lucky if we see that in 2015 (&lt;a href=&quot;http://weblogs.asp.net/scottgu/docker-and-microsoft-integrating-docker-with-windows-server-and-microsoft-azure&quot;&gt;Blogged by Scott Gu&lt;/a&gt;). So although there is a client for Windows for managing Docker containers, we will need an Ubuntu install. &lt;a href=&quot;http://devonburriss.me/installing-ubuntu-on-hyper-v/&quot;&gt;Installing Ubuntu on Hyper-V&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/img/posts/2015/large_h.png&quot; alt=&quot;Docker logo&quot; /&gt;&lt;/p&gt;
@@ -295,13 +295,13 @@ Once it is running a terminal prompt will be available. Type &lt;code&gt;echo &a
   </entry>
   
   <entry>
-    <id>http://domain/installing-ubuntu-on-hyper-v/</id>
-    <link type="text/html" rel="alternate" href="http://domain/installing-ubuntu-on-hyper-v/"/>
+    <id>http://localhost:5001/installing-ubuntu-on-hyper-v/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/installing-ubuntu-on-hyper-v/"/>
     <title>Installing Ubuntu on Hyper-V</title>
     <updated>2015-03-06T00:00:00+01:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name>Devon Burriss</name>
+      <uri>http://localhost:5001/installing-ubuntu-on-hyper-v/</uri>
     </author>
     <content type="html">&lt;p&gt;The reason for this post is just to remind me of a few little things you need to do if you want to create a Generation 2 Ubuntu Virtual Machine on Hyper-V. When setting up the virtual machine in Hyper-V and you select Generation 2.&lt;/p&gt;
 &lt;!--more--&gt;
@@ -347,13 +347,13 @@ I managed to get past this by adding the following line at the bottom of /etc/de
   </entry>
   
   <entry>
-    <id>http://domain/testing-the-untestable/</id>
-    <link type="text/html" rel="alternate" href="http://domain/testing-the-untestable/"/>
+    <id>http://localhost:5001/testing-the-untestable/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/testing-the-untestable/"/>
     <title>Testing the Untestable</title>
     <updated>2015-01-27T00:00:00+01:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name>Devon Burriss</name>
+      <uri>http://localhost:5001/testing-the-untestable/</uri>
     </author>
     <content type="html">&lt;p&gt;If you have ever tried written unit tests for existing code you know it can be quite challenging. Not only is finding what to test difficult, the code usually just wont be testable. If it is code that you have written and you are at liberty to make some sweeping changes, then you can refactor toward testability. If not I still go through a technique at the end of this article for providing testable classes.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;/img/posts/2015/bridge-cables-resize.jpg&quot; alt=&quot;bridge cables&quot; /&gt;&lt;/p&gt;
@@ -531,13 +531,13 @@ public void Scare_With2OutOf3ChildrenAsleep_ScareCalledOn2Children()
   </entry>
   
   <entry>
-    <id>http://domain/developer-quest-variables/</id>
-    <link type="text/html" rel="alternate" href="http://domain/developer-quest-variables/"/>
+    <id>http://localhost:5001/developer-quest-variables/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/developer-quest-variables/"/>
     <title>Developer Quest II - Variables</title>
     <updated>2014-10-12T00:00:00+02:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name>Devon Burriss</name>
+      <uri>http://localhost:5001/developer-quest-variables/</uri>
     </author>
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;Hold this for me.&lt;/p&gt;
@@ -704,13 +704,13 @@ Hit &lt;strong&gt;F5&lt;/strong&gt; to run it.&lt;/p&gt;
   </entry>
   
   <entry>
-    <id>http://domain/developer-quest-getting-started/</id>
-    <link type="text/html" rel="alternate" href="http://domain/developer-quest-getting-started/"/>
+    <id>http://localhost:5001/developer-quest-getting-started/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/developer-quest-getting-started/"/>
     <title>Developer Quest I - Getting started with C#</title>
     <updated>2014-10-09T00:00:00+02:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name>Devon Burriss</name>
+      <uri>http://localhost:5001/developer-quest-getting-started/</uri>
     </author>
     <content type="html">&lt;h2&gt;Getting Started&lt;/h2&gt;
 &lt;p&gt;The first thing you are going to need as a developer is an Integrated Development Environment (IDE). Technically this is not necessary, you could use a text editor and the compiler in command line but trust me, you don&apos;t want to go that route.
@@ -756,13 +756,13 @@ If you have any questions or suggestions, please don&apos;t hesitate to leave a 
   </entry>
   
   <entry>
-    <id>http://domain/software-development-is-like-a-piece-of-string/</id>
-    <link type="text/html" rel="alternate" href="http://domain/software-development-is-like-a-piece-of-string/"/>
+    <id>http://localhost:5001/software-development-is-like-a-piece-of-string/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/software-development-is-like-a-piece-of-string/"/>
     <title>Software development is like a piece of string</title>
     <updated>2014-10-03T00:00:00+02:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name></name>
+      <uri>http://localhost:5001/software-development-is-like-a-piece-of-string/</uri>
     </author>
     <content type="html">&lt;p&gt;Software like many things in life, is one of those things that the further down a path you go, the harder it is to back out. When I think of a software project I think of a piece of string. The longer the project, the longer the string.
 The string is the perfect length to reach the end. Each and every time we make a poor design decision or a bad implementation we effectively add a knot in the string. One or two of these and we might still be able to stretch it to reach the end but most likely if we want to reach the end, we are going to need to unravel the knot we created.
@@ -773,13 +773,13 @@ If they don&apos;t force you to come back and undo them later, they slow the vel
   </entry>
   
   <entry>
-    <id>http://domain/testing-your-data-repositories/</id>
-    <link type="text/html" rel="alternate" href="http://domain/testing-your-data-repositories/"/>
+    <id>http://localhost:5001/testing-your-data-repositories/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/testing-your-data-repositories/"/>
     <title>Testing your data repositories</title>
     <updated>2014-09-07T00:00:00+02:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name>Devon Burriss</name>
+      <uri>http://localhost:5001/testing-your-data-repositories/</uri>
     </author>
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;Avoiding dependency on a data layer.&lt;/p&gt;
@@ -1052,13 +1052,13 @@ public class CommandQueue implements Command {
   </entry>
   
   <entry>
-    <id>http://domain/single-respon/</id>
-    <link type="text/html" rel="alternate" href="http://domain/single-respon/"/>
+    <id>http://localhost:5001/single-respon/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/single-respon/"/>
     <title>Single Responsibility Principle</title>
     <updated>2014-09-05T00:00:00+02:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name>Devon Burriss</name>
+      <uri>http://localhost:5001/single-respon/</uri>
     </author>
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;The &lt;strong&gt;S&lt;/strong&gt; in &lt;strong&gt;SOLID&lt;/strong&gt;.&lt;/p&gt;
@@ -1291,13 +1291,13 @@ public class OrderServiceAfter : IDisposable
   </entry>
   
   <entry>
-    <id>http://domain/estimation/</id>
-    <link type="text/html" rel="alternate" href="http://domain/estimation/"/>
+    <id>http://localhost:5001/estimation/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/estimation/"/>
     <title>Estimation</title>
     <updated>2014-08-07T00:00:00+02:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name>Devon Burriss</name>
+      <uri>http://localhost:5001/estimation/</uri>
     </author>
     <content type="html">&lt;p&gt;&lt;img src=&quot;/img/posts/2014/old-clock-800.jpg&quot; alt=&quot;retro clock&quot; /&gt;&lt;/p&gt;
 &lt;blockquote&gt;
@@ -1346,13 +1346,13 @@ This was for the most likely time. For the best case you get 1 day and worst cas
   </entry>
   
   <entry>
-    <id>http://domain/the-way-we-write-code/</id>
-    <link type="text/html" rel="alternate" href="http://domain/the-way-we-write-code/"/>
+    <id>http://localhost:5001/the-way-we-write-code/</id>
+    <link type="text/html" rel="alternate" href="http://localhost:5001/the-way-we-write-code/"/>
     <title>The way we write code…and how we talk about it</title>
     <updated>2014-07-18T00:00:00+02:00</updated>
     <author>
-      <name>Author</name>
-      <uri>http://domain/</uri>
+      <name>Devon Burriss</name>
+      <uri>http://localhost:5001/the-way-we-write-code/</uri>
     </author>
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;The true challenge in writing good software.&lt;/p&gt;
