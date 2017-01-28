@@ -1,0 +1,29 @@
+# Site settings
+title: Code Foo
+header-img: "img/backgrounds/explore-bg.jpg"
+copyright_name: "Devon Burriss"
+description: "Mostly explorations in code"
+author: "Devon Burriss"
+
+baseurl: "/"
+url: "http://localhost:5001/"
+
+twitter_username: DevonBurriss
+github_username:  dburriss
+disqus_username: devonburriss
+
+# Google Analytics
+# To enable google analytics, uncomment below line with a valid Google Tracking ID
+google_tracking_id: UA-45750611-2
+
+pretzel: 
+    engine: liquid
+category_pages_layout: categories
+tag_pages_layout: tags
+
+exclude:
+  - .gitignore
+  - .git
+  - .vscode
+  - _plugins
+  - tools

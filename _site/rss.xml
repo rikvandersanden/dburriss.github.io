@@ -1,0 +1,1350 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+    <title>Code Foo</title>
+    <link>http://localhost:5001/</link>
+    <atom:link href="http://localhost:5001/rss.xml" rel="self" type="application/rss+xml" />
+    <description>Mostly explorations in code</description>
+    <language>en-gb</language>
+    <pubDate>Sat, 28 Jan 2017 15:31:38 +01:00</pubDate>
+    <lastBuildDate>Sat, 28 Jan 2017 15:31:38 +01:00</lastBuildDate>
+    
+    <item>
+      <title>ASP.NET 5 Tips: UrlHelper</title>
+      <link>http://localhost:5001/asp-net-5-tips-urlhelper/</link>
+      <pubDate>Mon, 18 Jan 2016 00:00:00 +01:00</pubDate>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/asp-net-5-tips-urlhelper/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Note that this is specific to the upcoming RC 2 using the dotnet CLI. Currently in RC 1 this is not an issue.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;So I was messing around with &lt;a href=&quot;https://github.com/davidfowl/dotnetcli-aspnet5&quot;&gt;David Fowl&apos;s repository&lt;/a&gt; that makes use of the new RC 2 bits that run on the new &lt;a href=&quot;https://github.com/dotnet/cli&quot;&gt;dotnet CLI&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Everything was fine until I tried to create a TagHelper that makes use of &lt;em&gt;IUrlHelper&lt;/em&gt;.
+In RC 1  &lt;em&gt;IUrlHelper&lt;/em&gt; is registered automatically with the DI system but apparently not in RC 2. After much searching I found the following &lt;a href=&quot;https://github.com/aspnet/Mvc/commit/9fc3a800562c866850d7c795cf24db7fa0354af6&quot;&gt;commit&lt;/a&gt; which explained the change.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;So what follows is how I got an &lt;em&gt;IUrlHelper&lt;/em&gt; into my TagHelper.&lt;/p&gt;
+&lt;p&gt;It seems we should instead make use of &lt;em&gt;IUrlHelperFactory&lt;/em&gt; to get an instance of &lt;em&gt;IUrlHelper&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;In &lt;strong&gt;Startup.cs&lt;/strong&gt; service configuration I register &lt;em&gt;IActionContextAccessor&lt;/em&gt; and &lt;em&gt;IUrlHelperFactory&lt;/em&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public void ConfigureServices(IServiceCollection services)
+{
+  services.AddSingleton&lt;IActionContextAccessor, ActionContextAccessor&gt;();
+  services.AddSingleton&lt;IUrlHelperFactory, UrlHelperFactory&gt;();
+  services.AddMvc();
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then I inject &lt;em&gt;IUrlHelperFactory&lt;/em&gt; into the TagHelper constructor and use the factory to create a new instance of a &lt;em&gt;IUrlHelper&lt;/em&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public class EmailTagHelper : TagHelper
+{
+  private readonly IUrlHelper _urlHelper;
+
+  public EmailTagHelper(IUrlHelperFactory urlHelperFactory, IActionContextAccessor actionContextAccessor)
+  {
+  	_urlHelper = urlHelperFactory.GetUrlHelper(actionContextAccessor.ActionContext);
+  }
+  
+  //process override here
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I am guessing that this article will only be useful next month when RC 2 hits but it was great to see what is coming. I am quite liking the new CLI and with a bit of digging I have managed to get most things working, so the team seems to be making great progress toward RC 2.
+Please let me know below if you found this useful... or if things change :)&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ASP.NET 5 Tips: TempData</title>
+      <link>http://localhost:5001/asp-net-5-tips-tempdata/</link>
+      <pubDate>Sun, 17 Jan 2016 00:00:00 +01:00</pubDate>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/asp-net-5-tips-tempdata/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;NOTE: Handling TempData and Session is made easy with extension methods in the &lt;a href=&quot;https://www.nuget.org/packages/BetterSession.AspNet.Mvc/&quot;&gt;BetterSession&lt;/a&gt; Nuget package.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;ASPNET 5 is designed to be configurable. It starts out with almost nothing and you choose what you need. In previous versions of MVC we got TempData out the box. Not so with the new iteration.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2016/footprint-resized.jpg&quot; alt=&quot;bridge cables&quot; /&gt;&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;So to enable TempData for MVC you need sessions.
+In &lt;strong&gt;project.json&lt;/strong&gt; add the following lines to &lt;em&gt;dependencies&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+&quot;Microsoft.AspNet.Session&quot;: &quot;1.0.0-*&quot;,
+&quot;Microsoft.Extensions.Caching.Memory&quot;: &quot;1.0.0-*&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In &lt;strong&gt;Startup.cs&lt;/strong&gt; the configuration of your services will need the following:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public void ConfigureServices(IServiceCollection services)
+{
+  services.AddCaching();
+  //this is the NB line for this post
+  services.AddSession(o =&gt;
+  {
+  	o.IdleTimeout = TimeSpan.FromSeconds(3600);
+  });
+  services.AddMvc();
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;While the app builder configuration will be something like so:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+{
+  loggerFactory.AddConsole(Configuration.GetSection(&quot;Logging&quot;));
+  loggerFactory.AddDebug();
+  //this is the NB line for this post
+  app.UseSession();
+  app.UseIISPlatformHandler();
+  app.UseStaticFiles();
+  app.UseMvc();
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then accessing TempData is done through the dependency injection/service locator:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public class TempController : Controller
+{
+  private const string key = &quot;name&quot;;
+  private readonly ITempDataDictionary _tempData;
+
+  public TempController(ITempDataDictionary tempData)
+  {
+  	this._tempData = tempData;
+  }
+
+  public IActionResult Index()
+  {
+    _tempData[key] = &quot;Devon&quot;;
+    return RedirectToAction(&quot;Carry&quot;);
+  }
+
+  public IActionResult Carry()
+  {
+  	return View(&quot;Index&quot;, _tempData[key]);
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;OR&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+var tempData = HttpContext.RequestServices.GetRequiredService&lt;ITempDataDictionary&gt;();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;NOTE 1: When using ITempDataDictionary in a custom &lt;strong&gt;ActionResult&lt;/strong&gt; I needed to mark the class with &lt;strong&gt;IKeepTempDataResult&lt;/strong&gt; for it to work.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;NOTE 2: I am not sure if this is going to change but currently the implementation for ITempDataDictionary only accepts primitive values (and string). I got around this by serializing to and from json. If you want to do this, you might find these extension methods useful.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public static void SetAsJson&lt;T&gt;(this ITempDataDictionary tempData, string key, T data)
+{
+  var sData = JsonConvert.SerializeObject(data);
+  tempData[key] = sData;
+}
+
+public static T GetFromJson&lt;T&gt;(this ITempDataDictionary tempData, string key)
+{
+  if(tempData.ContainsKey(key))
+  {
+  	var v = tempData[key];
+
+    if(v is T)
+    {
+    	return (T)v;
+    }
+
+    if(v is string &amp;&amp; typeof(T) != typeof(string))
+    {
+      var obj = JsonConvert.DeserializeObject&lt;T&gt;((string)v);
+      return obj;
+    }
+  }
+  return default(T);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So hope you and future me finds this post useful. I am going to try blog little things like this as I work more with ASP.NET 5. Please let me know in the comments below if you did find it useful or if I missed anything. Also let me know if there are other topics you want me to cover.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>ASP.NET 5 CI from Git to Azure without Visual Studio</title>
+      <link>http://localhost:5001/aspnet-vsonline-ci/</link>
+      <pubDate>Thu, 10 Sep 2015 00:00:00 +02:00</pubDate>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/aspnet-vsonline-ci/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Using Visual Studio Online Build Services for a MSBuild/xproj free deployment.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;So my laptop was in for repairs so I decided to dust off my old Macbook Pro. I upgraded to Yosemite, downloaded &lt;a href=&quot;https://code.visualstudio.com/&quot;&gt;VSCode&lt;/a&gt; and ran through the the &lt;a href=&quot;http://docs.asp.net/en/latest/getting-started/installing-on-mac.html&quot;&gt;setup for DNX&lt;/a&gt; on Mac. Very quickly I started to wonder about deploying to &lt;a href=&quot;http://azure.microsoft.com/en-us/get-started/&quot;&gt;Azure&lt;/a&gt;.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;I had previously used the steps described &lt;a href=&quot;https://msdn.microsoft.com/Library/vs/alm/Build/azure/deploy-aspnet5&quot;&gt;here&lt;/a&gt; to deploy a Visual Studio 2015 ASP.NET 5 project from Git but that relied on an xproj file for publishing.&lt;/p&gt;
+&lt;p&gt;The other option is publishing to Azure via source control as described &lt;a href=&quot;https://azure.microsoft.com/en-us/documentation/articles/web-sites-publish-source-control/&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I wanted something similar to the 1st option but for a solution created in VSCode and the aspnet &lt;a href=&quot;http://yeoman.io/&quot;&gt;Yeoman&lt;/a&gt; &lt;a href=&quot;https://www.npmjs.com/package/generator-aspnet&quot;&gt;generator&lt;/a&gt; though so what follows is what I have come up with so far.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;NOTE: The project structure could use some work but the scripts work.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2015/guy-on-mac_800.jpg&quot; alt=&quot;guy on mac&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;Step 1: Project Setup&lt;/h3&gt;
+&lt;p&gt;The publish script uses the &lt;code&gt;global.json&lt;/code&gt; file to determine the version and runtime. In the root is also &lt;code&gt;Publish.ps1&lt;/code&gt; and &lt;code&gt;Upload.ps1&lt;/code&gt; powershell scripts.
+&lt;a href=&quot;https://github.com/dburriss/vsfree-azure-deploy/tree/master/example&quot;&gt;Example&lt;/a&gt;&lt;/p&gt;
+&lt;h4&gt;Global&lt;/h4&gt;
+&lt;script src=&quot;https://gist.github.com/dburriss/155c693de8f534bd1536.js&quot;&gt;&lt;/script&gt;
+&lt;p&gt;Setup the &lt;code&gt;global.json&lt;/code&gt; file with properties needed for the publish.&lt;/p&gt;
+&lt;h4&gt;Publish script&lt;/h4&gt;
+&lt;script src=&quot;https://gist.github.com/dburriss/ea01dad652e00b480a7a.js&quot;&gt;&lt;/script&gt;
+&lt;p&gt;This script does a couple things along the way to publishing a folder for deployment.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Bootstraps DNVM into the Powershell session&lt;/li&gt;
+&lt;li&gt;Installs DNX on the build host&lt;/li&gt;
+&lt;li&gt;Restores the packages for the project using &lt;code&gt;dnu restore&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Packages the project using &lt;code&gt;dnu package&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Copies the runtime foler into the package (I think dnu restore is supposed to do this but at time of writing it was not)&lt;/li&gt;
+&lt;li&gt;Sets the &lt;strong&gt;web.config&lt;/strong&gt; DNX version and runtime&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;Upload Script&lt;/h4&gt;
+&lt;p&gt;This is a script found here &lt;a href=&quot;https://gist.github.com/davideicardi/a8247230515177901e57&quot;&gt;davideicardi/kuduSiteUpload.ps1 &lt;/a&gt; which worked like a charm.
+&lt;strong&gt;UPDATE:&lt;/strong&gt; &lt;em&gt;I changed this script to stop the website before upload and start it again after as deployment was failing regularly with a 500 server error. My guess is locked files.&lt;/em&gt;&lt;/p&gt;
+&lt;script src=&quot;https://gist.github.com/dburriss/af2e1593543b36b1ee23.js&quot;&gt;&lt;/script&gt;
+&lt;h4&gt;VSOnline Build Setup&lt;/h4&gt;
+&lt;h5&gt;Step 1: Publish&lt;/h5&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2015/Build1.png&quot; alt=&quot;Build step 1 - Publish&quot; /&gt;
+Firstly we add a PowerShell script and point the script at our publish script:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Script fielname: site/Publish.ps1&lt;/li&gt;
+&lt;li&gt;Arguments: -sourceDir $(Build.SourcesDirectory)\pub&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5&gt;Step 2: Upload&lt;/h5&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2015/Build2.png&quot; alt=&quot;Build step 1 - Upload&quot; /&gt;
+Next we setup the upload script by creating an &lt;strong&gt;Azure PowerShell&lt;/strong&gt; script:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Azure Subscription: If you do not have one setup click Manage to do so&lt;/li&gt;
+&lt;li&gt;Script Path: site/Upload.ps1&lt;/li&gt;
+&lt;li&gt;Arguments: -websiteName &lt;em&gt;MyWebSite&lt;/em&gt; -sourceDir $(Build.SourcesDirectory)\pub -destinationPath /site&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Where &lt;em&gt;MyWebSite&lt;/em&gt; is the name of the website in Azure.&lt;/p&gt;
+&lt;p&gt;Hit &lt;strong&gt;Save&lt;/strong&gt; to save the build configuration.&lt;/p&gt;
+&lt;h4&gt;Step 3: Setup CI (optional)&lt;/h4&gt;
+&lt;p&gt;If you want CI you can go to the &lt;strong&gt;Triggers&lt;/strong&gt; tab and set a build to trigger on commit to a branch.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Select &lt;strong&gt;CI&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Select &lt;strong&gt;Batch changes&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;I filtered on &lt;strong&gt;master&lt;/strong&gt; branch. Choose whatever is applicable.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Hit the &lt;strong&gt;Save&lt;/strong&gt; button.&lt;/p&gt;
+&lt;h4&gt;Step 4: Test your Build&lt;/h4&gt;
+&lt;p&gt;Now you can either hit &lt;strong&gt;Queue build...&lt;/strong&gt; or if you setup CI do a push to the trigger enabled branch. Note that the triggered build can sometimes take a few minutes to be queued and takes almost 5 minutes to build and deploy even for a small test site.&lt;/p&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;Thats it for deploying to Azure with a solution developed on OSX (or Linux). Just 2 scripts really.
+I hope this helps someone and please leave a comment below if you have any questions or suggestions. Or just want to say it helped :)&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Installing Docker on Hyper-V</title>
+      <link>http://localhost:5001/installing-docker-on-hyper-v/</link>
+      <pubDate>Sat, 07 Mar 2015 00:00:00 +01:00</pubDate>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/installing-docker-on-hyper-v/</guid>
+      <description>&lt;p&gt;To be clear, currently Docker containers do not run on Windows. Microsoft is working with Docker to release something with feature parity but we will be lucky if we see that in 2015 (&lt;a href=&quot;http://weblogs.asp.net/scottgu/docker-and-microsoft-integrating-docker-with-windows-server-and-microsoft-azure&quot;&gt;Blogged by Scott Gu&lt;/a&gt;). So although there is a client for Windows for managing Docker containers, we will need an Ubuntu install. &lt;a href=&quot;http://devonburriss.me/installing-ubuntu-on-hyper-v/&quot;&gt;Installing Ubuntu on Hyper-V&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2015/large_h.png&quot; alt=&quot;Docker logo&quot; /&gt;&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h1&gt;Installing Docker&lt;/h1&gt;
+&lt;p&gt;Most of this is straight from the &lt;a href=&quot;https://docs.docker.com/installation/ubuntulinux/&quot;&gt;Docker documentation&lt;/a&gt; but I ran into a few problems that I think may be due to this running on Hyper-V. Also I wanted a quick reference in the future.&lt;/p&gt;
+&lt;p&gt;First lets update our package repositories:
+&lt;code&gt;sudo apt-get update&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Currently the Docker docs mention pulling from their private repos to get the latest version but that was for Ubuntu 14.04. I noticed Ubuntu 14.10 repos contain Docker 1.2 which is at time of writing good enough for me.&lt;/p&gt;
+&lt;p&gt;So lets install Docker:
+&lt;code&gt;sudo apt-get install docker.io&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Then so we get bash completion we can type:
+&lt;code&gt;source /etc/bash_completion.d/docker.io&lt;/code&gt;
+No &lt;strong&gt;sudo&lt;/strong&gt; needed. Alternatively just reboot with:
+&lt;code&gt;sudo reboot&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Lets test our Docker install:
+&lt;code&gt;sudo docker version&lt;/code&gt;
+&lt;code&gt;sudo docker info&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;This displays version number of the components and some basic info on the install respectively.&lt;/p&gt;
+&lt;p&gt;The info will contain a line &lt;strong&gt;WARNING: No swap limit support&lt;/strong&gt; so lets fix that.
+&lt;code&gt;sudo nano /etc/default/grub&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Find the line &lt;strong&gt;GRUB___CMDLINE___LINUX&lt;/strong&gt; and edit it:
+&lt;code&gt;GRUB_CMDLINE_LINUX=&amp;quot;cgroup_enable=memory swapaccount=1&amp;quot;&lt;/code&gt; then save and exit nano.&lt;/p&gt;
+&lt;p&gt;We need to update Grub and reboot.
+&lt;code&gt;sudo update-grub&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;sudo reboot&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Now running &lt;code&gt;sudo docker info&lt;/code&gt; you will see the warning is gone.&lt;/p&gt;
+&lt;p&gt;If we try download and run a docker image we are still not there yet but lets try:
+&lt;code&gt;sudo docker run -i -t ubuntu /bin/bash&lt;/code&gt;&lt;/p&gt;
+&lt;h3&gt;Troubleshooting&lt;/h3&gt;
+&lt;h4&gt;Unexpected EOF&lt;/h4&gt;
+&lt;p&gt;This actually happens every now and again with Docker (I think if latency is bad) so just try run the command again and it will likely work.&lt;/p&gt;
+&lt;h4&gt;dial tcp: lookup registery-1.docker.io: no such host&lt;/h4&gt;
+&lt;p&gt;The documentation explains how to add a dns to the docker options in &lt;strong&gt;/etc/default/docker&lt;/strong&gt; but this actually didn&apos;t work for me on the Hyper-V. I had to edit &lt;strong&gt;/etc/resolv.conf&lt;/strong&gt; and add the google nameserver there (doesn&apos;t have to be google).
+&lt;code&gt;sudo nano /etc/resolv.conf&lt;/code&gt;
+Then add &lt;strong&gt;nameserver 8.8.8.8&lt;/strong&gt; on a new line. Save and exit.
+You might need to &lt;code&gt;sudo reboot&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Finally lets run something&lt;/h3&gt;
+&lt;p&gt;So now we should be ready to go. Run
+&lt;code&gt;sudo docker run -i -t ubuntu /bin/bash&lt;/code&gt; again.
+This should now pull down the ubuntu image and start up a container running ubuntu (yes we are running Ubuntu in a kernal process on another Ubuntu - inception right?).
+The &lt;code&gt;-t&lt;/code&gt; is to assign a terminal and &lt;code&gt;-i&lt;/code&gt; is so the connection is interactive.
+Once it is running a terminal prompt will be available. Type &lt;code&gt;echo &apos;Hi&apos;&lt;/code&gt;. The Ubuntu container willl say hi back :)&lt;/p&gt;
+&lt;p&gt;So thats it. You have Docker running on a Hyper-V guest.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Installing Ubuntu on Hyper-V</title>
+      <link>http://localhost:5001/installing-ubuntu-on-hyper-v/</link>
+      <pubDate>Fri, 06 Mar 2015 00:00:00 +01:00</pubDate>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/installing-ubuntu-on-hyper-v/</guid>
+      <description>&lt;p&gt;The reason for this post is just to remind me of a few little things you need to do if you want to create a Generation 2 Ubuntu Virtual Machine on Hyper-V. When setting up the virtual machine in Hyper-V and you select Generation 2.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2&gt;Create a Virtual Switch 1st&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2015/Switch1.png&quot; alt=&quot;Navigating to Virtual Switch Manager&quot; /&gt;
+I have had good mileage with creating an &amp;quot;External Network&amp;quot; and settiong it to use my Wireless adapter.
+&lt;img src=&quot;/images/posts/2015/Switch2-1.png&quot; alt=&quot;Virtual Switches&quot; /&gt;
+For one wireless network at a coffee shop it didn&apos;t work and I had to switch to a private one which is a bit more work to create. This blog post describes that setup. One caveat was I had to disable my LAN adapter to get the private setup described to work but your mileage might vary.
+See: &lt;a href=&quot;http://www.hurryupandwait.io/blog/running-an-ubuntu-guest-on-hyper-v-assigned-an-ip-via-dhcp-over-a-wifi-connection&quot;&gt;http://www.hurryupandwait.io/blog/running-an-ubuntu-guest-on-hyper-v-assigned-an-ip-via-dhcp-over-a-wifi-connection&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Create the Virtual Machine&lt;/h2&gt;
+&lt;p&gt;Go ahead now and click &lt;strong&gt;New &amp;gt; Virtual Machine&lt;/strong&gt; and follow the wizard. Remeber to pick &lt;strong&gt;Generation 2&lt;/strong&gt;. Choose the virtual switch you setup previously. In &lt;strong&gt;Installation Options&lt;/strong&gt; choose the Ubuntu image you downloaded from their website. Remember that for a generation 2 it must be the 64-bit version.
+&lt;img src=&quot;/img/posts/2015/Generation2.png&quot; alt=&quot;Pick Generation 2&quot; /&gt;
+Here is a full walkthrough of the process if you need it: &lt;a href=&quot;http://www.servethehome.com/run-ubuntu-windows-8-hyper-v-quickly/&quot;&gt;Step by step install of Ubuntu on Hyper-V&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;##Before starting it up
+The final thing to remember to do before starting up the newly created virtual machine is go into its settings.
+&lt;img src=&quot;/img/posts/2015/Settings1.png&quot; alt=&quot;Navigating to settings&quot; /&gt;
+Make sure you uncheck Safe Boot
+&lt;img src=&quot;/img/posts/2015/Settings2.png&quot; alt=&quot;Uncheck Secure Boot&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;Thats it&lt;/h2&gt;
+&lt;p&gt;You can now bootup you new virtual machine and Ubuntu will take you through the setup process. Hope this helped you and I am sure it will help future me when I bump up against some of these issues next time I create a new Linux Hyper-V.&lt;/p&gt;
+&lt;h3&gt;Setting the resolution&lt;/h3&gt;
+&lt;p&gt;One thing you may want to do is change the resolution that Ubuntu runs at. If you go into display settings you will find that you cannot change the resolution there.
+It is fairly straight forward but does require some editing of config files.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Open up Terminal&lt;/li&gt;
+&lt;li&gt;Type &lt;code&gt;sudo nano /etc/default/grub&lt;/code&gt; and enter (or you can use vi if you prefer)&lt;/li&gt;
+&lt;li&gt;Find the setting &lt;strong&gt;GRUB_CMDLINE_LINUX_DEFAULT&lt;/strong&gt; and add to it so it includes the resolution you want.
+&lt;code&gt;GRUB_CMDLINE_LINUX_DEFAULT=&amp;quot;quiet splash video=hyperv_fb:1280x720&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Save and exit nano&lt;/li&gt;
+&lt;li&gt;Type &lt;code&gt;sudo update-grub&lt;/code&gt; and enter (I ran into a problem here)&lt;/li&gt;
+&lt;li&gt;Restart the VM&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I believe that 1920 x 1080 is the max that Hyper-V supports.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;sudo update-grub&lt;/strong&gt; was frezzing/hanging whenever I tried to run it. I suspect that this was because I had an external drive in when I created the VM and grub was searching for it.
+I managed to get past this by adding the following line at the bottom of /etc/default/grub
+&lt;code&gt;GRUB_DISABLE_OS_PROBER=true&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4&gt;Setup:&lt;/h4&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This setup is valid as of Windows 8.1 running Hyper-V and installing Ubuntu 14.10 as the guest OS.&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>Testing the Untestable</title>
+      <link>http://localhost:5001/testing-the-untestable/</link>
+      <pubDate>Tue, 27 Jan 2015 00:00:00 +01:00</pubDate>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/testing-the-untestable/</guid>
+      <description>&lt;p&gt;If you have ever tried written unit tests for existing code you know it can be quite challenging. Not only is finding what to test difficult, the code usually just wont be testable. If it is code that you have written and you are at liberty to make some sweeping changes, then you can refactor toward testability. If not I still go through a technique at the end of this article for providing testable classes.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2015/bridge-cables-resize.jpg&quot; alt=&quot;bridge cables&quot; /&gt;&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Let&apos;s first try refactor toward testablility.
+Our checklist is as follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create integration tests&lt;/li&gt;
+&lt;li&gt;Apply &lt;a href=&quot;http://devonburriss.me/single-respon/&quot;&gt;Single Responsibility Principle&lt;/a&gt; (SRP)&lt;/li&gt;
+&lt;li&gt;Apply &lt;a href=&quot;http://martinfowler.com/bliki/RoleInterface.html&quot;&gt;Role Interfaces&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Apply Inversion of Control&lt;/li&gt;
+&lt;li&gt;Last stand - &lt;a href=&quot;http://amzn.to/1EN0Ymg&quot;&gt;Extract and override&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;NOTE: In the rest of this article I talk about abstractions and usually use interface as an example. A base class is often just as valid as an interface (unless it has multiple roles since the languages I use only allow one inheritence parent). The NB part is that the rest of your application is coded against the abstraction and knows nothing about the implementation class.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;##Safety net
+Your first step should be to create some high level integration tests. This will at least give you some indication that you have broken something when you do.&lt;/p&gt;
+&lt;p&gt;##What is in a name?
+A good measure of whether a class adheres to the SRP principle is the name. If the name doesn&apos;t exactly describe what it does, or if it contains words like &apos;manager&apos;, &apos;provider&apos;, &apos;logic&apos;, &apos;handler&apos;, it probably does more than one thing. A name should tell you exactly what a class does, and a class can only have one name...
+See the SRP link for an example of splitting a class into it&apos;s various responsibilities.&lt;/p&gt;
+&lt;p&gt;##Role abstraction
+A good practice that can be used in conjuction with SRP is adding role interfaces to a class. Hopefully you can refactor to these roles until a class only contains the members in the abstraction but they are a start. Don&apos;t be afraid of having classes with a minimal amount of properties and/or methods on it. It means it has a very well defined role.
+Even if you do not break a class into multiple classes immediately, if you can refer to them by the role interface you will have far fewer breaks in your code later when you do split it.&lt;/p&gt;
+&lt;h3&gt;Example&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public class CustomerManager
+{
+	public IEnumerable&lt;Customer&gt; GetAll()
+	{
+		...
+	}
+
+	public string GetOrderEmailTemplate()
+	{
+		...
+	}
+
+	public void SendEmail(string template, Customer customer, Order order)
+	{
+		...
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Depending on what you prefer you could split this into 2 or 3 interfaces. Definitely a store for retrieving customers and one for email. Better yet would be a 3rd for testability so you can seperate out retrieving email from sending it.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public interface CustomerRepository
+{
+	IEnumerable&lt;Customer&gt; GetAll();
+}
+
+public interface EmailStore
+{
+	string GetOrderEmailTemplate();
+}
+
+public interface EmailService
+{
+	void SendEmail(string template, Customer customer, Order order);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;NOTE: This is just an example. I would usually try refactor this so that sending the email is completely unaware of the domain model.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Really if you have managed to refactor this far you need just split the classes by abstraction and apply Dependency Injection to invert the dependencies and by then you likely have some easily testable classes.&lt;/p&gt;
+&lt;h2&gt;Untestable I tell you!&lt;/h2&gt;
+&lt;p&gt;Ok so you have looked at the above but to no avail. You have some dependencies in your class that cannot be injected. A very common reason for this is your class has a dependency on a static class that just cannot be refactored right now to an instance. Another reason is that you just cannot make changes to the public API of the class you are testing.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;WARNING: Think long and hard before using static classes. The ease of use  they offer upfront comes at the dear dear price of testability.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;So the trick to testing a class that seems untestable is &lt;a href=&quot;http://amzn.to/1EN0Ymg&quot;&gt;Extract and Override&lt;/a&gt;. The technique is as follows for the untestable Monster class:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Create a class &lt;strong&gt;TestableMonster&lt;/strong&gt; that inherits from &lt;strong&gt;Monster&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Now move the class within &lt;strong&gt;Monster&lt;/strong&gt; into protected virtual methods.&lt;/li&gt;
+&lt;li&gt;Now you can override any par of &lt;strong&gt;Monster&lt;/strong&gt; you need to to test it.&lt;/li&gt;
+&lt;li&gt;In your unit test you will test against &lt;strong&gt;TestableMonster&lt;/strong&gt; but you will call the base class for the bits you want to test on it and provide faked procedures for the parts you need to test &lt;strong&gt;Moster&lt;/strong&gt; in isolation.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Ok so we have gone over the technique in theory, lets take a look at an example.&lt;/p&gt;
+&lt;h3&gt;Example&lt;/h3&gt;
+&lt;p&gt;Here is the untestable Monster class.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public class Monster
+{
+	public void ScareAllTheChildren()
+	{
+		var now = DateTime.UtcNow;
+		IEnumerable&lt;Child&gt; children= DataRepository.GetAllChildrenFrom(now);
+
+		foreach (var child in children)
+		{
+			ScareService.Scare(child);
+		}
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Although the actual example code is unlikely, the structure is tragically common. In less than 10 lines of code we have 3 static references. We will come back to the testable class, lets start extracting out the parts that make this class hard to test.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public class Monster
+{
+	public void ScareAllTheChildren()
+	{
+		DateTime now = GetCurrentUtcDateTime();
+		IEnumerable&lt;Child&gt; children = GetChildrenWithBedtimeAfter(now);
+
+		foreach (var child in children)
+		{
+			ScareChild(child);
+		}
+	}
+
+	protected virtual void ScareChild(Child child)
+	{
+		ScareService.Scare(child);
+	}
+
+	protected virtual IEnumerable&lt;Child&gt; GetChildrenWithBedtimeAfter(DateTime now)
+	{
+		return DataRepository.GetAllChildrenFrom(now);
+	}
+
+	protected virtual DateTime GetCurrentUtcDateTime()
+	{
+		return DateTime.UtcNow;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As you can see we have made no changes to the external API of the class. The internal changes were done by wrapping the statics in a method call. Not too much there that is likely to break our production code.
+So how would we use this?&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public class TestableMonster : Monster
+{
+	public DateTime TestDateTime { get; set; }
+    public List&lt;Child&gt; ScaredChildren  { get; set; }
+    
+	protected override DateTime GetCurrentUtcDateTime()
+	{
+		return TestDateTime;
+	}
+    
+    protected override void ScareChild(Child child)
+	{
+		ScaredChildren.Add(child);
+		base.ScareChild(child);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The above example just shows a way to have a date that is settable in your test. You could of course override the other method to return a known list of children.
+The following test is more an integration test than a unit test, as the data is not faked (unless you sent back a fake db from the method) but it demonstrates the usage.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+[TestMethod]
+public void Scare_With2OutOf3ChildrenAsleep_ScareCalledOn2Children()
+{
+	//Arrange
+	var db = InitializeNewDatabase();
+	db.Children.Add(new Child { Name = &quot;Sam&quot;, LastWentToSleep = DateTime.Parse(&quot;2014-01-31 20:00&quot;) });
+	db.Children.Add(new Child { Name = &quot;Sam&quot;, LastWentToSleep = DateTime.Parse(&quot;2014-01-31 20:30&quot;) });
+	db.Children.Add(new Child { Name = &quot;Sam&quot;, LastWentToSleep = DateTime.Parse(&quot;2014-01-31 21:30&quot;) });
+    
+	var sut = new TestableMonster();
+	sut.TestDateTime = DateTime.Parse(&quot;2014-01-31 20:45&quot;);
+    
+	//Act
+	sut.ScareAllTheChildren();
+
+	//Assert
+	Assert.AreEqual(2, sut.ScaredChildren.Count);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;So we went through some steps you could take to make your classes more testable. If you find you are testing a lot of static code you might want to look at the paid for version of &lt;a href=&quot;http://www.telerik.com/products/mocking.aspx&quot;&gt;JustMock&lt;/a&gt; or &lt;a href=&quot;http://typemock.com/&quot;&gt;TypeMock&lt;/a&gt; which are the only to frameworks I know of that allow mocking of statics.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;NOTE: A quick note on DateTime. It is a very sneaky static that leaks into code often. Try make it team policy to not use DateTime and instead use something like this suggested by &lt;a href=&quot;http://ayende.com/blog/3408/dealing-with-time-in-tests&quot;&gt;Ayenda Rahien&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Happy testing!&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Developer Quest II - Variables</title>
+      <link>http://localhost:5001/developer-quest-variables/</link>
+      <pubDate>Sun, 12 Oct 2014 00:00:00 +02:00</pubDate>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/developer-quest-variables/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Hold this for me.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;The story so far&lt;/h2&gt;
+&lt;p&gt;Lets go over what we have so far from &lt;a href=&quot;http://devonburriss.me/developer-quest-getting-started/&quot;&gt;Part 1&lt;/a&gt; and touch on some terminology. We have a &lt;strong&gt;namespace&lt;/strong&gt; called DeveloperQuest1. Namespaces are a way of grouping an application or parts of it. Specifically its used in the grouping of the Types that make up an application.
+Then we have a &lt;strong&gt;class&lt;/strong&gt; called &lt;strong&gt;Program&lt;/strong&gt;. &lt;strong&gt;class&lt;/strong&gt; is the keyword used to define a Reference Type in C#. We will explore it in more detail later in this tutorial. Then we have the first &lt;em&gt;member&lt;/em&gt; of Program. &lt;em&gt;Main&lt;/em&gt; is the &lt;strong&gt;method&lt;/strong&gt; that is run when a console application starts. Methods are ways of grouping behaviour in a program that can be executed.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2014/gfs_36744_2_2.jpg&quot; alt=&quot;hero enters town&quot; /&gt;&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2&gt;Variables&lt;/h2&gt;
+&lt;p&gt;Writing things to the screen is great but to make programming useful we need to be able to take input from somewhere, store it, manipulate it and possible then show it or save it.
+You can think of variables as the buckets that we store values in while we are using them in the program.
+We get 2 main categories of variables. &lt;strong&gt;Value Types&lt;/strong&gt; and &lt;strong&gt;Reference Types&lt;/strong&gt;. So every variable has a unique &lt;strong&gt;Type&lt;/strong&gt; that falls into one of these 2 categories but is always a &lt;strong&gt;Type&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3&gt;Value Types&lt;/h3&gt;
+&lt;p&gt;Value types fall into 2 main sub-categories :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;struct&lt;/li&gt;
+&lt;li&gt;enumeration&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Structs in turn fall into further categories of&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Numeric&lt;/li&gt;
+&lt;li&gt;boolean&lt;/li&gt;
+&lt;li&gt;user-defined&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I just mention this so you are aware of it when we go through examples. If it doesn&apos;t make much sense right now, don&apos;t worry about it.
+So let&apos;s see an example of using a numeric value type&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+int myNumber = 1;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This assigns the number &lt;em&gt;1&lt;/em&gt; to the &apos;bucket&apos; named &lt;em&gt;myNumber&lt;/em&gt;. The default for an &lt;em&gt;int&lt;/em&gt; is zero.
+There are numerous types of numeric value types that vary in terms of the size of the number they can hold as well as the precision.
+Next are boolean values. The valid options here are either true or false. The default being &lt;em&gt;false&lt;/em&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+bool isHero = true;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For the full list see here: http://msdn.microsoft.com/en-us/library/bfft1t3c.aspx&lt;/p&gt;
+&lt;p&gt;Finally a &lt;strong&gt;struct&lt;/strong&gt;. Structs are complex values. These can be used to store groups of values together logically. You will see that these seem a lot like reference types but differ in how they are handled in the program.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In the Solution Explorer &lt;strong&gt;Right-click&lt;/strong&gt; on the C# Console Project DeveloperQuest1&lt;/li&gt;
+&lt;li&gt;Expand &lt;strong&gt;Add&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Class...&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Name the class &lt;strong&gt;Hero&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;Ok&lt;/strong&gt;
+&lt;img src=&quot;/images/posts/2014/code-change2.jpg&quot; alt=&quot;new class image&quot; /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This will create a new &lt;strong&gt;class&lt;/strong&gt; (will discuss later).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Change the &lt;strong&gt;class&lt;/strong&gt; keyword to a &lt;strong&gt;struct&lt;/strong&gt; and add the folowing 2 &lt;em&gt;fields&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Save the changes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It should look like this now:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public struct Hero
+{
+    public int Health;
+    public string Name;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;string&lt;/strong&gt; is used to store text. It is a reference type but is handled in a special way.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2014/so-far-1.jpg&quot; alt=&quot;structure of application&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;You will see shortly when we explore reference types how similar they look to a &lt;strong&gt;struct&lt;/strong&gt;.
+The key characteristic to understand about value types is that they always point to their own &apos;bucket&apos;.
+This can be demonstrated with the following example.
+Change your Main &lt;em&gt;method&lt;/em&gt; to match the code below.
+Notice the &lt;strong&gt;using&lt;/strong&gt; statement at the top now. This is the &lt;em&gt;System&lt;/em&gt; namespace and allows us to remove &lt;em&gt;System&lt;/em&gt; from in front of &lt;strong&gt;Console&lt;/strong&gt;. This is because &lt;strong&gt;Console&lt;/strong&gt; is a &lt;strong&gt;class&lt;/strong&gt; in the &lt;em&gt;System&lt;/em&gt; namepspace. This makes your code simpler to work with.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+using System;
+namespace DeveloperQuest1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            System.Console.WriteLine(&quot;So you want to be a C# developer?&quot;);
+
+            Hero hero1 = new Hero(){
+                Health = 10,
+                Name = &quot;Bob&quot;
+            };
+
+            Hero hero2 = hero1;
+            hero2.Name = &quot;Ted&quot;;
+			Type heroType = hero1.GetType();
+
+            Console.WriteLine(&quot;Hero 1 is &quot; + hero1.Name);
+            Console.WriteLine(&quot;Hero 2 is &quot; + hero2.Name);
+            Console.WriteLine(&quot;Type is &quot; + heroType.Name);
+            Console.WriteLine(&quot;Is value type: &quot; + heroType.IsValueType);
+
+            Console.ReadKey();
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Run the application by hitting &lt;strong&gt;F5&lt;/strong&gt;.&lt;/p&gt;
+&lt;h4&gt;Output should be:&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;		Hero 1 is Bob
+		Hero 2 is Ted
+		Type is Hero
+		Is value type: True
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So &lt;em&gt;hero1&lt;/em&gt; and &lt;em&gt;hero2&lt;/em&gt; represent 2 unique values. Changing one does not effect the other.&lt;/p&gt;
+&lt;h3&gt;Reference Types&lt;/h3&gt;
+&lt;p&gt;Reference types, as the name alludes to, can reference the same &apos;bucket&apos;.
+Rather than the &lt;em&gt;struct&lt;/em&gt; keyword, a reference Type uses &lt;em&gt;class&lt;/em&gt;. Usually you will create a &lt;strong&gt;class&lt;/strong&gt; and the &lt;em&gt;members&lt;/em&gt; of the &lt;strong&gt;class&lt;/strong&gt; are comprised of value and reference types. &lt;strong&gt;Members&lt;/strong&gt; can be &lt;em&gt;fields&lt;/em&gt;, &lt;em&gt;properties&lt;/em&gt;, or &lt;em&gt;methods&lt;/em&gt; on a Type. &lt;em&gt;Name&lt;/em&gt; and &lt;em&gt;Health&lt;/em&gt; on &lt;strong&gt;Hero&lt;/strong&gt; above are examples of &lt;em&gt;fields&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Let&apos;s change the Hero Type from a &lt;em&gt;value&lt;/em&gt; type to a &lt;em&gt;reference&lt;/em&gt; type.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Open the &lt;em&gt;Hero.cs&lt;/em&gt; by double-clicking it in the Solution Explorer, or click on the tab if it is still open from when you created it.&lt;/li&gt;
+&lt;li&gt;Change &lt;strong&gt;struct&lt;/strong&gt; back to &lt;strong&gt;class&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Save&lt;/li&gt;
+&lt;li&gt;Hit &lt;strong&gt;F5&lt;/strong&gt; to run the application&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;Output should be:&lt;/h4&gt;
+&lt;pre&gt;&lt;code&gt;		Hero 1 is Ted
+		Hero 2 is Ted
+		Type is Hero
+		Is value type: False
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So &lt;em&gt;hero1&lt;/em&gt; and &lt;em&gt;hero2&lt;/em&gt; both point to the same &apos;bucket&apos; now. Changing one will change the other. Because &lt;em&gt;hero2&lt;/em&gt; points at &lt;em&gt;hero1&lt;/em&gt;, when we changed 2, 1 was also changed because they are the same thing actually. This is the essential difference between a reference type and a value type. Hopefully the names make sense now?&lt;/p&gt;
+&lt;h3&gt;Using our new found knowledge&lt;/h3&gt;
+&lt;p&gt;We have a reference type that represents our hero. Let&apos;s add functionality to the program so we can give our hero a name.
+Change the program to match the following.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+using System;
+namespace DeveloperQuest1
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Hero hero = new Hero();
+            hero.Health = 10;
+            Console.WriteLine(&quot;So you want to be a C# developer?&quot;);
+            Console.WriteLine(&quot;What is your hero&apos;s name?&quot;);
+            hero.Name = Console.ReadLine();
+
+            Console.WriteLine(&quot;Your adventure begins &quot; + hero.Name);
+			//to pause program
+            Console.ReadKey();
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So on line 1 we have the &lt;em&gt;using&lt;/em&gt; statement that imports the &lt;em&gt;System&lt;/em&gt; namespace to we can use it throughout our code without explicitly referencing it all the time.
+Our program is in the &lt;em&gt;DeveloperQuest1&lt;/em&gt; namespace.
+It contains a &lt;strong&gt;Type&lt;/strong&gt; called &lt;strong&gt;Program&lt;/strong&gt; (which uses the &lt;strong&gt;class&lt;/strong&gt; keyword and is such a reference type).
+It contains a &lt;em&gt;method&lt;/em&gt; called &lt;strong&gt;Main&lt;/strong&gt; which is run by default by a console application. We will explore the arguments passed in as &lt;strong&gt;args&lt;/strong&gt; in a later tutorial.
+The 1st statement in the Main method declares a new &lt;strong&gt;Hero&lt;/strong&gt; using the &lt;strong&gt;new&lt;/strong&gt; keyword.
+We then assign a value of 10 to the hero&apos;s &lt;strong&gt;Health&lt;/strong&gt; &lt;em&gt;field&lt;/em&gt;.
+We then write to the Console asking for the hero&apos;s name and read it into the &lt;strong&gt;Name&lt;/strong&gt; &lt;em&gt;field&lt;/em&gt; on the hero. This is done using a &lt;em&gt;method&lt;/em&gt; on &lt;strong&gt;Console&lt;/strong&gt; called &lt;em&gt;ReadLine&lt;/em&gt; which reads everything you type in until you hit &lt;em&gt;Enter&lt;/em&gt;.
+We then write out to the console the name we stored on the hero.
+Lastly we still have the &lt;em&gt;ReadKey&lt;/em&gt; call which pauses the application. Above it I show the use of comments. These are ignored by the program but can be used by you to leave instructional text. Use only when something is unclear.
+Hit &lt;strong&gt;F5&lt;/strong&gt; to run it.&lt;/p&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;In this tutorial we explored the Type categories you get in C# and how to create and use them. In the following tutorial we will dive into &lt;em&gt;classes&lt;/em&gt; and the various &lt;em&gt;members&lt;/em&gt; you can have on them.&lt;/p&gt;
+&lt;h3&gt;Further Reading and References&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;http://msdn.microsoft.com/en-us/library/s1ax56ch.aspx&lt;/li&gt;
+&lt;li&gt;http://www.albahari.com/valuevsreftypes.aspx&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>Developer Quest I - Getting started with C#</title>
+      <link>http://localhost:5001/developer-quest-getting-started/</link>
+      <pubDate>Thu, 09 Oct 2014 00:00:00 +02:00</pubDate>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/developer-quest-getting-started/</guid>
+      <description>&lt;h2&gt;Getting Started&lt;/h2&gt;
+&lt;p&gt;The first thing you are going to need as a developer is an Integrated Development Environment (IDE). Technically this is not necessary, you could use a text editor and the compiler in command line but trust me, you don&apos;t want to go that route.
+Head over to http://www.visualstudio.com/downloads/download-visual-studio-vs and download Microsoft Visual Studio Express for Windows Desktop.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2014/quest-for-glory-i-so-you-want-to-be-a-hero-dos-title-73699.jpg&quot; alt=&quot;hero running from monster&quot; /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Update: &lt;a href=&quot;https://www.visualstudio.com/en-us/products/visual-studio-community-vs.aspx&quot;&gt;Visual Studio Community 2015&lt;/a&gt; is now available which is still free but much fuller featured.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;!--more--&gt;
+&lt;h2&gt;Your first application&lt;/h2&gt;
+&lt;p&gt;We are going to be building a Console Application initially, since this is probably the easiest to get up and running with.
+A console application project is what is used to create .exe programs that you may have seen or used.
+Once you have Visual Studio installed, launch it and follow these steps to create the Console Application.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Click &lt;strong&gt;File &amp;gt; New Project...&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;In the left-hand tree structure menu pick Visual C# and select &lt;strong&gt;Console Application&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;In the name field enter &lt;strong&gt;DeveloperQuest1&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Click &lt;strong&gt;OK&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2014/new-project.jpg&quot; alt=&quot;VS New Project Window&quot; /&gt;
+Visual Studio will now create a solution for you. A solution can hold many projects. A project can be a console app, a Windows Store app, a desktop application, website, etc. The solution file groups all these together for you in a way that lets you easily create references to related projects. Don&apos;t worry about it too much at the moment. We will come back to it in another tutorial.
+You should now have a screen that looks similar to this (may differ slightly based on your setup and theme).
+&lt;img src=&quot;/img/posts/2014/ide.jpg&quot; alt=&quot;new console application&quot; /&gt;
+The IDE shows 3 main windows above.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Document Editor&lt;/strong&gt; - this is where you edit your program files. Currently it shows the Program.cs source file, which is the starting point for the console application.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Solution Explorer&lt;/strong&gt; - allows you to browse the contents of your solution, open files and view properties of items in the solution.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Output Window&lt;/strong&gt; - shows messages of what Visula Studio is doing.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If you hit the &lt;strong&gt;F5&lt;/strong&gt; key Visual Studio will build and run the application. Building basically means it takes your &lt;strong&gt;.cs&lt;/strong&gt; files in the solution and turns them in instructions that a computer can understand.
+So lets make a change to the program and run it. Add the folowing lines within the {} in the &lt;strong&gt;Main&lt;/strong&gt; method of &lt;strong&gt;Program&lt;/strong&gt; so it looks like this.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+System.Console.WriteLine(&quot;So you want to be a C# developer?&quot;);
+System.Console.ReadKey();
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Also remove all the &lt;em&gt;using&lt;/em&gt; statements at the top from line 1 - 5.
+&lt;img src=&quot;/img/posts/2014/code-change1.jpg&quot; alt=&quot;added console writeline charp code&quot; /&gt;
+Now hit &lt;strong&gt;F5&lt;/strong&gt; again to build and run the application. The console application should ask you if this is the path for you. If it is, look out for the following tutorial in this series.&lt;/p&gt;
+&lt;h2&gt;Whats Next?&lt;/h2&gt;
+&lt;p&gt;Next we will be looking at how you can capture input from the console application so you can interact with it.
+If you have any questions or suggestions, please don&apos;t hesitate to leave a comment below. Happy coding!
+&lt;a href=&quot;http://devonburriss.me/developer-quest-variables/&quot;&gt;The adventure continues here.&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Software development is like a piece of string</title>
+      <link>http://localhost:5001/software-development-is-like-a-piece-of-string/</link>
+      <pubDate>Fri, 03 Oct 2014 00:00:00 +02:00</pubDate>
+      <author></author>
+      <guid>http://localhost:5001/software-development-is-like-a-piece-of-string/</guid>
+      <description>&lt;p&gt;Software like many things in life, is one of those things that the further down a path you go, the harder it is to back out. When I think of a software project I think of a piece of string. The longer the project, the longer the string.
+The string is the perfect length to reach the end. Each and every time we make a poor design decision or a bad implementation we effectively add a knot in the string. One or two of these and we might still be able to stretch it to reach the end but most likely if we want to reach the end, we are going to need to unravel the knot we created.
+I see it over and over again in projects, both my own knots and the knots of colleagues. We make these knots knowingly, thinking we can come back later, or thinking they can slip by but they always hold things up somewhere.
+If they don&apos;t force you to come back and undo them later, they slow the velocity of the project, negating any time you may have saved in implementation time.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2014/yarn-800.jpg&quot; alt=&quot;library&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;Bottom line. Don&apos;t take shortcuts. I am not saying it has to always be the very best implementation but it should always be something elegant. Dirty hacks always fester eventually.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Testing your data repositories</title>
+      <link>http://localhost:5001/testing-your-data-repositories/</link>
+      <pubDate>Sun, 07 Sep 2014 00:00:00 +02:00</pubDate>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/testing-your-data-repositories/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Avoiding dependency on a data layer.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;My solution was to use an in-memory H2 database (http://www.h2database.com/html/main.html) which can be created and dropped on a per test basis. To do this I used the Command Pattern (http://en.wikipedia.org/wiki/Command_pattern) to create and then drop the table for each test. In case you are not familiar with the command pattern:&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2014/books-800-medium.jpg&quot; alt=&quot;library&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;Command Pattern&lt;/h2&gt;
+&lt;p&gt;The command pattern is pretty simple. You define an interface with the method that will be called to execute some functionality.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;
+public interface Command {
+	void execute() throws Exception;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;The Solution&lt;/h2&gt;
+&lt;p&gt;So this is what the end result looks like. How you execute you commands is up to you but in case you are looking for the details I have included them further down in the article.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;
+public class CommitteeTableCommandTest {         
+	private String connectionString = &quot;jdbc:h2:~/test&quot;;     
+	
+	@Test    
+	public void create_NewCommitteeRecord_PersistsToDb() throws Exception {                 
+		try(Database database = new H2DatabaseImpl(connectionString, &quot;&quot;, &quot;&quot;)){
+				Command cc = new CreateCommitteeTableCommand(database);          
+				cc.execute();                         
+				CommitteeEntity entity = new CommitteeEntity();            
+				entity.setName(&quot;Test&quot;);    
+				entity.setMandate(&quot;Blah Blah&quot;);
+                
+				CommitteeRepository sut = new CommitteeRepositoryImpl(database);
+				sut.create(entity);
+				Assert.assertNotNull(sut.getByName(&quot;Test&quot;).get(0));
+				Command cd = new DropCommitteeTableCommand(database);
+				cd.execute();
+		}         
+	
+		Assert.assertTrue(true);    	
+	} 
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;The Details&lt;/h3&gt;
+&lt;p&gt;For the creation and dropping of the table I created a generic abstract base class for each. I am using OrmLite (http://ormlite.com/) (the Java library, not C# one – which is unrelated) for my Object Relational Mapper. This gives me a database agnostic way for handling the mundane database tasks without mixing my Java and SQL. You could quite easily write SQL for this, as long as you take any differences in database providers into consideration. On to the solution…&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Base create command&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;
+public abstract class BaseCreateTableCommand&lt;T&gt; implements Command { 
+	
+	private Database database;    
+	private Class&lt;T&gt; typeOfT;
+	
+	@SuppressWarnings(&quot;unchecked&quot;)    
+	public BaseCreateTableCommand(Database database){        
+		this.database = database;
+		ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
+	    Type type = genericSuperclass.getActualTypeArguments()[0];
+	    if (type instanceof Class) {
+	      this.typeOfT = (Class&lt;T&gt;) type;
+	    } else if (type instanceof ParameterizedType) {
+	      this.typeOfT = (Class&lt;T&gt;) ((ParameterizedType)type).getRawType();
+	    }
+	}
+
+	protected void createTableIfNotExists() throws Exception {        
+		ConnectionSource connectionSource = new JdbcConnectionSource(database.getConnectionUri(), database.getUsername(), database.getPassword());  
+		TableUtils.createTableIfNotExists(connectionSource, typeOfT);        
+		connectionSource.close();    
+	}  
+
+	public void execute() throws Exception {                 
+		this.createTableIfNotExists();    
+	} 
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Base drop command&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;
+public abstract class BaseDropTableCommand&lt;T&gt; implements Command {     
+	private Database database;    
+	private Class&lt;T&gt; typeOfT;         
+	
+	@SuppressWarnings(&quot;unchecked&quot;)    
+	public BaseDropTableCommand(Database database){        
+		this.database = database;        
+		this.typeOfT = (Class&lt;T&gt;)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+	}
+
+	protected void dropTable(Boolean ignoreErrors) throws Exception {
+
+		ConnectionSource connectionSource = new JdbcConnectionSource(database.getConnectionUri(), database.getUsername(), database.getPassword()); 
+		TableUtils.dropTable(connectionSource, typeOfT, ignoreErrors);
+		connectionSource.close();
+	}     
+	
+	@Override    
+	public void execute() throws Exception {
+		this.dropTable(true);    
+	} 
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, we inherit from these two classes to flesh out the create and drop commands.
+&lt;em&gt;Create command implementation&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;
+public class CreateCommitteeTableCommand extends BaseCreateTableCommand&lt;CommitteeEntity&gt; {     
+	public CreateCommitteeTableCommand(Database database) {
+		super(database);    
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Drop command implementation&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;
+public class DropCommitteeTableCommand extends BaseDropTableCommand&lt;CommitteeEntity&gt; {     
+	public DropCommitteeTableCommand(Database database){
+		super(database);
+	} 
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The only other piece is the Database abstraction, which I have my doubts about so I would
+not recommend copying :)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Database abstraction&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;
+public abstract class Database implements AutoCloseable {
+
+	private static final int MAX_CONNECTIONS_PER_PARTITION = 2;
+
+	private static final int MIN_CONNECTIONS_PER_PARTITION = 1;
+
+	private static final int LOGIN_TIMEOUT = 10;
+
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	
+	protected String connectionUri;
+	protected String username;
+	protected String password;
+	
+	protected BoneCP connectionPool = null;
+
+	public Database() {
+		super();
+	}
+
+	public Connection getConnection() throws SQLException {
+		logger.trace(&quot;getConnection called.&quot;);
+		return getPooledConnection();
+	}
+	
+	public String getConnectionUri(){
+		return this.connectionUri;
+	}
+	
+	public String getUsername(){
+		return this.username;
+	}
+	
+	public String getPassword(){
+		return this.password;
+	}
+
+	public abstract String getDriver();
+
+	
+	public void close() throws Exception {
+		logger.trace(&quot;close called (this is close() on the database...not a single connection).&quot;);
+		if(this.connectionPool != null)
+			this.connectionPool.shutdown();
+		
+		this.connectionPool = null;
+	}
+
+	protected void setup(String driver, String connectionUri, String username, String password) throws ClassNotFoundException, SQLException {
+		logger.trace(&quot;setup called.&quot;);
+		try {
+			Class.forName(driver);
+
+			this.connectionUri = connectionUri;
+			this.username = username;
+			this.password = password;
+			DriverManager.setLoginTimeout(LOGIN_TIMEOUT);
+
+		} catch (ClassNotFoundException e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	private Connection getPooledConnection() throws SQLException {
+		Connection conn;
+
+		if(connectionPool == null)
+			setupConnectionPool(connectionUri, username, password);
+		
+		conn = connectionPool.getConnection();
+		return conn;
+	}
+
+	private void setupConnectionPool(String connectionUri, String username,	String password) throws SQLException {
+		
+		BoneCPConfig config = new BoneCPConfig();
+		config.setJdbcUrl(connectionUri);
+		config.setUsername(username); 
+		config.setPassword(password);
+		config.setMinConnectionsPerPartition(MIN_CONNECTIONS_PER_PARTITION);
+		config.setMaxConnectionsPerPartition(MAX_CONNECTIONS_PER_PARTITION);
+		config.setPartitionCount(1);
+		config.setLazyInit(true);
+		connectionPool = new BoneCP(config);
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;H2 implementation&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;
+public class H2DatabaseImpl extends Database {
+
+	private final String driver = &quot;org.h2.Driver&quot;;
+	
+	public H2DatabaseImpl(String connectionUri, String username, String password) throws ClassNotFoundException, SQLException{
+		super();
+		this.setup(driver, connectionUri, username, password);
+	}
+	
+	@Override
+	public String getDriver() {
+		return driver;
+	}
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Just for kicks...&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;I created a command queue, which itself is a command to enumerate through and execute a list of commands. Here just because its useful, not for purposes of this example. You can chain your inserts and then your drops into two commands using this.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;
+public class CommandQueue implements Command {     
+	private List&lt;Command&gt; commands;    
+	private Boolean breakOnError = true;         
+	
+	public CommandQueue(List&lt;Command&gt; commands, Boolean breakOnError){        
+		if(commands == null)            
+			throw new IllegalArgumentException(&quot;commands&quot;);        
+		
+		this.commands = commands;                 
+		
+		if(breakOnError != null)            
+			this.breakOnError = breakOnError;    
+	}    
+	
+	@Override    
+	public void execute() throws Exception {        
+		int pos = 0;        
+		try {            
+			pos = executeImpl(pos);
+		} catch (Exception e) {            
+			if(this.breakOnError)                
+				throw e;        
+		}    
+	}    
+	
+	private int executeImpl(int pos) throws Exception {        
+		int size = this.commands.size();        
+		
+		for (int i = pos; i &lt; size; i++) {            
+			try {                
+				this.commands.get(pos).execute();                
+				pos++;            
+			} catch (Exception e) {                
+				if(this.breakOnError)                    
+					throw e;                
+				executeImpl(++pos);            
+			}        
+		}        
+		
+		return pos;    
+	} 
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let me know if you found this useful, or if you have a better way for testing your data persistence...&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Single Responsibility Principle</title>
+      <link>http://localhost:5001/single-respon/</link>
+      <pubDate>Fri, 05 Sep 2014 00:00:00 +02:00</pubDate>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/single-respon/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;The &lt;strong&gt;S&lt;/strong&gt; in &lt;strong&gt;SOLID&lt;/strong&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;If I had to pick one principle that had to be enforced strongly on a code base, this would be it. Most techniques for writing elegant code fall by the wayside if this principle is not followed.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Layering your application.&lt;/strong&gt; Good luck!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Inversion of Control.&lt;/strong&gt; Constructor injection overload!&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Polymorphism.&lt;/strong&gt; I am a concrete implementation of what exactly?&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Don’t repeat yourself.&lt;/strong&gt; Well this does something slightly different…&lt;/p&gt;
+&lt;p&gt;It has been a long time but I do remember a time when I was averse to lots of files in a development project. When I had god classes that contained demi-god functions. I am not sure if it is related but it may have been a side effect of programming in a dynamic language but to blame it on a language would be naïve. Besides, I learned the basics of programming in C++ and Java. I also remember a time when every little change I made in my projects broke a chain of other parts, some expected, and way too many completely unexpected. And it was exactly those circumstances that made me question how I was doing things. Enter SRP.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2&gt;Definition&lt;/h2&gt;
+&lt;p&gt;Since it is a principle, rather than a rule; it doesn’t have one clear definition but as far as I can tell Robert C. Martin (http://www.objectmentor.com/omTeam/martin_r.html) coined the term and so his definition will be used:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;THERE SHOULD NEVER BE MORE THAN ONE REASON FOR A CLASS TO CHANGE.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;This is a very simple statement but one that is quite hard to get right in practice. It takes discipline to think carefully about where each piece of code is placed to make sure it belongs there.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2014/train-track-800-slim.jpg&quot; alt=&quot;trainline into the distance&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;Class Cohesion&lt;/h2&gt;
+&lt;p&gt;A discussion of SRP would not be complete without mention of cohesion (http://en.wikipedia.org/wiki/Cohesion_(computer_science)). Cohesion is the measure of how well the members of a class group together. An easy tell to look for when looking for classes with low cohesion is to look for fields that are used in separate functions. If you find a field that is used in some functions, and another field that is used in others, it is likely that you need 2 classes rather than 1 for the behaviour. We will see an example of this later.&lt;/p&gt;
+&lt;h2&gt;Example&lt;/h2&gt;
+&lt;p&gt;Ok. Enough talk (or writing rather…). Lets look at an example of a class that does not follow SRP and refactor it towards one that does.
+The example I use is a service that processes a customer’s order.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public class OrderServiceBefore : IDisposable
+{
+    private const string connection = @&quot;c:\Example.mdf&quot;;
+    private readonly DataContext db;
+    private SmtpClient emailClient;
+    public OrderServiceBefore()
+    {
+        this.db = new DataContext(connection);
+        this.emailClient = new SmtpClient();
+    }
+
+    public void Process(Order order)
+    {
+
+        //validate order            
+        if (order == null)
+            throw new ArgumentNullException(&quot;order&quot;);
+        if (order.Customer == null)
+            throw new ArgumentException(&quot;Customer cannot be null.&quot;);
+        if (order.OrderLines.Count &lt; 1)
+            throw new InvalidOperationException(&quot;Cannot process an order with no lineitems.&quot;);
+
+        //save order
+        db.GetTable&lt;Order&gt;().Attach(order);
+        db.SubmitChanges();
+
+        //email order form
+        var email = string.Format(&quot;New order {0} place on {1} by {2}.&quot;);
+        foreach (var item in order.OrderLines)
+        {
+            email = email + &quot;\n&quot;;
+            email = email + item.Product + &quot; : &quot; + item.Quantity;
+        }
+        emailClient.Send(new MailMessage(&quot;me@me.com&quot;, &quot;sales@company.com&quot;));
+    }
+
+    public void Dispose()
+    {
+        if (this.db != null)
+            this.db.Dispose();
+        if (this.emailClient != null)
+            this.emailClient.Dispose();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Looking at the code you can see that the Process method does more than 1 thing. It checks the validity of the order, persists it to the database, and then emails sales with the order details.
+Lets start refactoring this toward a cleaner implementation…&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public class OrderServiceIntermediate : IDisposable
+    {
+        private const string connection = @&quot;c:\Example.mdf&quot;;
+        private readonly DataContext db;
+        private SmtpClient emailClient;
+
+        public OrderServiceIntermediate()
+        {
+            this.db = new DataContext(connection);
+            this.emailClient = new SmtpClient();
+        }
+
+        public void Process(Order order)
+        {
+            OrderProcessGaurd(order);
+            SaveOrder(order);
+            EmailOrderToSales(order);
+        }
+
+        private void EmailOrderToSales(Order order)
+        {
+            var email = string.Format(&quot;New order {0} place on {1} by &quot;);
+            foreach (var item in order.OrderLines)
+            {
+                email = email + &quot;\n&quot;;
+                email = email + item.Product + &quot; : &quot; + item.Quantity;
+            }
+
+            emailClient.Send(new MailMessage(&quot;me@me.com&quot;, &quot;sales@comp&quot;));
+        }
+
+        private void SaveOrder(Order order)
+        {
+            db.GetTable&lt;Order&gt;().Attach(order); db.SubmitChanges();
+        }
+        private void OrderProcessGaurd(Order order)
+        {
+            if (order == null)
+                throw new ArgumentNullException(&quot;order&quot;);
+            if (order.Customer == null)
+                throw new ArgumentException(&quot;Customer cannot be null.&quot;);
+            if (order.OrderLines.Count &lt; 1)
+                throw new InvalidOperationException(&quot;Cannot process an order with no lineitems.&quot;);
+        }
+        public void Dispose()
+        {
+            if (this.db != null)
+                this.db.Dispose();
+
+            if (this.emailClient != null)
+                this.emailClient.Dispose();
+        }
+
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here all I did was extract the different activities being performed into methods. This does little else other than make the intent of the Process method clearer, which in turn highlights that this class contains implementation details outside of it’s responsibility.
+So lets extract these methods into classes that are responsible for the needed functionality. We will interface each of these so we can inject the abstraction in rather than the concrete implementation.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public class OrderRepository : IOrderRepository
+    {
+        private const string connection = @&quot;c:\Northwnd.mdf&quot;;
+        private readonly DataContext db;
+        public OrderRepository()
+        {
+            this.db = new DataContext(connection);
+        }
+        public void SaveOrder(Order order)
+        {
+            db.GetTable&lt;Order&gt;().Attach(order);
+            db.SubmitChanges();
+        }
+        public void Dispose()
+        {
+            if (this.db != null)
+                this.db.Dispose();
+
+        }
+    }
+    public interface IEmailService : IDisposable 
+    { 
+        void SendOrderToSales(Order order);    
+    }
+
+    public class EmailService : IEmailService { 
+
+        private SmtpClient emailClient; 
+
+        public EmailService() { 
+            this.emailClient = new SmtpClient(); 
+        } 
+        public void SendOrderToSales(Order order)        
+        {            
+            var email = BuildEmailContent(order);                         
+            emailClient.Send(new MailMessage(&quot;me@me.com&quot;, &quot;sales@company.com&quot;));        
+        }          
+        
+        private string BuildEmailContent(Order order)        
+        {            
+            var email = string.Format(&quot;New order {0} place on {1} by {2}.&quot; );           
+            foreach (var item in order.OrderLines)            
+            {                
+                email = email + &quot;\n&quot;;                
+                email = email + item.Product + &quot; : &quot; + item.Quantity;            
+            }            
+            return email;        
+        }          
+        public void Dispose() 
+        { 
+            if (this.emailClient != null)                
+                this.emailClient.Dispose(); 
+        } 
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With these new classes extracted we can now make use of them in our OrderService class.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-csharp&quot;&gt;
+public class OrderServiceAfter : IDisposable
+    {
+        private readonly IOrderRepository orderRepository;
+        private readonly IEmailService emailService;
+        public OrderServiceAfter(IOrderRepository orderRepository, IEmailService emailService)
+        {
+            this.orderRepository = orderRepository;
+            this.emailService = emailService;
+        }
+        public void Process(Order order)
+        {
+            OrderProcessGaurd(order);
+            orderRepository.SaveOrder(order);
+            emailService.SendOrderToSales(order);
+        }
+        private void OrderProcessGaurd(Order order)
+        {
+            if (order == null)
+                throw new ArgumentNullException(&quot;order&quot;);
+            if (order.Customer == null)
+                throw new ArgumentException(&quot;Customer cannot be null.&quot;);
+            if (order.OrderLines.Count &lt; 1)
+                throw new InvalidOperationException(&quot;Cannot process an order with no lineitems.&quot;);
+        }
+        public void Dispose()
+        {
+            if (orderRepository != null)
+                orderRepository.Dispose();
+            if (emailService != null)
+                emailService.Dispose();
+        }
+    }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Analysis&lt;/h3&gt;
+&lt;p&gt;Lets take a quick look at what running code metrics on this in Visual Studio 2013 looks like (Analyze &amp;gt; Calculate Code Metrics for Selected Projects).
+&lt;img src=&quot;/img/posts/2014/Code-Metrics-SRP.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Maintainability Index&lt;/strong&gt; – Here we see a nice gain just separating out into functions, with a 1 point drop when separating out into classes. I guess Microsoft see it as less maintainable with the logic in different classes. Marginally. The gains on the other criteria more than make up for the 1 point drop though. See: &lt;a href=&quot;http://blogs.msdn.com/b/zainnab/archive/2011/05/26/code-metrics-maintainability-index.aspx&quot;&gt;http://blogs.msdn.com/b/zainnab/archive/2011/05/26/code-metrics-maintainability-index.aspx&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Cyclomatic_complexity&quot;&gt;&lt;strong&gt;Cyclomatic Complexity&lt;/strong&gt;&lt;/a&gt; – This basically highlights the paths through the code. It is a good measure of how complex the code is. This dropped so marginally. Typically we can see much better gains here when applying SRP on more complex problems. See: &lt;a href=&quot;http://blogs.msdn.com/b/zainnab/archive/2011/05/17/code-metrics-cyclomatic-complexity.aspx&quot;&gt;http://blogs.msdn.com/b/zainnab/archive/2011/05/17/code-metrics-cyclomatic-complexity.aspx&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Depth of Inheritance&lt;/strong&gt; – We are not using inheritance to solve this problem so not going to touch on this. See: [http://blogs.msdn.com/b/zainnab/archive/2011/05/19/code-metrics-depth-of-inheritance-dit.aspx](http://blogs.msdn.com/b/zainnab/archive/2011/05/19/code- metrics-depth-of-inheritance-dit.aspx)&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://en.wikipedia.org/wiki/Coupling_(computer_programming)&quot;&gt;&lt;strong&gt;Class Coupling&lt;/strong&gt;&lt;/a&gt; – We dropped the coupling to other classes quite substantially. This is a very good thing. The less dependencies you class has, the less likely that it breaks due to a change elsewhere in the codebase. See: &lt;a href=&quot;http://blogs.msdn.com/b/zainnab/archive/2014/02/22/10168042.aspx&quot;&gt;http://blogs.msdn.com/b/zainnab/archive/2014/02/22/10168042.aspx&lt;/a&gt;&lt;/p&gt;
+&lt;h3&gt;Resources&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;http://www.objectmentor.com/resources/articles/srp.pdf&quot;&gt;http://www.objectmentor.com/resources/articles/srp.pdf&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Estimation</title>
+      <link>http://localhost:5001/estimation/</link>
+      <pubDate>Thu, 07 Aug 2014 00:00:00 +02:00</pubDate>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/estimation/</guid>
+      <description>&lt;p&gt;&lt;img src=&quot;/img/posts/2014/old-clock-800.jpg&quot; alt=&quot;retro clock&quot; /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Tackling the uncertainty of software estimation.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Most developers are horrible at estimation. Period. There are numerous reasons for this. Some of the responsibility falls outside of a developers control but there are still steps that a developer is obligated to take.&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;h2&gt;Under-estimating the complexity&lt;/h2&gt;
+&lt;p&gt;Without actually writing the code a developer can never know every nuance of the problem and possible corresponding solutions. Not to mention the problems spawned from the chosen solutions. This gets better with experience but is not an exact science. Even with UML diagrams and use-cases, the devil is in the details. The best course of action for a developer here is to break the the problem down into such small subtasks that the possible problems start to expose themselves but even this is not a guarantee. Not to mention the time that this actually takes. It falls to management to ensure that developers have the time they need to make these estimates, as well as all the information to do so. It falls to the developers to insist on both of these. Even so. These are only estimates and should be seen as such and not taken by any stake-holders as commitments, unless the developer has committed to these times under no duress.&lt;/p&gt;
+&lt;h3&gt;Solution: Break down tasks&lt;/h3&gt;
+&lt;p&gt;As mentioned. Breaking down the tasks into easier to estimate chunks will go a long way in refining the schedule, as well as revealing hidden complexity.&lt;/p&gt;
+&lt;h2&gt;Over-estimating ability&lt;/h2&gt;
+&lt;p&gt;Often a problem seems simple and as a developer you would like to think you could implement a solution in minimal time. This often happens when problems emerge similar to ones we have solved before. Resist the urge to commit. Find out all the information. Break it down. Plan. Estimate. Do not let your ego get you into a position where you are sacrificing your health, family, and friends for a deadline you cannot realistically meet. And DO NOT sacrifice quality. There are no true shortcuts. What you gain in the short term you will lose over the length of the project with interest.&lt;/p&gt;
+&lt;h3&gt;Solution: Planning Poker&lt;/h3&gt;
+&lt;p&gt;Planning Poker (http://en.wikipedia.org/wiki/Planning_poker) is an estimation technique. The basics are such:
+Get some developers into a room.
+Discuss a task that needs implementation.
+All developers write down an estimate or hold up fingers at the same time with their estimate.
+If there are huge discrepancies the task is discussed more. Discussions and estimations are repeated until all developer estimations are similar.&lt;/p&gt;
+&lt;p&gt;See: &lt;a href=&quot;http://www.mountaingoatsoftware.com/agile/planning-poker&quot;&gt;http://www.mountaingoatsoftware.com/agile/planning-poker&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Handed down deadlines&lt;/h2&gt;
+&lt;p&gt;Sometimes deadlines are given to you from above. As an employee you will feel pressured to accept these deadlines. It is your choice whether you accept them. In The Clean Coder, “Uncle Bob” talks about the responsibilities of developers and managers. CEOs are trying to strategically grow a business, marketing is trying to win customers, project managers are trying to meet deadlines, and as a developer you are tasked with developing a quality product for the customer. By agreeing to unrealistic deadlines, you endanger the project. The earlier problems are identified, the more chance that catastrophe can be avoided.&lt;/p&gt;
+&lt;h3&gt;Solution: Team discussion of workable solution&lt;/h3&gt;
+&lt;p&gt;If a deadline is immovable, the team (including the customer) need to work together toward a realistic goal. Features can be cut, overtime can be worked (within reason), and additional resources can be allocated (to a point) but the end result should always be a quality solution. Cutting corners just slows down development in the long run. A project becomes a mess. Productivity grinds to a halt. It is a chore to work on and eventually developers leave the company rather than work on the project.&lt;/p&gt;
+&lt;h2&gt;PERT&lt;/h2&gt;
+&lt;p&gt;[Pert] (http://en.wikipedia.org/wiki/Program_evaluation_and_review_technique_(PERT)) is an estimation technique developed by the U.S Navy for estimating projects. Combining it with planning poker should give a reasonable idea of when you can expect a task to be done. It works as follows.
+A developer will give 3 estimates for a work item (use with Planning Poker).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;O:&lt;/strong&gt; Optimistic estimate – this is the time to complete a task if the stars align and unicorns come down and help complete the code. In other words, the best case scenario.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;P:&lt;/strong&gt; Pessimistic estimate – this is the time to complete a task when you have invoked the wrath of the programming gods. So. The worst case.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;M:&lt;/strong&gt; Most likely estimate – this is the time that a developer usually gives.&lt;/p&gt;
+&lt;p&gt;Plugging these values in we can get the time estimate for a task.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;T = (O + 4M + P) ÷ 6&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Banking on this value would be dangerous though. Some buffer time is usually added to estimates. Rather than just thumb-sucking a buffer time, lets calculate the variance and add that to the estimate.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;V = (P – O) ÷ 6&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Estimate = T + V&lt;/strong&gt;&lt;/p&gt;
+&lt;h3&gt;Example&lt;/h3&gt;
+&lt;p&gt;Ok. So lets say that your team is asked to add a Quick Contact widget to an existing website. You get 3 developers in the room and ask for times.&lt;/p&gt;
+&lt;p&gt;You get the following answers. 1, 3, and 4. In days.&lt;/p&gt;
+&lt;p&gt;The 1 came from the developer who is going to be doing the work. 3 from the developer who did most of the existing widgets. 4 from the team lead. Due to the large discrepancies, discussions ensue. It turns out the widget creation process is non trivial but some functionality is inherited from existing widgets. So another round of planning poker gives the following values 3, 3 , and 4. You decide to go with 3.
+This was for the most likely time. For the best case you get 1 day and worst case is 7 days.
+&lt;strong&gt;T&lt;/strong&gt; = &lt;em&gt;(O + 4M + P) ÷ 6&lt;/em&gt; = &lt;em&gt;(1 + 12 + 7) ÷ 6 = 3.3 V&lt;/em&gt; = &lt;em&gt;(P – O) ÷ 6&lt;/em&gt; = &lt;em&gt;(7 – 1) ÷ 6&lt;/em&gt; = &lt;strong&gt;1&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Estimate = T + V = 4.3&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;So let&apos;s schedule this for a 4.5 days.&lt;/p&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;So knowing our failings, and bearing in mind the goals of management, we can mitigate potential disaster by using the techniques outlined here. Estimation is never going to be an exact science but we can go a long way in making our estimates more accurate. Hope this helps. Good luck with your next project.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>The way we write code…and how we talk about it</title>
+      <link>http://localhost:5001/the-way-we-write-code/</link>
+      <pubDate>Fri, 18 Jul 2014 00:00:00 +02:00</pubDate>
+      <author>Devon Burriss</author>
+      <guid>http://localhost:5001/the-way-we-write-code/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;The true challenge in writing good software.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Code takes on a life of its own. As developers we pour our time and intellect into solving problems, and the manifestation of those solutions are found in the lines of code we write. Too often though, the code is controlling us as much as it is controlling the hardware it runs on. We often fail to think about how we write our code, how we structure it, or how others may view or use it. We let one line run to the next, and the code leads us.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/posts/2014/typewriter-800.jpg&quot; alt=&quot;typewriter&quot; /&gt;&lt;/p&gt;
+&lt;!--more--&gt;
+&lt;p&gt;Over the years I became frustrated with the corners that the code led me into. Frustrated with the tangle it became. Frustrated with reading other peoples tangle. So I started down the path of clean code. I researched standards, OOP, clean coding techniques, design patterns, TDD, Agile, DDD, etc. My code got cleaner, maintenance got easier, development velocity didn’t drop as rapidly as the complexity of a project increased. Things were good. There is a problem though. All these methodologies and techniques come with their own dialect. They have terminology and language that describe a complex solution, or a particular design decision in one succinct word. The problem comes in that not every developer is on this path. Many are stuck in fire fighting mode. The overtime hours stack up, any spare minute at work is spent on Facebook trying to find out what was missed while they were working late into the night. Learning new things after all the hours at the office is very low on the their hierarchy of needs. The unfortunate thing is that it is knowledge and experience that gets you out of the fire fight. Testable code, maintainable code. Prioritizing tasks. Understanding deliverables. Managing expectations. Communicating. And slowly I learned that software development is primarily about communication. The larger the project, the more apparent this becomes. Developers, designers, architects, business analysts, project managers, customers. Everybody has a role, and the way they see the project is determined by the lens that that stakeholder dons. Recently I have been leaning more toward methodologies rather than technologies and patterns. These often address the more critical aspects in a project, like communication. I have found though that a lot of my hard won lessons do not garner the immediate appreciation I have for them. The hard learned vocabulary of patterns and methodologies are meaningless when you are working in a team that does not know the terminology nor the benefits of the practices that go with the elitist vocabulary. The vocabulary is important as it allows the succinct identification of a complex idea. It is more important though to be understood by all stakeholders. So while I work on shedding my vocabulary for one with less assumptions, I will try and write about the principles that shape the code I write and the architectural decisions I make. And hopefully I will make elitist snobs out of you who have read this rambling post to the end.&lt;/p&gt;
+&lt;h2&gt;Elitist snob training&lt;/h2&gt;
+&lt;p&gt;Although the lines tend to blur, I have tried to categorise as best I can.&lt;/p&gt;
+&lt;h3&gt;Principles&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Clean code&lt;/li&gt;
+&lt;li&gt;SOLID&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Design Patterns&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Repository&lt;/li&gt;
+&lt;li&gt;Factory&lt;/li&gt;
+&lt;li&gt;Command&lt;/li&gt;
+&lt;li&gt;Decorator&lt;/li&gt;
+&lt;li&gt;Visitor&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Practices&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;TDD&lt;/li&gt;
+&lt;li&gt;DDD&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Methodologies&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Agile&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+  </channel> 
+</rss>
