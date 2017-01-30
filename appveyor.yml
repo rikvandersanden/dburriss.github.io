@@ -7,7 +7,6 @@ environment:
     secure: 2Gib65Tz/4/pPXP29Yn598b42pM96vJbpvJa6gbJr8MzWna7EUfHO1UP3lI8Bu8i
 
 install:
-  - git submodule update --init --recursive
   - cinst pretzel
 
 build_script:
