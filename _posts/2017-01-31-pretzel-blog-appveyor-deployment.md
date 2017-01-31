@@ -23,11 +23,11 @@ Github Pages allows you to host static websites and comes in 2 flavours. It nati
 
 ### Organisation/User site
 
-This one runs off a seperate repository with the special convention based name of `<username>.github.io` and hosts any static content (or Jekyll) that is committed to *master* branch.
+This one runs off a seperate repository with the special convention based name of `<username>.github.io` and hosts any static content (or Jekyll) that is committed to **master** branch.
 
 ### Repository site
 
-These allow a website to be hosted per repository. Think documentation and marketing site for the product being built in that repository. These are built from a special orphaned branch named `gh-pages` usually but can be set to `master` or a `/docs` folder.
+These allow a website to be hosted per repository. Think documentation and marketing site for the product being built in that repository. These are built from a special orphaned branch named **gh-pages** usually but can be set to **master** or a `/docs` folder.
 
 ## Pretzel
 
@@ -48,17 +48,17 @@ The solution needed to satisfy the following:
 
 # Solution
 
-Let's tackle each of these requirements one at a time. First off create a branch *source*. *master* will be reserved for our auto-generated content (we will get to this at the end of the post).  
+Let's tackle each of these requirements one at a time. First off create a branch **source**. **master** will be reserved for our auto-generated content (we will get to this at the end of the post).  
 `git checkout --orphan source`
 
 ## Local development
 
 For local development I have a task setup in a [Cake build](http://cakebuild.net/) for building and running the Pretzel tool. This wouldn't give too much benefit over just command lining the 2 commands needed.
 Which commands? Well Pretzel gives us a few. The 2 important ones for us though are:
-`pretzel.exe bake` - this will build our static website and since we provided no output folder it puts it in a folder `/_sites/`. This is important to remember later
+`pretzel.exe bake` - this will build our static website and since we provided no output folder it puts it in a folder *_sites/*. This is important to remember later
 `pretzel.exe taste --port 5001` - this will serve up the site and launch the site in the browser so you can admirer your work
 
-Why do I put these 2 simeple commands in a build script? Well I have a transformation against the `_config.yml` that will swap out my domain name and *localhost:5001* depending on whether I am building for Debug or Release. It always use localhost when I am tasting since I don't use pretzel to serve the files.
+Why do I put these 2 simeple commands in a build script? Well I have a transformation against the *_config.yml* that will swap out my domain name and *localhost:5001* depending on whether I am building for Debug or Release. It always use localhost when I am tasting since I don't use pretzel to serve the files.
 
 If you are following along converting your own blog then and have not used Cake don't worry, it is super simple.
 
@@ -74,7 +74,7 @@ With this setup we can build using `.\pretzel.ps1` and preview locally with `.\p
 
 ## Single repository
 
-This one was a bit of a head-scratcher for me but then I remembered Github submodules. These allow you to map a folder in your repository to another repository. What I thought I would try was create an orphaned branch in my blog repository that contains the pretzel source and link the *_sites/* folder to the master branch which is where Github pages expects the static contents if you are not using Jekyll.
+This one was a bit of a head-scratcher for me but then I remembered Github submodules. These allow you to map a folder in your repository to another repository. What I thought I would try was create an orphaned branch in my blog repository that contains the pretzel source and link the *_sites/* folder to the **master** branch which is where Github pages expects the static contents if you are not using Jekyll.
 
 ### Some quick housekeeping
 
@@ -88,7 +88,7 @@ If you have checked in the *_sites/* folder run the following git command to rem
 
 ### Creating the submodule
 
-Next we are going to create the submodule that links back to the *master* branch where the static content is expected.
+Next we are going to create the submodule that links back to the **master** branch where the static content is expected.
 
 > Note that the following command uses https and not git protocol. This is important and you will get an error later in the CD process if you use git protocol.
 
@@ -97,10 +97,10 @@ Next we are going to create the submodule that links back to the *master* branch
 
 ## Continuous Delivery
 
-I use AppVeyor to pickup changes to the *source* branch. It uses Choclatey to install Pretzel. It then uses Pretzel to generate the static site into *_sites/* folder.  
-The *_sites/* folder you will remember is actually a submodule linked back to the *master* branch of the same repository. We will push the generated changes to master, thus updating the blog with the latest content.
+I use AppVeyor to pickup changes to the **source** branch. It uses Choclatey to install Pretzel. It then uses Pretzel to generate the static site into *_sites/* folder.  
+The *_sites/* folder you will remember is actually a submodule linked back to the **master** branch of the same repository. We will push the generated changes to **master**, thus updating the blog with the latest content.
 
-Place the following *appveyor.yml* file in the root of your *source* branch.   
+Place the following *appveyor.yml* file in the root of your **source** branch.   
 The only thing you will need to change in the *appveyor.yml* is the url for your repository and the access token.
 
 You can get an access token in Github by: 
@@ -124,7 +124,7 @@ See [here](https://help.github.com/articles/creating-an-access-token-for-command
 
 ## Conclusion
 
-And there we have it! We can commit to *source* and the generated changes are committed to *master*.  
+And there we have it! We can commit to **source** and the generated changes are committed to **master**.  
 Feel free to copy my blog at https://github.com/dburriss/dburriss.github.io
 
 Please leave a comment if you found this useful or have any improvements.
