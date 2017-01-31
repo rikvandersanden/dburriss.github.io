@@ -20,11 +20,13 @@ public static void Prepare(ICakeContext context, string configuration = null)
     if(configuration == "Debug")
     {
         Replace(file, url, localhost);
+        Replace(file, "is_production: true", "is_production: false");
     }
 
     if(configuration == "Release")
     {
         Replace(file, localhost, url);
+        Replace(file, "is_production: false", "is_production: true");
     }
 }
 
