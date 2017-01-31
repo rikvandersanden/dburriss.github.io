@@ -49,12 +49,6 @@ Task("Taste")
     StartProcess("C:\\tools\\Pretzel\\Pretzel.exe", settings);
 });
 
-Task("Publish")
-  .Does(() =>
-{
-
-});
-
 Task("Default")
   .IsDependentOn("Bake")
   .Does(() =>

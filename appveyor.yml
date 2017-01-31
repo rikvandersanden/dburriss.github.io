@@ -12,7 +12,7 @@ install:
   - cinst pretzel
 
 build_script:
-  - ps: .\build.ps1
+  - ps: .\pretzel.ps1
 
 test: off
 

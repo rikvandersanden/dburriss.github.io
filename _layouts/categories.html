@@ -20,7 +20,7 @@ layout: page
           <p class="post-meta">Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %d, %Y" }}</p>
           {% if post.TAGS %}
               {% for tag in post.TAGS %}
-                  <a href="/tag/{{ tag | slugify}}" class="label label-default">{{ tag }}</a>
+                  <a href="/tag/{{ tag | slugify}}"><span class="label label-default">{{ tag }}</span></a>
               {% endfor %}
           {% endif %}
       </div>

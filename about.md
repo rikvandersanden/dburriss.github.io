@@ -6,6 +6,7 @@ comments: false
 header-img: "img/backgrounds/explore-bg.jpg"
 ---
 
-Software developer & entrepreneur living in South Africa. Interests include software design & the practices around that. Tai Chi, Kung Fu, nutrition and exercise.
+<img src="img/avatar.jpg" alt="Devon Burriss" class="img-circle pull-left">
+Software developer &amp; entrepreneur living in Rotterdam, Netherlands. Interests include software design &amp; the practices around that. Tai Chi, Kung Fu, nutrition and exercise.
 
 

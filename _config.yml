@@ -6,7 +6,7 @@ description: "Mostly explorations in code"
 author: "Devon Burriss"
 
 baseurl: "/"
-url: "http://devonburriss.me/"
+url: "http://localhost:5001/"
 
 twitter_username: DevonBurriss
 github_username: dburriss
@@ -27,3 +27,6 @@ exclude:
   - .vscode
   - _plugins
   - tools
+  - appveyor.yml
+  - pretzel.cake
+  - pretzel.ps1
