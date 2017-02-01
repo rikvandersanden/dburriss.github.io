@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Deploying a Pretzel generated static site to Github Pages using Appveyor"
-subtitle: "Dynamic continuous delivery of static conctent."
+subtitle: "Dynamic continuous delivery of static content."
 author: "Devon Burriss"
 category: Tools
-tags: [Git, CI, AppVeyor, Pretzel, Github Pages]
+tags: [Git, Github Pages, CI, AppVeyor, Pretzel]
 comments: true
 permalink: pretezel-blog-appveyor-deployment
 excerpt_separator: <!--more-->
