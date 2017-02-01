@@ -19,11 +19,11 @@ Finally I decided to stick with the statically generated site but move away from
 <!--more-->
 ## Github Pages
 
-Github Pages allows you to host static websites and comes in 2 flavours. It natively supports building Jekyll source into s static site and deploying it.
+Github Pages allows you to host static websites and comes in 2 flavours. It natively supports building Jekyll source into a static site and deploying it.
 
 ### Organisation/User site
 
-This one runs off a seperate repository with the special convention based name of `<username>.github.io` and hosts any static content (or Jekyll) that is committed to **master** branch.
+This one runs off a separate repository with the special convention based name of `<username>.github.io` and hosts any static content (or Jekyll) that is committed to **master** branch.
 
 ### Repository site
 
@@ -55,10 +55,10 @@ Let's tackle each of these requirements one at a time. First off create a branch
 
 For local development I have a task setup in a [Cake build](http://cakebuild.net/) for building and running the Pretzel tool. This wouldn't give too much benefit over just command lining the 2 commands needed.
 Which commands? Well Pretzel gives us a few. The 2 important ones for us though are:
-`pretzel.exe bake` - this will build our static website and since we provided no output folder it puts it in a folder *_sites/*. This is important to remember later
-`pretzel.exe taste --port 5001` - this will serve up the site and launch the site in the browser so you can admirer your work
+`pretzel.exe bake` - this will build our static website and since we provided no output folder it puts it in a folder *_sites/*. This is important to remember later  
+`pretzel.exe taste --port 5001` - this will serve up the site and launch the site in the browser so you can admire your work
 
-Why do I put these 2 simeple commands in a build script? Well I have a transformation against the *_config.yml* that will swap out my domain name and *localhost:5001* depending on whether I am building for Debug or Release. It always use localhost when I am tasting since I don't use pretzel to serve the files.
+Why do I put these 2 simple commands in a build script? Well I have a transformation against the *_config.yml* that will swap out my domain name and *localhost:5001* depending on whether I am building for Debug or Release. It always use localhost when I am tasting since I don't use pretzel to serve the files.
 
 If you are following along converting your own blog then and have not used Cake don't worry, it is super simple.
 
