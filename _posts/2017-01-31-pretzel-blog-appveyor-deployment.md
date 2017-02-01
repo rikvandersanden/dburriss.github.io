@@ -34,7 +34,7 @@ These allow a website to be hosted per repository. Think documentation and marke
 [Pretzel](https://github.com/Code52/pretzel) is a .NET based tool for generating a static, blog aware site. If you have used Jekyll, it is that without all the gem hell.  
 Installing it locally is as easy as: `choco install pretzel`  
 
-> Note that I used a plugin called [Pretzel.Categories](https://github.com/k94ll13nn3/Pretzel.Categories) to provide tag and category pages.
+> Note that I used a plugin called [Pretzel.Categories](https://github.com/k94ll13nn3/Pretzel.Categories) to provide tag and category pages. You may need to explicitly add the dll to your repository as your global .gitignore may specify *.dll.  'git add .\_plugins\Pretzel.Categories.dll -f'
 
 # Approach
 
