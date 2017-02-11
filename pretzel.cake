@@ -48,7 +48,7 @@ Task("Less-Compile")
         .SetLogOutput()
         .WithArguments(args =>
         {
-            args.AppendQuoted("lessc --clean-css ./less/clean-blog.less ./css/clean-blog.css");
+            args.AppendQuoted("lessc --clean-css C:/projects/dburriss-github-io/less/clean-blog.less C:/projects/dburriss-github-io/css/clean-blog.css");
         }));
     // var settings = new ProcessSettings
     // {
