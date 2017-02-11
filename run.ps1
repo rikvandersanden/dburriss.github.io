@@ -1,0 +1,1 @@
+Start-Process powershell ".\pretzel.ps1 -target Taste -Wait" 
