@@ -6,8 +6,8 @@ description: "Mostly explorations in code"
 author: "Devon Burriss"
 
 baseurl: "/"
-url: "http://devonburriss.me/"
-is_production: true
+url: "http://localhost:5001/"
+is_production: false
 
 twitter_username: DevonBurriss
 github_username: dburriss

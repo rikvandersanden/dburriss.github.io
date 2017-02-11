@@ -9,6 +9,7 @@ comments: true
 permalink: asp-net-5-tips-urlhelper
 excerpt_separator: <!--more-->
 header-img: "img/backgrounds/bulb-bg.jpg"
+published: true
 ---
 
 > Note that this is specific to the upcoming RC 2 using the dotnet CLI. Currently in RC 1 this is not an issue.

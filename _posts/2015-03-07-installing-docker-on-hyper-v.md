@@ -8,6 +8,7 @@ tags: [Hyper-V, Ubuntu]
 comments: true
 permalink: installing-docker-on-hyper-v
 excerpt_separator: <!--more-->
+published: true
 ---
 
 To be clear, currently Docker containers do not run on Windows. Microsoft is working with Docker to release something with feature parity but we will be lucky if we see that in 2015 ([Blogged by Scott Gu](http://weblogs.asp.net/scottgu/docker-and-microsoft-integrating-docker-with-windows-server-and-microsoft-azure)). So although there is a client for Windows for managing Docker containers, we will need an Ubuntu install. [Installing Ubuntu on Hyper-V](http://devonburriss.me/installing-ubuntu-on-hyper-v/)

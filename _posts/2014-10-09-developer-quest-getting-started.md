@@ -8,6 +8,7 @@ tags: [Programming, Learning c#, Tutorial]
 comments: true
 permalink: developer-quest-getting-started
 excerpt_separator: <!--more-->
+published: true
 ---
 
 ## Getting Started

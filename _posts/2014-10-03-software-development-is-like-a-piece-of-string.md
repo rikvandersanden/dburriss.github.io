@@ -6,6 +6,7 @@ category: Programming
 tags: [Programming, SOLID, OOP]
 comments: true
 permalink: software-development-is-like-a-piece-of-string
+published: true
 ---
 
 Software like many things in life, is one of those things that the further down a path you go, the harder it is to back out. When I think of a software project I think of a piece of string. The longer the project, the longer the string.

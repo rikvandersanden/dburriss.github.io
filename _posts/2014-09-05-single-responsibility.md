@@ -8,6 +8,7 @@ tags: [Programming, SOLID, OOP]
 comments: true
 permalink: single-respon
 excerpt_separator: <!--more-->
+published: true
 ---
 
 > The **S** in **SOLID**.

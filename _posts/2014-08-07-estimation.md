@@ -8,6 +8,7 @@ tags: [Project Management]
 comments: true
 permalink: estimation
 excerpt_separator: <!--more-->
+published: true
 ---
 ![retro clock](/img/posts/2014/old-clock-800.jpg)
 

@@ -9,6 +9,7 @@ comments: true
 permalink: pretezel-blog-appveyor-deployment
 excerpt_separator: <!--more-->
 header-img: "img/backgrounds/vents-bg.jpg"
+published: true
 ---
 
 # Background

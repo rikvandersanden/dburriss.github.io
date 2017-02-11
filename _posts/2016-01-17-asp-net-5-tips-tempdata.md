@@ -8,6 +8,7 @@ tags: [ASP.NET 5, MVC 6, DNX]
 comments: true
 permalink: asp-net-5-tips-tempdata
 excerpt_separator: <!--more-->
+published: true
 ---
 
 > NOTE: Handling TempData and Session is made easy with extension methods in the [BetterSession](https://www.nuget.org/packages/BetterSession.AspNet.Mvc/) Nuget package.

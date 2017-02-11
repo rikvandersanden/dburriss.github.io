@@ -7,6 +7,7 @@ category: Programming
 tags: [Programming, SOLID, OOP]
 comments: true
 permalink: testing-your-data-repositories
+published: true
 ---
 
 

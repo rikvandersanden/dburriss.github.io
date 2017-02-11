@@ -4,9 +4,11 @@ description: "Mostly just adventures in code."
 paginate: 5
 header-img: "img/backgrounds/explore-bg.jpg"
 ---
-
+{% assign featured_shown = false %}
 {% if paginator.page == 1 %}
-    {% for post in site.posts | limit:1 %}
+    {% for post in site.posts | limit:5 %}
+    {% if post.published and featured_shown == false %}
+    {% assign featured_shown = true %}
     <div class="post-preview jumbotron">
         
         <h2 class="post-title">            
@@ -28,6 +30,7 @@ header-img: "img/backgrounds/explore-bg.jpg"
     </div>
     <div class="clearfix"></div>
     <hr>
+    {% endif %}
     {% endfor %}
 {% endif %}
 

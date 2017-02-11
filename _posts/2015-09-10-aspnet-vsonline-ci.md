@@ -4,10 +4,11 @@ title: "ASP.NET 5 CI from Git to Azure without Visual Studio"
 subtitle: "Using Visual Studio Online Build Services"
 author: "Devon Burriss"
 category: SysAdmin
-tags: [OSX, Powershell, Azure, ASP.NET 5, MVC 6, DNX, CI, Visual Studio Online, Git]
+tags: [OSX, Powershell, Azure, ASP.NET 5, MVC 6, DNX, CI, Visual Studio Online, Git, VSCode]
 comments: true
 permalink: aspnet-vsonline-ci
 excerpt_separator: <!--more-->
+published: true
 ---
 
 > Using Visual Studio Online Build Services for a MSBuild/xproj free deployment.

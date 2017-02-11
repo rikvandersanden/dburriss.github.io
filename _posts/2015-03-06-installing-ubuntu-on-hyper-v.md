@@ -8,6 +8,7 @@ tags: [Hyper-V, Ubuntu]
 comments: true
 permalink: installing-ubuntu-on-hyper-v
 excerpt_separator: <!--more-->
+published: true
 ---
 
 The reason for this post is just to remind me of a few little things you need to do if you want to create a Generation 2 Ubuntu Virtual Machine on Hyper-V. When setting up the virtual machine in Hyper-V and you select Generation 2.
