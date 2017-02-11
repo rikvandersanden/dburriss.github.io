@@ -6,8 +6,8 @@ description: "Mostly explorations in code"
 author: "Devon Burriss"
 
 baseurl: "/"
-url: "http://localhost:5001/"
-is_production: false
+url: "http://devonburriss.me/"
+is_production: true
 
 twitter_username: DevonBurriss
 github_username: dburriss
@@ -31,3 +31,5 @@ exclude:
   - appveyor.yml
   - pretzel.cake
   - pretzel.ps1
+  - run.ps1
+  - npm-debug.log

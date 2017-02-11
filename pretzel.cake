@@ -1,3 +1,6 @@
+#addin "Cake.Npm"
+#addin "Cake.Powershell"
+
 var target = Argument("target", "Default");
 var configuration = Argument("Configuration", "Release");
 var port = Argument("Port", "5001");
@@ -30,7 +33,33 @@ public static void Prepare(ICakeContext context, string configuration = null)
     }
 }
 
+Task("Install-LessC")
+    .Does(() =>
+{
+    Npm.Install(settings => settings.Package("less").Globally());
+    Npm.Install(settings => settings.Package("less-plugin-clean-css").Globally());
+});
+
+Task("Less-Compile")
+    .Does(() =>
+{
+    StartPowershellScript("Invoke-Expression", new PowershellSettings()
+        .SetFormatOutput()
+        .SetLogOutput()
+        .WithArguments(args =>
+        {
+            args.AppendQuoted("lessc --clean-css ./less/clean-blog.less ./css/clean-blog.css");
+        }));
+    // var settings = new ProcessSettings
+    // {
+    //     Arguments = new ProcessArgumentBuilder().Append("--clean-css").Append("../less/clean-blog.less").Append("../css/clean-blog.css")
+    // };
+    // StartProcess("lessc", settings);
+    //Npm.FromPath(".").RunScript("lessc --clean-css ./less/clean-blog.less ./css/clean-blog.css");
+});
+
 Task("Bake")
+  .IsDependentOn("Less-Compile")
   .Does(() =>
 {    
     Prepare(Context);
@@ -52,6 +81,7 @@ Task("Taste")
 });
 
 Task("Default")
+  .IsDependentOn("Install-LessC")
   .IsDependentOn("Bake")
   .Does(() =>
 {
