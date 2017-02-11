@@ -11,17 +11,17 @@ excerpt_separator: <!--more-->
 published: true
 ---
 
-I tend to try use [Visual Studio Code](https://code.visualstudio.com/) for tasks and languages I don't currently use on a day to day basis. Over the last few weeks that has included Java and Delphi. Then today I was trying to launch my blog from VS Code and ran into an issue because Pretzel listens for a console key. The only fix I could find for this was to launch a new Powershell window.
+I tend to try use [Visual Studio Code](https://code.visualstudio.com/) for tasks and languages I don't currently use on a day to day basis. Over the last few weeks that has included Java and Delphi. Then today I was trying to launch my blog from VS Code and ran into an issue because Pretzel listens for a console key. The only fix I could find for this was to launch a new Powershell window. I thought this as good a time as any to post a few of these tasks.
 
 <!--more-->
 
 # Tasks
 
-Tasks are configured in */.vscode/tasks.json* from the worskspace root. Hit **ctrl+Shift+P** and type **Tasks:C** and hit enter or click 'Tasks: Configure Task Runner'. If it does not exist it will be created.
+Tasks are configured in the file */.vscode/tasks.json* from the worskspace root. Hit **Ctrl+Shift+P** and type **Tasks:C** and hit enter or click 'Tasks: Configure Task Runner'. If the file does not exist it will be created.
 
 ## Compiling a Java application
 
-This command uses `javac` to compile the Java application and will report on compile errors. Note that this uses a single command. It assumes `javac` is on your PATH.
+This command uses `javac` to compile the Java application and will report on compile errors. Note that this uses a single task (others in the post have multiple tasks in the file). It assumes `javac` is on your PATH.
 
 ```json
 {
@@ -45,7 +45,7 @@ This command uses `javac` to compile the Java application and will report on com
 }
 ```
 
-## Control Maven for Java project
+## Control Maven for a Java project
 
 These control different Maven phases. Note that on the `exec` task you need to change the `me.devonburriss.App` to the entrypoint of your application. It assumes `mvn` is on your PATH.
 
@@ -70,8 +70,7 @@ These control different Maven phases. Note that on the `exec` task you need to c
         },
         {
             "taskName": "clean install",
-            "args": ["clean install -U"],
-            "isTestCommand": true
+            "args": ["clean install -U"]
         },
         {
             "taskName": "exec",
@@ -81,7 +80,7 @@ These control different Maven phases. Note that on the `exec` task you need to c
 }
 ```
 
-### Delphi (Free Pascal) Build
+## Delphi (Free Pascal) Build
 
 This is using the Free Pascal compiler to compile Delphi code. It assumes that `fpc` is on your PATH. You can get it [here](http://www.freepascal.org/download.var).  
 This only compiles a single unit, not a complete project.
@@ -104,7 +103,7 @@ This only compiles a single unit, not a complete project.
 }
 ```
 
-### Powershell, Cake, Pretzel blog Build 
+## Powershell, Cake, Pretzel blog Build 
 
 This is one I use to call PS, which executes my Cake build and and run this blog locally. The targets for that are Bake and Taste (from Pretzel). See [this post](http://devonburriss.me/pretezel-blog-appveyor-deployment/) for details on that.
 
@@ -154,6 +153,6 @@ If you want to use **F5** to run the blog you can press **Ctrl+Shift+P** and typ
 }
 ```
 
-## Conclusion
+# Conclusion
 
 Visual Studio Code is a great editor and has plenty of extension points. If you have any great tips I would love to hear about them in the comments.
