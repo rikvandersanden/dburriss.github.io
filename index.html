@@ -58,16 +58,17 @@ header-img: "img/backgrounds/explore-bg.jpg"
 {% assign not_first = true %}
 {% endfor %}
 
-<div class="pagination" style="width:100%">
+<ul class="pager">
     
     {% if paginator.next_page_url %}
-        <a class="pagination-item older" href="{{ paginator.next_page_url | prepend: site.baseurl | replace: 'index.html', '' | replace: '//', '/' }}"><i class="glyphicon glyphicon-chevron-left"> Older</i></a>
+    <li class="previous">    
+        <a href="{{ paginator.next_page_url | prepend: site.baseurl | replace: 'index.html', '' | replace: '//', '/' }}">&larr; Older</a>
+    </li>
     {% endif %}
     {% if paginator.previous_page_url %}
-    <div class="pull-right">
-        <a class="pagination-item newer" href="{{ paginator.previous_page_url | prepend: site.baseurl | replace: 'index.html', '' | replace: '//', '/' }}">Newer <i class="glyphicon glyphicon-chevron-right"></i></a>
-    </div>
+    <li class="next"> 
+        <a class="pagination-item newer" href="{{ paginator.previous_page_url | prepend: site.baseurl | replace: 'index.html', '' | replace: '//', '/' }}">Newer &rarr;</a>
+    </li>
         
     {% endif %}
-</div>
-
+</ul>
