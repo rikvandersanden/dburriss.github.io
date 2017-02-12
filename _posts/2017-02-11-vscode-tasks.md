@@ -4,7 +4,7 @@ title: "Visual Studio Code Tasks"
 subtitle: "Examples of some slightly different ones"
 author: "Devon Burriss"
 category: Tools
-tags: [VS Code, Powershell, Pretzel]
+tags: [VS Code, Java, Maven, Pascal, Powershell, Pretzel]
 comments: true
 permalink: vscode-tasks
 excerpt_separator: <!--more-->
