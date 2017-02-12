@@ -17,11 +17,11 @@ I tend to try use [Visual Studio Code](https://code.visualstudio.com/) for tasks
 
 # Tasks
 
-Tasks are configured in the file */.vscode/tasks.json* from the worskspace root. Hit **Ctrl+Shift+P** and type **Tasks:C** and hit enter or click 'Tasks: Configure Task Runner'. If the file does not exist it will be created.
+Tasks in VS Code allow you to run commands that execute and usually feedback some status. Tasks are configured in the file */.vscode/tasks.json* from the worskspace root. Hit **Ctrl+Shift+P** and type **Tasks:C** and hit enter or click 'Tasks: Configure Task Runner'. If the file does not exist it will be created.
 
 ## Compiling a Java application
 
-This command uses `javac` to compile the Java application and will report on compile errors. Note that this uses a single task (others in the post have multiple tasks in the file). It assumes `javac` is on your PATH.
+This command uses `javac` to compile the Java application and will report on compile errors. Note that this uses a single task (others in the post have multiple tasks in the file). It assumes `javac` is on your PATH. I also have the **Language Support for Java** extension from Red Hat installed in VS Code.
 
 ```json
 {
@@ -47,7 +47,7 @@ This command uses `javac` to compile the Java application and will report on com
 
 ## Control Maven for a Java project
 
-These control different Maven phases. Note that on the `exec` task you need to change the `me.devonburriss.App` to the entrypoint of your application. It assumes `mvn` is on your PATH.
+These control different Maven phases. Note that on the `exec` task you need to change the `me.devonburriss.App` to the entrypoint of your application. It assumes `mvn` is on your PATH. Not needed for this but note that I have the **Language Support for Java** extension from Red Hat installed.
 
 ```json
 {
@@ -83,7 +83,7 @@ These control different Maven phases. Note that on the `exec` task you need to c
 ## Delphi (Free Pascal) Build
 
 This is using the Free Pascal compiler to compile Delphi code. It assumes that `fpc` is on your PATH. You can get it [here](http://www.freepascal.org/download.var).  
-This only compiles a single unit, not a complete project.
+This only compiles a single unit, not a complete project. Not needed for this to work but for syntax highlighting I have the OmniPascal extension installed.
 
 ```json
 {
@@ -132,6 +132,8 @@ I use a *run.ps1* file because I needed to launch a new Powershell window so Pre
     ]    
 }
 ```
+
+Just a note that I have the Powershell extension from Microsoft for VS Code installed. Not needed for the task to run but it gives nice support for ps1 files.
 
 ## Extra: F5 Launch of Pretzel Blog 
 
