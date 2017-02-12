@@ -27,14 +27,14 @@ Our checklist is as follows:
 
 > NOTE: In the rest of this article I talk about abstractions and usually use interface as an example. A base class is often just as valid as an interface (unless it has multiple roles since the languages I use only allow one inheritence parent). The NB part is that the rest of your application is coded against the abstraction and knows nothing about the implementation class.
 
-##Safety net
+## Safety net
 Your first step should be to create some high level integration tests. This will at least give you some indication that you have broken something when you do.
 
-##What is in a name?
+## What is in a name?
 A good measure of whether a class adheres to the SRP principle is the name. If the name doesn't exactly describe what it does, or if it contains words like 'manager', 'provider', 'logic', 'handler', it probably does more than one thing. A name should tell you exactly what a class does, and a class can only have one name...
 See the SRP link for an example of splitting a class into it's various responsibilities.
 
-##Role abstraction
+## Role abstraction
 A good practice that can be used in conjuction with SRP is adding role interfaces to a class. Hopefully you can refactor to these roles until a class only contains the members in the abstraction but they are a start. Don't be afraid of having classes with a minimal amount of properties and/or methods on it. It means it has a very well defined role.
 Even if you do not break a class into multiple classes immediately, if you can refer to them by the role interface you will have far fewer breaks in your code later when you do split it.
 ### Example
