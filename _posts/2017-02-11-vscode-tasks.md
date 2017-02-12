@@ -155,6 +155,12 @@ If you want to use **F5** to run the blog you can press **Ctrl+Shift+P** and typ
 }
 ```
 
+Where my *run.ps1* looks like this:
+
+```powershell
+Start-Process powershell ".\pretzel.ps1 -target Taste -Wait" 
+```
+
 # Conclusion
 
 Visual Studio Code is a great editor and has plenty of extension points. If you have any great tips I would love to hear about them in the comments.
