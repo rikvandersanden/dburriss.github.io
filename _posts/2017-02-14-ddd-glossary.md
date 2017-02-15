@@ -40,7 +40,7 @@ DDD is not:
 
 ## What is DDD?
 
-DDD is about modelling, and more. It encompasses common language, techniques, pattens, and architecture. It puts the focus on the business and modelling that, on the problems you are solving. All the while giving developers techniques for minimizing the complexity and driving collaboration.
+DDD is about modelling, and more. It encompasses common language, techniques, patterns, and architecture. It puts the focus on the business and modelling the problems you are solving. All the while giving developers techniques for minimizing the complexity and driving collaboration.
 It is about taking requirements and really mapping the business processes to the model using the same language the business uses in your code.
 It also gives us a common technical language to use for the different categories of classes we create while modelling our problem space.
 
@@ -48,7 +48,7 @@ It also gives us a common technical language to use for the different categories
 
 ### Ubiquitous language
 
-The term *Ubiquitous language* is thrown out occationally in DDD discussions but ironically itself is often not discussed. It is also the part often left out from the development side which means the heart of DDD is not being followed and instead some of it's technical approaches used (often incorrectly).  
+The term *Ubiquitous language* is thrown out occasionally in DDD discussions but ironically itself is often not discussed. It is also the part often left out from the development side which means the heart of DDD is not being followed and instead some of it's technical approaches used (often incorrectly).  
 It is the practice of **using the terms used throughout the business within the codebase**, and working new terms from the modeling back into the business. Language often evolves and the codebase should evolve with the language. The essence really of DDD is that your code models the processes within the business and if you are not starting with the same language then how descriptive can it really be. If a product owner is looking at the application code he should recognise the classes, methods, and variables as models, workflows, and actions that actually occur.
 
 It is not a one-way street however. Often the business has over-loaded terms, or a multiplicity of terms used for the same thing. Work with the them to define a glossary of terms that is used everywhere (ubiquitously). 
@@ -56,6 +56,13 @@ It is not a one-way street however. Often the business has over-loaded terms, or
 ### Bounded context
 
 The *Bounded context* is the context in which the *Ubiquitous language* and the corresponding models are valid. As developer it is a common trap to fall into to try reuse code and concepts across contexts. This is a recipe for disaster since the terms and verbs used to describe a model in one context will likely be similar but not the same. This results in blurring of the model to cater for both. This adds confusion as well as inviting changes with unintended consequences. This is especially true when a model is shared across more than one team (strongly concider whether it really is one context).
+
+#### Example
+
+Imagine a Product class in the Logistics domain. For tracking around the warehouse you need a barcode, for shipping you need the packaged dimensions and weight. Now think of a product for display on an e-commerce website. You need photos, description, and other specs like its actual dimensions unpacked.  
+Why would a developer need all of this at one time? Why confuse matters? Why would the clients of the code like a scanner in the warehouse or a customer on the website need both? If all that is shared is maybe a name and a SKU, is the code sharing of 2 properties worth coupling different parts of the system? Different teams together?  
+There are many reasons to want to keep these mdoels seperated based on their context and few reasons to combine them. Yet it is a very common occurance in development. Why? Code re-use.  
+Only re-use models if they are indeed the same model. 
 
 ### Entities
 
@@ -67,16 +74,16 @@ Value objects are much like entities except they do not have identity. Money is 
 
 ### Aggregate
 
-An Aggregate is a hierachy of objects (Entities and Value objects) that make up a consistency boundary.  
+An Aggregate is a hierarchy of objects (Entities and Value objects) that make up a consistency boundary.  
 Why would we want to set a boundary rather than just reference any object needed?  
 
-Minimising associations helps to prevent a reference web. This can be problematic when fetching and reconstituting a hierachy of objects into memory. Lazy loading can quickly get out of hand, alternatively null references about and conntinually need to be checked.
+Minimising associations helps to prevent a reference web. This can be problematic when fetching and reconstituting a hierarchy of objects into memory. Lazy loading can quickly get out of hand, alternatively null references about and conntinually need to be checked.
 
 Let us turn the question around. What if the relationships of our object model clearly showed us the effects of change? For example, the aggregate was the scope of the transaction...
 
 #### Aggregate root
 
-The Aggregate Root is an Entity that all other Entities and Value Objects in the hierachy hang off. For example if you have an Order with Order Lines and a Supplier, the `OrderRepository` will return an Order with all `OrderLines` and `OrderSupplier` populated. If would not be possible to fetch an `OrderLine` separately, nor a `OrderSupplier`. If needed though you would provide methods on your `OrderRepository` to fetch an order by Order Line Id or by Supplier Reference for example.
+The Aggregate Root is an Entity that all other Entities and Value Objects in the hierarchy hang off. For example if you have an Order with Order Lines and a Supplier, the `OrderRepository` will return an Order with all `OrderLines` and `OrderSupplier` populated. If would not be possible to fetch an `OrderLine` separately, nor a `OrderSupplier`. If needed though you would provide methods on your `OrderRepository` to fetch an order by Order Line Id or by Supplier Reference for example.
 
 #### Points to keep in mind
 
@@ -88,7 +95,7 @@ The Aggregate Root is an Entity that all other Entities and Value Objects in the
 
 ### Factories
 
-Since an aggregate should always be in a consistent state it is important that they are constructed in a in a consistent state to the user. Factories provide a way to **ensure that new instances of an aggregate always start in a consistent state**.
+Since an aggregate should always be in a consistent state it is important that they are constructed in a consistent state to the user. Factories provide a way to **ensure that new instances of an aggregate always start in a consistent state**.
 
 ### Repositories
 
