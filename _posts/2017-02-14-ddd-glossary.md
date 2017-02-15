@@ -40,7 +40,7 @@ DDD is not:
 
 ## What is DDD?
 
-DDD is about modelling. It encompasses techniques, pattens, language and architecture. In short it encompasses more than just modelling.
+DDD is about modelling, and more. It encompasses common language, techniques, pattens, and architecture. It puts the focus on the business and modelling that, on the problems you are solving. All the while giving developers techniques for minimizing the complexity and driving collaboration.
 It is about taking requirements and really mapping the business processes to the model using the same language the business uses in your code.
 It also gives us a common technical language to use for the different categories of classes we create while modelling our problem space.
 
@@ -48,14 +48,14 @@ It also gives us a common technical language to use for the different categories
 
 ### Ubiquitous language
 
-The term *Ubiquitous language* is thrown out occationally in DDD discussions but ironically itself is often not discussed. It is also the part often left out from the development side which means the heart of DDD is not being followed and instead some of its' technical approaches used (often incorrectly).  
-It is the practice of **using the terms used throughout the business within the codebase**. Language often evolves and the codebase should evolve with the language. The essence really of DDD is that your code models the processes within the business and if you are not starting with the same language then how descriptive can it really be. If a product owner is looking at the application code he should recognise the classes, methods, and variables as models, workflows, and actions that actually occur.
+The term *Ubiquitous language* is thrown out occationally in DDD discussions but ironically itself is often not discussed. It is also the part often left out from the development side which means the heart of DDD is not being followed and instead some of it's technical approaches used (often incorrectly).  
+It is the practice of **using the terms used throughout the business within the codebase**, and working new terms from the modeling back into the business. Language often evolves and the codebase should evolve with the language. The essence really of DDD is that your code models the processes within the business and if you are not starting with the same language then how descriptive can it really be. If a product owner is looking at the application code he should recognise the classes, methods, and variables as models, workflows, and actions that actually occur.
 
 It is not a one-way street however. Often the business has over-loaded terms, or a multiplicity of terms used for the same thing. Work with the them to define a glossary of terms that is used everywhere (ubiquitously). 
 
 ### Bounded context
 
-The *Bounded context* is the context in which the *Ubiquitous language* and the corresponding models are valid. As developer it is a common trap to fall into to try reuse code and concepts across contexts. This is a recipe for disaster since the terms and verbs used to describe a model in one context will likely be similar but not the same. This results in blurring of the model to cater for both. This adds confusion as well as inviting changes with unintended consequences. This is especially true when a model is shared across more than one team.
+The *Bounded context* is the context in which the *Ubiquitous language* and the corresponding models are valid. As developer it is a common trap to fall into to try reuse code and concepts across contexts. This is a recipe for disaster since the terms and verbs used to describe a model in one context will likely be similar but not the same. This results in blurring of the model to cater for both. This adds confusion as well as inviting changes with unintended consequences. This is especially true when a model is shared across more than one team (strongly concider whether it really is one context).
 
 ### Entities
 
@@ -141,9 +141,13 @@ This is a technical implementation for something that performs some task such as
 
 An ACL is at the very least a thin translation layer between two bounded contexts. Even if both bounded contexts are well defined, and share similar models. The models in one context should not influence the models in another and without a layer in between to translate between the two corruption will creep in. If the external system a bounded context is talking to is a legacy system with a very poor model it is even more likely it will corrupt unless the ACL acts as a strong buffer.
 
-## Modules
+### Modules
 
 Modules are simply packages or assemblies. Whatever your technology's means is of bundling built code is.
+
+### Shared Kernel
+
+Sometimes a model needs to be shared across multiple Bounded Contexts. If so a Shared Kernel can be created but in a lot of cases the coupling created between the contexts and the teams is not worth it. 
 
 ### Clients
 
