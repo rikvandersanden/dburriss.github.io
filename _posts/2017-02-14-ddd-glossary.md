@@ -61,7 +61,7 @@ The *Bounded context* is the context in which the *Ubiquitous language* and the 
 
 Imagine a Product class in the Logistics domain. For tracking around the warehouse you need a barcode, for shipping you need the packaged dimensions and weight. Now think of a product for display on an e-commerce website. You need photos, description, and other specs like its actual dimensions unpacked.  
 Why would a developer need all of this at one time? Why confuse matters? Why would the clients of the code like a scanner in the warehouse or a customer on the website need both? If all that is shared is maybe a name and a SKU, is the code sharing of 2 properties worth coupling different parts of the system? Different teams together?  
-There are many reasons to want to keep these mdoels seperated based on their context and few reasons to combine them. Yet it is a very common occurance in development. Why? Code re-use.  
+There are many reasons to want to keep these models seperated based on their context and few reasons to combine them. Yet it is a very common occurance in development. Why? Code re-use.  
 Only re-use models if they are indeed the same model. 
 
 ### Entities
