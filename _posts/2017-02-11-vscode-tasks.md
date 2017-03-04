@@ -17,7 +17,7 @@ I tend to try use [Visual Studio Code](https://code.visualstudio.com/) for tasks
 
 # Tasks
 
-Tasks in VS Code allow you to run commands that execute and usually feedback some status. Tasks are configured in the file */.vscode/tasks.json* from the worskspace root. Hit **Ctrl+Shift+P** and type **Tasks:C** and hit enter or click 'Tasks: Configure Task Runner'. If the file does not exist it will be created.
+Tasks in VS Code allow you to run commands that execute and usually feedback some status. Tasks are configured in the file */.vscode/tasks.json* from the workspace root. Hit **Ctrl+Shift+P** and type **Tasks:C** and hit enter or click 'Tasks: Configure Task Runner'. If the file does not exist it will be created.
 
 ## Compiling a Java application
 
