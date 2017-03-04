@@ -4,9 +4,9 @@ title: "Building a Cake Script"
 subtitle: "Verifying syntax for Cake scripts by just building"
 author: "Devon Burriss"
 category: Tools
-tags: [VS Code, Java, Maven, Pascal, Powershell, Pretzel]
+tags: [VS Code, Powershell, Cake]
 comments: true
-permalink: honest-arguments
+permalink: cake-build
 excerpt_separator: <!--more-->
 published: true
 ---
@@ -15,6 +15,8 @@ published: true
 
 This is a quick tip on how to create a Visual Studio Code task that will build your Cake script. This is a great way of verifying your scripts without actually running Cake tasks. 
 Also make sure you have the Visual Studio Code extension for Cake installed to give you syntax highlighting.
+
+<!--more-->
 
 ## Creating a tasks.json file
 
