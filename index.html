@@ -6,7 +6,7 @@ header-img: "img/backgrounds/explore-bg.jpg"
 ---
 {% assign featured_shown = false %}
 {% if paginator.page == 1 %}
-    {% for post in site.posts | limit:5 %}
+    {% for post in site.posts | limit:1 %}
     {% if post.published and featured_shown == false %}
     {% assign featured_shown = true %}
     <div class="post-preview jumbotron">
@@ -35,7 +35,7 @@ header-img: "img/backgrounds/explore-bg.jpg"
 {% endif %}
 
 {% for post in paginator.posts %}
-    {% if not_first == true %}
+    {% if not_first == true or paginator.page > 1 %}
     <div class="post-preview ">
         <a href="{{ post.url | prepend: site.baseurl }}">
             <h2 class="post-title">            {{ post.title }}
