@@ -35,14 +35,23 @@ header-img: "img/backgrounds/explore-bg.jpg"
 {% endif %}
 
 {% for post in paginator.posts %}
+
     {% if not_first == true or paginator.page > 1 %}
+
+    {% for full_post in site.posts %} 
+        {% if post.title == full_post.title %}
+        {% assign current_post = full_post %}
+        {% endif %}
+    {% endfor %}
+
     <div class="post-preview ">
         <a href="{{ post.url | prepend: site.baseurl }}">
             <h2 class="post-title">            {{ post.title }}
             </h2>
-            {% if post.subtitle %}
+            
+            {% if current_post.subtitle %}
             <h3 class="post-subtitle">
-                {{ post.subtitle }}
+                {{ current_post.subtitle }}
             </h3>
             {% endif %}
         </a>
@@ -56,6 +65,7 @@ header-img: "img/backgrounds/explore-bg.jpg"
     <hr>
     {% endif %}
 {% assign not_first = true %}
+{% assign current_post = null %}
 {% endfor %}
 
 <ul class="pager">
