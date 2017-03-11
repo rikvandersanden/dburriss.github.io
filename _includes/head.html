@@ -3,9 +3,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{{ site.description }}">
 
-    <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+{% if page.description %}
+    <meta name="description" content="{{ page.description }}">
+    <title>{% if page.title %}{{ page.title }} - {{ page.description }}{% else %}{{ site.title }}{% endif %}</title>
+{% elsif page.subtitle %}
+    <meta name="description" content="{{ page.subtitle }}">
+    <title>{% if page.title %}{{ page.title }} - {{ page.subtitle }}{% else %}{{ site.title }}{% endif %}</title>
+{% else %}
+    <meta name="description" content="{{ site.description }}">
+    <title>{% if page.title %}{{ page.title }} - {{ site.description }}{% else %}{{ site.title }}{% endif %}</title>
+{% endif %}
 
     <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.url | replace: '//', '/' }}">
 

@@ -4,6 +4,7 @@ comments: false
 ---
 
 <!-- Page Header -->
+{% if paginator.page == 1 %}
 <header class="intro-header" style="background-image: url('{{ site.baseurl }}{% if page.header-img %}{{ page.header-img }}{% else %}{{ site.header-img }}{% endif %}')">
     <div class="container-fluid">
         <div class="row">
@@ -19,6 +20,10 @@ comments: false
         </div>
     </div>
 </header>
+{% else %}
+<header class="intro-header header-sliver" style="background-image: url('{{ site.baseurl }}img/backgrounds/blog-sliver.jpg')">
+</header>
+{% endif %}
 
 <!-- Main Content -->
 <div class="container-fluid">
