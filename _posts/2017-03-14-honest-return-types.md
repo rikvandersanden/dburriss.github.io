@@ -140,9 +140,9 @@ So this is looking a little better.
 
 * We cannot differentiate between no value and an exception
 
-## Exception: just return it
+## Exception: return don't throw
 
-> The following `Exception<T>` and `Validation<T>` types are defined in [HonestTypes](https://github.com/dburriss/HonestTypes). Check the project page for installation instructions.
+> The following `Exceptional<T>` and `Validation<T>` types are defined in [HonestTypes](https://github.com/dburriss/HonestTypes). Check the project page for installation instructions.
 
 So our type needs to be a bit more explicit about what can happen. Let's introduce an `Exceptional<T>` type. 
 This is similar to `Option<Person>` but instead of **Some** and **None** it has **Exception** and **Success**.  
@@ -207,6 +207,8 @@ I hope you found something useful in this and if you did I cannot recommend enou
 There are times when valid errors can occur but this are not exceptional. Validation is a common example of this and where a validation result is often the go to type. Wouldn't it be nice if we could apply the same pattern as with exceptions?
 
 ```csharp
+using static F;
+
 public Validation<Person> Validate(Person person)
 {
     if (person == null)
