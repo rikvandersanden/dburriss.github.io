@@ -4,7 +4,7 @@ title: "Honest Arguments"
 subtitle: "Part 1 of Designing clear method signatures"
 author: "Devon Burriss"
 category: Programming
-tags: [Clean Code]
+tags: [Clean Code, OOP]
 comments: true
 permalink: honest-arguments
 excerpt_separator: <!--more-->
